@@ -1,0 +1,24 @@
+{
+  "name": "software-innovation-studio",
+  "private": true,
+  "version": "1.0.0",
+  "description": "Software Innovation Studio",
+  "workspaces": [
+    "apps/*",
+    "packages/config/*",
+    "packages/tsconfig/*"
+  ],
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "packageManager": "yarn@1.22.19",
+  "devDependencies": {
+    "turbo": "^1.10.13"
+  },
+  "scripts": {
+    "dev": "turbo run dev --parallel",
+    "lint": "turbo run lint",
+    "format": "turbo run format",
+    "setup": "turbo run setup"
+  }
+}
