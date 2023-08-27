@@ -1,6 +1,6 @@
 This is a Monorepo for the mixo project using [TURBOREPO](https://turbo.build/repo/).
 
-## TLDR
+### TLDR:
 This allows us to run all our apps with 
 ```
 yarn dev
