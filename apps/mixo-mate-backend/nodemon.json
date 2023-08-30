@@ -1,0 +1,5 @@
+{
+  "watch": ["src/**/*.js", "src/**/*.ts"],
+  "ignore": ["node_modules/**/*"],
+  "exec": "npx tsoa routes && npx tsx watch src/server.ts"
+}
