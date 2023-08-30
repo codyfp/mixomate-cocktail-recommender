@@ -9,6 +9,7 @@ verify_ssl = true
 flask-migrate = "*"
 flask-restx = "*"
 python-dotenv = "*"
+tensorflow = "*"
 
 [requires]
 python_version = "3.9"
