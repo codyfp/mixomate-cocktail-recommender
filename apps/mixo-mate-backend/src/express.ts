@@ -1,4 +1,3 @@
-// src/app.ts
 import express, { 
   json,
   urlencoded,
@@ -6,6 +5,9 @@ import express, {
   Request as ExRequest,
   NextFunction,
 } from "express";
+import session from "express-session"
+import MongoStore from 'connect-mongo'
+
 import { ValidateError } from "tsoa";
 import { RegisterRoutes } from "../build/routes.js"
 
@@ -15,12 +17,12 @@ export const expressApp = express();
 expressApp.use(urlencoded({ extended: true }));
 expressApp.use(json());
 
-// Handling missing routes
-expressApp.use(function notFoundHandler(_req, res: ExResponse) {
-  res.status(404).send({
-    message: "Not Found",
-  });
-});
+// // Handling missing routes
+// expressApp.use(function notFoundHandler(_req, res: ExResponse) {
+//   res.status(404).send({
+//     message: "Not Found",
+//   });
+// });
 
 // Implement generic error handler
 expressApp.use(function errorHandler(
@@ -45,6 +47,23 @@ expressApp.use(function errorHandler(
 
   next();
 });
+
+// Create endpoint to view routes
+expressApp.get('/routes', (req, res) => {
+  res.send(expressApp._router.stack
+      .filter(r => r.route) 
+      .map(r => r.route.path))
+})
+
+expressApp.use(session({
+  secret: 'my very secure password',
+  resave: false,
+  saveUninitialized: false,
+  store: MongoStore.create({ mongoUrl: 'mongodb://root:pass12345@mongo:27017/' }),
+  cookie: { 
+    secure: false // Must be false as we are using HTTP (not HTTPS)
+  }
+}));
 
 // Register tsoa-generated routes with Express server
 RegisterRoutes(expressApp);

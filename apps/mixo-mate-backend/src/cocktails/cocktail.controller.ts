@@ -9,7 +9,7 @@ export class CocktailController extends Controller {
     return new CocktailService().getAll();
   }
 
-  @Get()
+  @Get('/{cocktailId}')
   public async getCocktail(
     @Path() cocktailId: string
   ): Promise<Cocktail> {

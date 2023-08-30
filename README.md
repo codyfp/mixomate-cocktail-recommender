@@ -16,11 +16,12 @@ yarn format
 
 ## Getting Started
 1. Clone the repo
-2. Ensure you have node >18 installed 
+2. Ensure you have node >18 installed
 3. Install dependencies using [yarn](https://yarnpkg.com/), the easiest way to get the `yarn` command from npm is `npm install --global yarn`
   Run `yarn` to install all dependencies in the base repo
 4. Run `yarn setup` to install all dependencies in the apps
-5. Run `yarn dev` to start all the apps in development mode
+5. Run `docker version` to check if you have Docker installed (install it otherwise)
+6. Run `docker compose up` to start all the apps
 
 ## Adding a new app
 1. add the app to the `/apps` directory
