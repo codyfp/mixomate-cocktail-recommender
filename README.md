@@ -28,5 +28,5 @@ yarn format
 2. inside the app, give it access to the shared packages inside the package.json // expand on this
 
 ## Apps in this repo
-1. mixo-mate-frontend - a nextjs app for frontend, locally runs on port 4000 by default
-2. mixo-mate-backend - a backend API server, locally runs on port 3000 by default
+1. mixo-mate-frontend - a nextjs app for frontend, locally runs on port 3000 by default
+2. mixo-mate-backend - a backend API server, locally runs on port 4000 by default
