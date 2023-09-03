@@ -9,6 +9,7 @@ services:
     ports:
       - 3000:3000
     volumes:
+      - /apps/mixo-mate-frontend/node_modules
       - ./apps/mixo-mate-frontend/pages:/app/pages
       - ./apps/mixo-mate-frontend/public:/app/public
       - ./apps/mixo-mate-frontend/styles:/app/styles
@@ -25,6 +26,7 @@ services:
     depends_on:
       - mongo
     volumes:
+      - /apps/mixo-mate-backend/node_modules # Isolate container and host node_modules
       - ./apps/mixo-mate-backend/src:/usr/src/app/src
       - ./apps/mixo-mate-backend/nodemon.json:/usr/src/app/nodemon.json
       - ./apps/mixo-mate-backend/package.json:/usr/src/app/package.json
@@ -34,6 +36,7 @@ services:
       - mixo
 
   # recommendations:
+  #   name: recommendations
   #   build:
   #     context: .
   #     dockerfile: ./apps/mixo-mate-recommenders/Dockerfile
