@@ -13,6 +13,7 @@ services:
       - ./apps/mixo-mate-frontend/pages:/app/pages
       - ./apps/mixo-mate-frontend/public:/app/public
       - ./apps/mixo-mate-frontend/styles:/app/styles
+      - ./apps/mixo-mate-frontend/clientApi:/app/clientApi
     networks:
       - mixo
 
