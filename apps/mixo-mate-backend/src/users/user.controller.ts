@@ -1,6 +1,8 @@
 import { Body, Controller, Get, Post, Route, Request, SuccessResponse } from "tsoa";
 import { User } from "./user.dto.js";
 import { AuthenticatedRequest } from "./user.types.js";
+import { UserService } from "./user.service.js";
+import { StatusCodes } from "../status-codes.js";
 
 @Route("users")
 export class UsersController extends Controller {
@@ -13,27 +15,77 @@ export class UsersController extends Controller {
   @SuccessResponse("201", "Created")
   @Post()
   public async createUser(
-    @Body() _requestBody: any
-  ): Promise<void> {
-    this.setStatus(201); // set return status 201
-    return;
+    @Body() requestBody: { username: string, password: string },
+  ): Promise<unknown> {
+    const { username, password } = requestBody;
+
+    // Check if user exists
+    const existingUser = await new UserService().getByUsername(username)
+    if (existingUser) {
+      this.setStatus(StatusCodes.UNPROCESSABLE_ENTITY);
+      return { error: 'Username already taken' }
+    }
+
+    // Create a new user with the user data provided
+    const user = await new UserService().createUser({ username, password })
+
+    this.setStatus(StatusCodes.CREATED);
+    return { message: 'User created', user: user };
+  }
+
+  @Get('/current')
+  public async getCurrentUser(
+    @Request() request: AuthenticatedRequest
+  ): Promise<unknown> {
+    if (!request.session?.userId) {
+      return { message: 'Not authenticated' }
+    }
+
+    try {
+      const currentUser = new UserService().getById(request.session.userId)
+      return currentUser;
+    } catch (error) {
+      this.setStatus(StatusCodes.UNPROCESSABLE_ENTITY)
+      return { error: 'Failed to retrieve user details' }
+    }
   }
 
   @Get('/sessionTest')
   public async sessionTest(
     @Request() request: AuthenticatedRequest
   ): Promise<unknown> {
-    return { userId: request.session.userId || 'not set' };
+    return { userId: request.session?.userId || 'not set' };
   }
 
-  @Get('/login')
+  @Post('/login')
   public async login(
-    @Request() request: AuthenticatedRequest
+    @Body() requestBody: { username: string, password: string },
+    @Request() request: AuthenticatedRequest,
   ): Promise<unknown> {
-    request.session.userId = Math.random().toString(36).slice(2, 7);
-    request.session.save()
+    if (request.session?.userId) {
+      return { message: 'Already authenticated' }
+    }
 
-    this.setStatus(201); // set return status 201
-    return { message: 'User logged in'}
+    const { username, password } = requestBody;
+
+    // Ensure user exists
+    const existingUser = await new UserService().getByUsername(username)
+    if (!existingUser) {
+      this.setStatus(StatusCodes.UNPROCESSABLE_ENTITY);
+      return { error: 'User with matching username does not exist' }
+    }
+
+    // Ensure password provided is correct
+    const isMatch = await new UserService().hasMatchingPassword(username, password);
+    if (!isMatch) {
+      this.setStatus(StatusCodes.FORBIDDEN);
+      return { error: 'Password incorrect' }
+    }
+
+    // Set user ID in session
+    request.session.userId = existingUser.id
+    request.session.save();
+
+    return { message: 'Login successful'}
   }
 }

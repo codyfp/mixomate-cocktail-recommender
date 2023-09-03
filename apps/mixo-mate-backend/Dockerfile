@@ -11,4 +11,4 @@ RUN yarn
 # Bundle app source
 COPY . .
 
-CMD [ "npx", "tsx", "watch", "src/server.ts" ]
+CMD [ "yarn", "start" ]

@@ -26,6 +26,10 @@ services:
       - mongo
     volumes:
       - ./apps/mixo-mate-backend/src:/usr/src/app/src
+      - ./apps/mixo-mate-backend/nodemon.json:/usr/src/app/nodemon.json
+      - ./apps/mixo-mate-backend/package.json:/usr/src/app/package.json
+      - ./apps/mixo-mate-backend/tsconfig.json:/usr/src/app/tsconfig.json
+      - ./apps/mixo-mate-backend/tsoa.json:/usr/src/app/tsoa.json
     networks:
       - mixo
 
@@ -48,6 +52,8 @@ services:
       MONGO_INITDB_ROOT_PASSWORD: pass12345
     volumes:
       - mongodb_data:/data/db
+    ports:
+      - 27017:27017
     networks:
       - mixo
 
