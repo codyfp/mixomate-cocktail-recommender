@@ -10,6 +10,8 @@ flask-migrate = "*"
 flask-restx = "*"
 python-dotenv = "*"
 tensorflow = "*"
+werkzeug = "==2.1.2"
+flask = "==2.1.2"
 
 [requires]
 python_version = "3.9"

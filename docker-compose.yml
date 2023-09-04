@@ -36,16 +36,17 @@ services:
     networks:
       - mixo
 
-  # recommendations:
-  #   name: recommendations
-  #   build:
-  #     context: .
-  #     dockerfile: ./apps/mixo-mate-recommenders/Dockerfile
-  #   container_name: recommendations
-  #   ports:
-  #     - 5000:5000
-  #   networks:
-  #     - mixo
+  recommendations:
+    build:
+      context: ./apps/mixo-mate-recommendations
+      dockerfile: ./Dockerfile
+    container_name: recommendations
+    ports:
+      - 5000:5000
+    volumes:
+      - ./apps/mixo-mate-recommendations:/app
+    networks:
+      - mixo
 
   mongo:
     image: mongo
