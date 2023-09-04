@@ -1,4 +1,9 @@
 export type User = {
   id: string,
-  fullName: string
+  username: string
+}
+
+export type CreateUser = {
+  username: string,
+  password: string
 }

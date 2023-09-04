@@ -1,5 +1,6 @@
 {
-  "watch": ["src/**/*.js", "src/**/*.ts"],
+  "watch": ["*.(js|ts)", "src/**/*.(js|ts)"],
+  "ext": "js, ts, css",
   "ignore": ["node_modules/**/*"],
-  "exec": "npx tsoa routes && npx tsx watch src/server.ts"
+  "exec": "yarn generate-routes && npx tsx watch src/server.ts"
 }

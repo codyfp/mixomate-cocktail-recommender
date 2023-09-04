@@ -1,4 +1,3 @@
-// src/app.ts
 import express, { 
   json,
   urlencoded,
@@ -6,18 +5,38 @@ import express, {
   Request as ExRequest,
   NextFunction,
 } from "express";
+import session from "express-session"
+import MongoStore from 'connect-mongo'
+import cors from 'cors'
+
 import { ValidateError } from "tsoa";
 import { RegisterRoutes } from "../build/routes.js"
+import { StatusCodes } from "./status-codes.js";
 
 export const expressApp = express();
 
 // Use body parser to read sent json payloads
 expressApp.use(urlencoded({ extended: true }));
 expressApp.use(json());
+expressApp.use(cors({ origin: '*' }))
+
+expressApp.use(session({
+  name: 'mixo-mate-auth',
+  secret: 'my very secure password',
+  resave: true,
+  saveUninitialized: false,
+  store: MongoStore.create({ mongoUrl: 'mongodb://root:pass12345@mongo:27017' }),
+  cookie: { 
+    secure: false // Must be false as we are using HTTP (not HTTPS)
+  }
+}));
+
+// Register tsoa-generated routes with Express server
+RegisterRoutes(expressApp);
 
 // Handling missing routes
 expressApp.use(function notFoundHandler(_req, res: ExResponse) {
-  res.status(404).send({
+  res.status(StatusCodes.NOT_FOUND).send({
     message: "Not Found",
   });
 });
@@ -31,20 +50,24 @@ expressApp.use(function errorHandler(
 ): ExResponse | void {
   if (err instanceof ValidateError) {
     console.warn(`Caught Validation Error for ${req.path}:`, err.fields);
-    return res.status(422).json({
+    return res.status(StatusCodes.UNPROCESSABLE_ENTITY).json({
       message: "Validation Failed",
       details: err?.fields,
     });
   }
 
   if (err instanceof Error) {
-    return res.status(500).json({
-      message: "Internal Server Error",
+    return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({
+      message: `Internal Server Error. ${err.message}`,
     });
   }
 
   next();
 });
 
-// Register tsoa-generated routes with Express server
-RegisterRoutes(expressApp);
+// Create endpoint to view routes
+expressApp.get('/routes', (req, res) => {
+  res.send(expressApp._router.stack
+      .filter(r => r.route) 
+      .map(r => r.route.path))
+})

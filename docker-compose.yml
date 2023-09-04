@@ -1,0 +1,87 @@
+version: '3.8'
+
+services:
+  frontend:
+    build:
+      context: ./apps/mixo-mate-frontend
+      dockerfile: ./Dockerfile
+    container_name: frontend
+    ports:
+      - 3000:3000
+    volumes:
+      - /apps/mixo-mate-frontend/node_modules
+      - ./apps/mixo-mate-frontend/pages:/app/pages
+      - ./apps/mixo-mate-frontend/public:/app/public
+      - ./apps/mixo-mate-frontend/styles:/app/styles
+      - ./apps/mixo-mate-frontend/clientApi:/app/clientApi
+    networks:
+      - mixo
+
+  backend:
+    build:
+      context: ./apps/mixo-mate-backend
+      dockerfile: ./Dockerfile
+    container_name: backend
+    ports:
+      - 4000:4000
+    depends_on:
+      - mongo
+    volumes:
+      - /apps/mixo-mate-backend/node_modules # Isolate container and host node_modules
+      - ./apps/mixo-mate-backend/src:/usr/src/app/src
+      - ./apps/mixo-mate-backend/nodemon.json:/usr/src/app/nodemon.json
+      - ./apps/mixo-mate-backend/package.json:/usr/src/app/package.json
+      - ./apps/mixo-mate-backend/tsconfig.json:/usr/src/app/tsconfig.json
+      - ./apps/mixo-mate-backend/tsoa.json:/usr/src/app/tsoa.json
+    networks:
+      - mixo
+
+  # recommendations:
+  #   name: recommendations
+  #   build:
+  #     context: .
+  #     dockerfile: ./apps/mixo-mate-recommenders/Dockerfile
+  #   container_name: recommendations
+  #   ports:
+  #     - 5000:5000
+  #   networks:
+  #     - mixo
+
+  mongo:
+    image: mongo
+    container_name: mongo
+    restart: always
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: pass12345
+    volumes:
+      - mongodb_data:/data/db
+    ports:
+      - 27017:27017
+    networks:
+      - mixo
+
+  mongo-express:
+    image: mongo-express
+    container_name: mongo-express
+    restart: always
+    ports:
+      - 8081:8081
+    depends_on:
+      - mongo
+    environment:
+      ME_CONFIG_MONGODB_ADMINUSERNAME: root
+      ME_CONFIG_MONGODB_ADMINPASSWORD: pass12345
+      ME_CONFIG_MONGODB_URL: mongodb://root:pass12345@mongo:27017/
+      ME_CONFIG_BASICAUTH_USERNAME: admin
+      ME_CONFIG_BASICAUTH_PASSWORD: admin123
+    networks:
+      - mixo
+
+networks:
+  mixo:
+
+volumes: 
+  mongodb_data:
+    driver: local
+    name: mongodb_data
