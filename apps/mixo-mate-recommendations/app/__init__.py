@@ -13,7 +13,7 @@ from flask import Flask
 from config import config_by_env
 
 def create_app():
-    env = os.getenv("FLASK_CONFIG")or "default"
+    env = os.getenv("FLASK_CONFIG") or "default"
 
     app = Flask(__name__)
     app.config.from_object(config_by_env[env])

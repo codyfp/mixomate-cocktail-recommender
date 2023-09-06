@@ -6,6 +6,5 @@ api = Namespace("system", description="System monitoring")
 
 @api.route("/")
 class System(Resource):
-
-    def healthcheck(self):
-        return ok_resp()
+    def get(self):
+        return ok_resp({ "healthy": True }, 200)

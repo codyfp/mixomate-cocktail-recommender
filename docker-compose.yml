@@ -6,6 +6,7 @@ services:
       context: ./apps/mixo-mate-frontend
       dockerfile: ./Dockerfile
     container_name: frontend
+    restart: always
     ports:
       - 3000:3000
     volumes:
@@ -22,6 +23,7 @@ services:
       context: ./apps/mixo-mate-backend
       dockerfile: ./Dockerfile
     container_name: backend
+    restart: always
     ports:
       - 4000:4000
     depends_on:
@@ -41,6 +43,7 @@ services:
       context: ./apps/mixo-mate-recommendations
       dockerfile: ./Dockerfile
     container_name: recommendations
+    restart: always
     ports:
       - 5000:5000
     volumes:

@@ -1,10 +1,12 @@
+from .model import recommendationModel
+
 class RecommendationService:
     @staticmethod
-    def get_recommend(user_id):
+    def generate_for_user(user_id):
         try:
-            recommendations = []
-
-            return recommendations
+            # Use RecommendationModel
+            recommendationModel.test_model()
+            return recommendationModel.generate_recommendation_for_user(user_id)
 
         except Exception as error:
             raise Exception(f'Failed to generate recommendations. {error.message}')

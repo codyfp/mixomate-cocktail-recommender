@@ -10,10 +10,9 @@ api = RecommendationDto.api
 
 @api.route("/")
 class Recommendation(Resource):
-
     def get(self):
         try:
-            return RecommendationService.get_recommend(user_id='some_user_id')
+            return RecommendationService.generate_for_user(user_id='some_user_id')
         except Exception as error:
             current_app.logger.error(error)
             return internal_err_resp()
