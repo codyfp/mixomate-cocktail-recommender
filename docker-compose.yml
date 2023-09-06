@@ -6,6 +6,7 @@ services:
       context: ./apps/mixo-mate-frontend
       dockerfile: ./Dockerfile
     container_name: frontend
+    restart: always
     ports:
       - 3000:3000
     volumes:
@@ -23,6 +24,7 @@ services:
       context: ./apps/mixo-mate-backend
       dockerfile: ./Dockerfile
     container_name: backend
+    restart: always
     ports:
       - 4000:4000
     depends_on:
@@ -37,16 +39,18 @@ services:
     networks:
       - mixo
 
-  # recommendations:
-  #   name: recommendations
-  #   build:
-  #     context: .
-  #     dockerfile: ./apps/mixo-mate-recommenders/Dockerfile
-  #   container_name: recommendations
-  #   ports:
-  #     - 5000:5000
-  #   networks:
-  #     - mixo
+  recommendations:
+    build:
+      context: ./apps/mixo-mate-recommendations
+      dockerfile: ./Dockerfile
+    container_name: recommendations
+    restart: always
+    ports:
+      - 5000:5000
+    volumes:
+      - ./apps/mixo-mate-recommendations:/app
+    networks:
+      - mixo
 
   mongo:
     image: mongo
