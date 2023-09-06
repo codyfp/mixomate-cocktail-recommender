@@ -1,7 +1,8 @@
 import React, { useState } from "react";
 import Head from "next/head";
-import LikesEntry from "../components/LikesEntry";
 import Link from "next/link";
+import LikesAndDislikes from "../components/LikesAndDislikes";
+import FlavourProfile from "@/components/FlavourProfile";
 
 export default function Preferences() {
   const [step, setStep] = useState(0);
@@ -21,15 +22,16 @@ export default function Preferences() {
         return (
           <div className='flex flex-col'>
             <p>What do you like?</p>
-            <LikesEntry />
+            <LikesAndDislikes />
             <ControlButtons />
           </div>
         )
       case 1:
         return (
           <div className='flex flex-col'>
-            <p>What do you dislike?</p>
+            <p>Enter your flavour Profile?</p>
             <p>Coming soon...</p>
+            <FlavourProfile />
             <ControlButtons />
           </div>
         )
