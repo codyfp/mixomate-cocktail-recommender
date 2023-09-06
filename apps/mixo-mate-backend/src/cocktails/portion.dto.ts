@@ -1,4 +1,6 @@
+import { Ingredient } from "./ingredient.js";
+
 export type Portion = {
-  ingredient: string;
-  quantity: string;
+  garnish: string[];
+  ingredients: Ingredient[];
 }
