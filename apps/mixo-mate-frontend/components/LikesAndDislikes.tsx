@@ -1,7 +1,7 @@
 const LikesAndDislikes = () => {
   return (
     <div className='flex flex-col'>
-      <p>Likes and Dislikes</p>
+      <p>Enter your likes and dislikes</p>
     </div>
   )
 }
