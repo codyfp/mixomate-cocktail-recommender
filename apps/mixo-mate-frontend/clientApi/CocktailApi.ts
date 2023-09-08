@@ -20,12 +20,12 @@ export class CocktailApi extends MixoMateApi {
 
   // TODO: Implement pagination
   public async getCocktails(): Promise<Cocktail[]> {
-    const response = await this.client.get('/')
-    return response.data;
+    const response: Cocktail[] = await this.get('/')
+    return response;
   }
 
   public async getById(cocktailId: string): Promise<Cocktail> {
-    const response = await this.client.get(`/${cocktailId}`)
-    return response.data;
+    const response: Cocktail = await this.get(`/${cocktailId}`)
+    return response;
   }
 }

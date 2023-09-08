@@ -19,16 +19,16 @@ export class RecommendationApi extends MixoMateApi {
   }
 
   public async getRecommendedCocktails(): Promise<Cocktail[]> {
-    const response = await this.client.get('/')
-    return response.data;
+    const cocktails: Cocktail[] = await this.get('/')
+    return cocktails;
   }
 
   public async reviewRecommendation(cocktailId: string, rating: number) {
-    const response = await this.client.post('/signup', {
+    const responseData = await this.post('/signup', {
       cocktailId,
       rating
     })
 
-    return response.data;
+    return responseData;
   }
 }

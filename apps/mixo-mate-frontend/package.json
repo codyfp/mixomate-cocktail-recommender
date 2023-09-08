@@ -1,5 +1,5 @@
 {
-  "name": "mixo-mate-frontend",
+  "name": "@mixo-mate/frontend",
   "version": "0.1.0",
   "private": true,
   "scripts": {

@@ -1,4 +1,4 @@
-import React, { MouseEvent, useState } from "react";
+import React, { useEffect, useState } from "react";
 import Head from "next/head";
 
 import { RecommendationApi } from '@/clientApi/RecommendationApi';
@@ -18,15 +18,22 @@ export type Cocktail = {
 
 export default function Recommendations() {
   const [recommendedCocktails, setRecommendedCocktails] = useState<Cocktail[]>([]);
-  
-  const handleGetRecommendedCocktails = async (e: MouseEvent) => {
-    e.preventDefault();
-  
-    const api = new RecommendationApi();
-    const data = await api.getRecommendedCocktails();
-    setRecommendedCocktails(data);
-  }
 
+  useEffect(() => {
+    async function fetchRecommendedCocktails() {
+      try {
+        const api = new RecommendationApi();
+        const data = await api.getRecommendedCocktails();
+        setRecommendedCocktails(data);
+      } catch (error) {
+        const err = error as Error
+        alert(`Failed to get recommended cocktails. ${err.message}`)
+      }
+    }
+
+    fetchRecommendedCocktails();
+  })
+  
   return (
     <div>
       <Head>
@@ -36,7 +43,6 @@ export default function Recommendations() {
       <main>
         <div className='flex flex-col'>
           <h1>Recommended Cocktails</h1>
-          <button onClick={handleGetRecommendedCocktails}>Generate...</button>
           <ul>
             {recommendedCocktails.map((cocktail) => (
               <li key={cocktail.id}>{cocktail.name}</li>
