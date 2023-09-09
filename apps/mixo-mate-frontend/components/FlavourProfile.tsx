@@ -2,9 +2,10 @@ import React, { useState } from 'react'
 
 interface Props {
   onSubmit: () => void
+  onClose: () => void
 }
 
-const FlavourProfile: React.FC<Props> = ({ onSubmit }) => {
+const FlavourProfile: React.FC<Props> = ({ onSubmit, onClose }) => {
   const title = "Choose up to 3 flavour profiles!"
 
   const [chipData, setChipData] = useState([
@@ -41,6 +42,9 @@ const FlavourProfile: React.FC<Props> = ({ onSubmit }) => {
   return (
     <div className="p-10">
       <div className="transform scale-150 rounded overflow-hidden shadow-lg max-w-xs mx-auto">
+      <button onClick={onClose} className="absolute top-2 left-2 p-2 rounded-full">
+        <i className="fas fa-times"></i>
+      </button>
         <div className="bg-custom-orange text-white text-center py-4">
           Build your flavour profile
         </div>
