@@ -28,10 +28,12 @@ export default function Preferences() {
         )
       case 1:
         return (
-          <div className='flex flex-col'>
-            <FlavourProfile />
-            <ControlButtons />
-          </div>
+        <div className='flex flex-col justify-center items-center'>
+          <FlavourProfile />
+          <br></br>
+          <br></br>
+          <ControlButtons />
+        </div>
         )
       case 2:
         return (
