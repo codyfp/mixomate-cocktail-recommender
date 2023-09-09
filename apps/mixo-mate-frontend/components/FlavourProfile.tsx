@@ -15,6 +15,9 @@ const FlavourProfile: React.FC<Props> = ({ onSubmit, onClose }) => {
     { label: 'Tropical', selected: false },
     { label: 'Floral', selected: false },
     { label: 'Earthy', selected: false },
+    { label: 'Citrus', selected: false },      
+    { label: 'Herbal', selected: false },      
+    { label: 'Fruity', selected: false },      
   ]);
 
   const toggleChipSelection = (index: number) => {
@@ -41,7 +44,7 @@ const FlavourProfile: React.FC<Props> = ({ onSubmit, onClose }) => {
 
   return (
     <div className="p-10">
-      <div className="transform scale-150 rounded overflow-hidden shadow-lg max-w-xs mx-auto">
+      <div className="transform scale-150 rounded overflow-hidden shadow-lg max-w-lg mx-auto"> {/* Increase the width here */}
       <button onClick={onClose} className="absolute top-2 left-2 p-2 rounded-full">
         <i className="fas fa-times"></i>
       </button>
@@ -55,7 +58,7 @@ const FlavourProfile: React.FC<Props> = ({ onSubmit, onClose }) => {
           {chipData.map((chip, index) => (
             <span 
               key={chip.label}
-              className={`inline-block w-28 h-8 rounded-full px-3 py-1 text-sm font-semibold flex items-center justify-center ${chip.selected ? 'bg-custom-orange text-white' : 'bg-gray-400 text-white'} cursor-pointer`}
+              className={`inline-block w-1/4 h-8 rounded-full px-3 py-1 text-sm font-semibold flex items-center justify-center ${chip.selected ? 'bg-custom-orange text-white' : 'bg-gray-400 text-white'} cursor-pointer`} // Adjust the width here
               onClick={() => toggleChipSelection(index)}
             >
               {chip.label}
