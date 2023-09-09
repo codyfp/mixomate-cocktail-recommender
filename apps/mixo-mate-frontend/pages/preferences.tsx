@@ -10,8 +10,8 @@ export default function Preferences() {
   const ControlButtons: React.FunctionComponent<{ isLastStep?: Boolean }> = ({ isLastStep = false }) => {
     return (
       <div className='flex flex-row gap-4'>
-        {step != 0 && <button className='p-2 bg-blue-500 rounded-3xl text-blue-50 w-[120px]' onClick={() => setStep(step - 1)}>Back</button>}
-        {!isLastStep && <button className='p-2 bg-blue-500 rounded-3xl text-blue-50 w-[120px]' onClick={() => setStep(step + 1)}>Next</button>}
+        {step != 0 && <button className='p-2 bg-custom-orange rounded-3xl text-blue-50 w-[120px]' onClick={() => setStep(step - 1)}>Back</button>}
+        {!isLastStep && <button className='p-2 bg-custom-orange rounded-3xl text-blue-50 w-[120px]' onClick={() => setStep(step + 1)}>Next</button>}
       </div>
     )
   }
