@@ -40,7 +40,7 @@ const FlavourProfile: React.FC<Props> = ({ onSubmit }) => {
 
   return (
     <div className="p-10">
-      <div className="transform scale-125 rounded overflow-hidden shadow-lg max-w-xs mx-auto">
+      <div className="transform scale-150 rounded overflow-hidden shadow-lg max-w-xs mx-auto">
         <div className="bg-custom-orange text-white text-center py-4">
           Build your flavour profile
         </div>

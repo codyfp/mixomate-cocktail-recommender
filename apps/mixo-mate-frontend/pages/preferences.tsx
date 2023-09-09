@@ -29,6 +29,7 @@ export default function Preferences() {
       case 1:
         return (
         <div className='flex flex-col justify-center items-center'>
+          <br></br>
           <FlavourProfile onSubmit={() => setStep(step + 1)} />            
           <br></br>
           <br></br>
