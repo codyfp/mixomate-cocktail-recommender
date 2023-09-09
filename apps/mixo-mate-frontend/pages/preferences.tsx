@@ -29,8 +29,6 @@ export default function Preferences() {
       case 1:
         return (
           <div className='flex flex-col'>
-            <p>Enter your flavour Profile?</p>
-            <p>Coming soon...</p>
             <FlavourProfile />
             <ControlButtons />
           </div>
@@ -63,10 +61,8 @@ export default function Preferences() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <main>
-        <div className='flex flex-col'>
-          <p>Preferences</p>
-          <p>Coming soon...</p>
-        </div>
+        <br></br>
+        <br></br>
         <RenderCurrentStep />
       </main>
     </div>
