@@ -1,4 +1,4 @@
-import express, { 
+import express, {
   json,
   urlencoded,
   Response as ExResponse,
@@ -18,7 +18,10 @@ export const expressApp = express();
 // Use body parser to read sent json payloads
 expressApp.use(urlencoded({ extended: true }));
 expressApp.use(json());
-expressApp.use(cors({ origin: '*' }))
+expressApp.use(cors({
+  origin: ['http://localhost:3000', 'http://0.0.0.0:3000'],
+  credentials: true
+}))
 
 expressApp.use(session({
   name: 'mixo-mate-auth',
@@ -26,7 +29,7 @@ expressApp.use(session({
   resave: true,
   saveUninitialized: false,
   store: MongoStore.create({ mongoUrl: 'mongodb://root:pass12345@mongo:27017' }),
-  cookie: { 
+  cookie: {
     secure: false // Must be false as we are using HTTP (not HTTPS)
   }
 }));
@@ -68,6 +71,6 @@ expressApp.use(function errorHandler(
 // Create endpoint to view routes
 expressApp.get('/routes', (req, res) => {
   res.send(expressApp._router.stack
-      .filter(r => r.route) 
-      .map(r => r.route.path))
+    .filter(r => r.route)
+    .map(r => r.route.path))
 })
