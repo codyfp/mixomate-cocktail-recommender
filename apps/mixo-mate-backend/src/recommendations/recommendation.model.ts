@@ -1,18 +1,22 @@
-import { Cocktail } from '../cocktails/cocktail.dto.js';
-import { CocktailReview } from './review.dto.js';
+import { getModelForClass, index, prop } from "@typegoose/typegoose";
+import { HydratedDocument } from "mongoose";
 
-export default class RecommendationModel {
-  constructor() {
-  }
-
-  getRecommendedForUser(userId: string): Cocktail[] {
-    // TODO: Get recommended cocktails for user from Recommendation ML model
-    return [];
-  }
-
-  reviewRecommendation(review: CocktailReview): void {
-    // Use cocktail review to adjust ML model
-    return;
-  }
+@index({ userId: 1, cocktailId: 1 }, { unique: true }) // compound index
+class RecommendationClass {
+  @prop({ type: () => String, required: true })
+  public userId: string;
+  
+  @prop({ type: () => String, required: true })
+  public cocktailId: number;
+  
+  @prop({ type: () => Number, required: false, min: 0.0, max: 5.0})
+  public rating?: number;
 }
- 
+
+export type RawRecommendation = HydratedDocument<{
+  userId: string;
+  cocktailId: string;
+  rating?: number;
+}>
+
+export const RecommendationModel = getModelForClass(RecommendationClass);
