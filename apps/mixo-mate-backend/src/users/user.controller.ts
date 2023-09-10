@@ -105,6 +105,21 @@ export class UsersController extends Controller {
     const { likes, dislikes } = requestBody;
 
     await new UserService().setLikesAndDislikes(userId, likes, dislikes)
-    return { message: 'Login successful' }
+    return { message: 'Set likes and dislikes successfully' }
+  }
+
+  @Post('/setFlavours')
+  public async setFlavours(
+    @Body() requestBody: { flavourProfile: string[] },
+    @Request() request: AuthenticatedRequest,
+  ): Promise<unknown> {
+    let { userId } = request.session;
+    if (!userId) {
+      return { error: 'Must be logged in to set preferences' }
+    }
+    const { flavourProfile } = requestBody;
+
+    await new UserService().setFlavourProfile(userId, flavourProfile)
+    return { message: 'Set your flavour profile successfully' }
   }
 }

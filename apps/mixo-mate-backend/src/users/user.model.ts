@@ -37,6 +37,9 @@ class UserClass {
   @prop({ type: () => [String], required: false })
   public dislikes?: string[];
 
+  @prop({ type: () => [String], required: false })
+  public flavourProfile?: string[];
+
   public async matchPassword(this: DocumentType<UserClass>, password: string) {
     try {
       return await bcrypt.compare(password, this.password);

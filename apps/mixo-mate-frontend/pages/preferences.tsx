@@ -2,10 +2,9 @@ import React, { useState } from "react";
 import Head from "next/head";
 import Link from "next/link";
 import dynamic from "next/dynamic";
-// import LikesAndDislikes from "../components/LikesAndDislikes";
-import FlavourProfile from "@/components/FlavourProfile";
 
 const LikesAndDislikes = dynamic(() => import("../components/LikesAndDislikes"), { ssr: false });
+const FlavourProfile = dynamic(() => import("../components/FlavourProfile"), { ssr: false });
 
 export default function Preferences() {
   const [step, setStep] = useState(0);

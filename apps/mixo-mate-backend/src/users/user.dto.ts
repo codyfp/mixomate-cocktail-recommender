@@ -3,7 +3,7 @@ export type User = {
   username: string,
   likes?: string[],
   dislikes?: string[],
-  flavours?: string[]
+  flavourProfile?: string[]
 }
 
 export type CreateUser = {

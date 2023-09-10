@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-
+import { UserApi } from './../clientApi/UserApi';
 interface Props {
   onSubmit: () => void
   onClose: () => void
@@ -29,6 +29,8 @@ const FlavourProfile: React.FC<Props> = ({ onSubmit, onClose }) => {
   const saveProfile = () => {
     const selectedChips = chipData.filter(chip => chip.selected).map(chip => chip.label)
     sessionStorage.setItem('FlavourProfile', JSON.stringify(selectedChips))
+    const userApi = new UserApi();
+    userApi.setFlavourProfile(selectedChips);
   }
 
   const handleCancel = () => {

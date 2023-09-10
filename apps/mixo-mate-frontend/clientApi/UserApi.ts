@@ -44,7 +44,7 @@ export class UserApi extends MixoMateApi {
   }
 
   public async setFlavourProfile(flavourProfile: string[]) {
-    const response = await this.client.post('/flavour-profile', {
+    const response = await this.client.post('/setFlavours', {
       flavourProfile
     })
 
