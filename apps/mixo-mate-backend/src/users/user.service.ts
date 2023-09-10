@@ -31,4 +31,19 @@ export class UserService {
       username: doc.username
     }
   }
+
+  async setLikesAndDislikes(userId: string, likes: string[], dislikes: string[]): Promise<User> {
+    if (!mongoose.isValidObjectId(userId)) {
+      throw new Error('Invalid ID')
+    }
+
+    const doc = await UserModel.findById(userId)
+    const updatedDoc = await doc.setLikesAndDislikes(likes, dislikes)
+    return {
+      id: updatedDoc.id,
+      username: updatedDoc.username,
+      likes: updatedDoc.likes,
+      dislikes: updatedDoc.dislikes
+    }
+  }
 }

@@ -86,6 +86,22 @@ export class UsersController extends Controller {
     request.session.userId = existingUser.id
     request.session.save();
 
-    return { message: 'Login successful'}
+    return { message: 'Login successful' }
+  }
+
+  @Post('/likes')
+  public async likes(
+    @Body() requestBody: { likes: string[], dislikes: string[] },
+    @Request() request: AuthenticatedRequest,
+  ): Promise<unknown> {
+    let { userId } = request.session;
+    if (!userId) {
+      return { error: 'Must be logged in to set preferences' }
+    }
+    const { likes, dislikes } = requestBody;
+
+    const user = await new UserService().setLikesAndDislikes(userId, likes, dislikes)
+    console.log(user)
+    return { message: 'Login successful' }
   }
 }

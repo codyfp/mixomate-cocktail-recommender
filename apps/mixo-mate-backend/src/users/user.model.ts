@@ -31,9 +31,26 @@ class UserClass {
   @prop({ type: () => String, required: true })
   public password: string;
 
+  @prop({ type: () => [String], required: false })
+  public likes: string[];
+
+  @prop({ type: () => [String], required: false })
+  public dislikes: string[];
+
   public async matchPassword(this: DocumentType<UserClass>, password: string) {
     try {
       return await bcrypt.compare(password, this.password);
+    } catch (error) {
+      throw new Error(error);
+    }
+  }
+
+  public async setLikesAndDislikes(this: DocumentType<UserClass>, likes: string[], dislikes: string[]) {
+    try {
+      this.likes = likes;
+      this.dislikes = dislikes;
+      await this.save();
+      return this;
     } catch (error) {
       throw new Error(error);
     }
