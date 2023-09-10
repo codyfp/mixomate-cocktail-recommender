@@ -1,25 +1,3 @@
-.DS_Store
-.env
-.flaskenv
-*.pyc
-*.pyo
-env/
-venv/
-.venv/
-env*
-dist/
-build/
-*.egg
-*.egg-info/
-.tox/
-.cache/
-.pytest_cache/
-.idea/
-docs/_build/
-.vscode
-
-# Coverage reports
-htmlcov/
-.coverage
-.coverage.*
-*,cover
+version https://git-lfs.github.com/spec/v1
+oid sha256:456dda0fcb131d4f136c222b095e1d9c0c5f7a976f047d1e1b5fc1b629fc0743
+size 206

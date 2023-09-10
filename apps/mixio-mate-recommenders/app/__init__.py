@@ -1,25 +1,3 @@
-""" Top level module
-
-This module:
-
-- Contains create_app()
-- Registers extensions
-"""
-
-import os
-from flask import Flask
-
-# Import config
-from config import config_by_env
-
-def create_app():
-    env = os.getenv("FLASK_CONFIG")or "default"
-
-    app = Flask(__name__)
-    app.config.from_object(config_by_env[env])
-
-    from .api import api_bp
-
-    app.register_blueprint(api_bp, url_prefix="/api")
-
-    return app
+version https://git-lfs.github.com/spec/v1
+oid sha256:1985c62df392367e56ee84e860f964cac202cc81261757e47e03f7a4a427570b
+size 413

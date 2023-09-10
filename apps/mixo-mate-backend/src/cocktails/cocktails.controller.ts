@@ -1,18 +1,3 @@
-import { Controller, Get, Path, Route } from "tsoa";
-import { CocktailService } from "./cocktail.service.js";
-import { Cocktail } from "./cocktail.dto.js";
-
-@Route("cocktails")
-export class CocktailController extends Controller {
-  @Get()
-  public async getCocktails(): Promise<Cocktail[]> {
-    return new CocktailService().getAll();
-  }
-
-  @Get()
-  public async getCocktail(
-    @Path() cocktailId: string
-  ): Promise<Cocktail> {
-    return new CocktailService().getById(cocktailId);
-  }
-}
+version https://git-lfs.github.com/spec/v1
+oid sha256:42787d9984d77384a622d8c088656185e3a32f9865202f4f81ad817e88e8aa38
+size 493

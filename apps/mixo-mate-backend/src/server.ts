@@ -1,7 +1,3 @@
-import { expressApp } from "./express.js";
-
-const port = 3000;
-
-expressApp.listen(port, '0.0.0.0',  () =>
-  console.log(`Backend server listening at http://0.0.0.0:${port}`)
-);
+version https://git-lfs.github.com/spec/v1
+oid sha256:f32d705c5c0cd6f0cc6e5442e50979f551103641eee2a627746342ce76ebf9f6
+size 177

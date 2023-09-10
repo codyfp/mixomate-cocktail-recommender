@@ -1,29 +1,3 @@
-import tf from '@tensorflow/tfjs-node'
-import { Cocktail } from '../cocktails/cocktail.dto.js';
-import { CocktailReview } from './review.dto.js';
-
-export default class RecommendationModel {
-  private static mlModel: tf.Sequential;
-
-  constructor() {
-    RecommendationModel.mlModel = tf.sequential();
-    
-    // Add a single input layer
-    RecommendationModel.mlModel.add(tf.layers.dense({inputShape: [1], units: 1, useBias: true}));
-    
-    // Add an output layer
-    RecommendationModel.mlModel.add(tf.layers.dense({units: 1, useBias: true}));
-  }
-
-  getRecommendedForUser(userId: string): Cocktail[] {
-    // TODO: Get recommended cocktails for user from Recommendation ML model
-    return [];
-  }
-
-  reviewRecommendation(review: CocktailReview): void {
-    // Use cocktail review to adjust ML model
-    return;
-  }
-
-
-}
+version https://git-lfs.github.com/spec/v1
+oid sha256:d06fa167316112998360fa5aeae8a8deb7f8a7350c72d642d5c109cabd5211c5
+size 826

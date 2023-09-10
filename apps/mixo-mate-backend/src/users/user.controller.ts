@@ -1,20 +1,3 @@
-import { Body, Controller, Get, Post, Route, SuccessResponse } from "tsoa";
-import { User } from "./user.dto.js";
-
-@Route("users")
-export class UsersController extends Controller {
-  @Get()
-  public async getUsers(
-  ): Promise<User[]> {
-    return [];
-  }
-
-  @SuccessResponse("201", "Created")
-  @Post()
-  public async createUser(
-    @Body() _requestBody: any
-  ): Promise<void> {
-    this.setStatus(201); // set return status 201
-    return;
-  }
-}
+version https://git-lfs.github.com/spec/v1
+oid sha256:5ba675d57ba306bb798f113e8a07cf312e14afaf4474190c9bf1716e49040c56
+size 451

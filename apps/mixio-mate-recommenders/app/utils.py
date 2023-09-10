@@ -1,13 +1,3 @@
-def ok_resp(body, code):
-    return body, code
-
-def err_resp(msg, reason, code):
-    err = message(False, msg)
-    err["error_reason"] = reason
-    return err, code
-
-
-def internal_err_resp():
-    err = message(False, "Something went wrong during the process!")
-    err["error_reason"] = "server_error"
-    return err, 500
+version https://git-lfs.github.com/spec/v1
+oid sha256:10a11d4feae2438c8bf829e5c13a99a6e9360b6dfa0207df31e04bb112dd9627
+size 322

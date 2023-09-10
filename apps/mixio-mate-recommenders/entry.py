@@ -1,11 +1,3 @@
-import os
-
-from dotenv import load_dotenv
-
-dotenv_path = os.path.join(os.path.dirname(__file__), ".env")
-if os.path.exists(dotenv_path):
-    load_dotenv(dotenv_path)
-
-from app import create_app
-
-app = create_app()
+version https://git-lfs.github.com/spec/v1
+oid sha256:eabd2a19f822a65fbfdf531280cbf06ed5f8e7b36209ef9fca1e0722b415fc3f
+size 214

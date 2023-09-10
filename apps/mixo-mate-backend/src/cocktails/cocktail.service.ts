@@ -1,15 +1,3 @@
-import { Cocktail } from "./cocktail.dto.js";
-import { CocktailRepo } from "./cocktail.repo.js";
-
-export class CocktailService {
-  constructor() {
-  }
-  
-  getAll(): Cocktail[] {
-    return new CocktailRepo().getAll();
-  }
-
-  getById(id: string): Cocktail | null {
-    return new CocktailRepo().getById(id);
-  }
-}
+version https://git-lfs.github.com/spec/v1
+oid sha256:bb4fa9dd14b38f5cb20eb752665c8bf889d2b8961ae1d875ef6e0301d0bbc08d
+size 313

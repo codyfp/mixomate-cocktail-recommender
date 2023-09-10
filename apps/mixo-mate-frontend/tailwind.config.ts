@@ -1,20 +1,3 @@
-import type { Config } from 'tailwindcss'
-
-const config: Config = {
-  content: [
-    './pages/**/*.{js,ts,jsx,tsx,mdx}',
-    './components/**/*.{js,ts,jsx,tsx,mdx}',
-    './app/**/*.{js,ts,jsx,tsx,mdx}',
-  ],
-  theme: {
-    extend: {
-      backgroundImage: {
-        'gradient-radial': 'radial-gradient(var(--tw-gradient-stops))',
-        'gradient-conic':
-          'conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))',
-      },
-    },
-  },
-  plugins: [],
-}
-export default config
+version https://git-lfs.github.com/spec/v1
+oid sha256:c9c769d8da993dd5a0ba055bae9d869603c131507c1d0063a6a61c99343ce4e6
+size 495

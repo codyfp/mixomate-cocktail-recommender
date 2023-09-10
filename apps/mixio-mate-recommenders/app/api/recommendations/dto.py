@@ -1,25 +1,3 @@
-from flask_restx import Namespace, fields
-
-class RecommendationDto:
-
-    api = Namespace("recommendations", description="Recommendation related operations.")
-
-    # user = api.model(
-    #     "User object",
-    #     {
-    #         "email": fields.String,
-    #         "name": fields.String,
-    #         "username": fields.String,
-    #         "joined_date": fields.DateTime,
-    #         "role_id": fields.Integer,
-    #     },
-    # )
-
-    # data_resp = api.model(
-    #     "User Data Response",
-    #     {
-    #         "status": fields.Boolean,
-    #         "message": fields.String,
-    #         "user": fields.Nested(user),
-    #     },
-    # )
+version https://git-lfs.github.com/spec/v1
+oid sha256:a36c37ac604dc0f54a6bb3f0da9d6b716944bee47654b4ae04b7ca38db4b57d2
+size 662

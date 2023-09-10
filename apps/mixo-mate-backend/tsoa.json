@@ -1,12 +1,3 @@
-{
-  "entryFile": "src/app.ts",
-  "noImplicitAdditionalProperties": "throw-on-extras",
-  "controllerPathGlobs": ["src/**/*.controller.ts"],
-  "spec": {
-    "outputDirectory": "build",
-    "specVersion": 3
-  },
-  "routes": {
-    "routesDir": "build"
-  }
-}
+version https://git-lfs.github.com/spec/v1
+oid sha256:3a0fb39c0ea2a656934e2e45517daafbc984f19ad5b7b27194fede8561199ab2
+size 253

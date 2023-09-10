@@ -1,5 +1,3 @@
-{
-  "watch": ["src/**/*.js", "src/**/*.ts"],
-  "ignore": ["node_modules/**/*"],
-  "exec": "npx tsoa routes && npx tsx watch src/server.ts"
-}
+version https://git-lfs.github.com/spec/v1
+oid sha256:3e708ad5b2551b1c362bed6a854346df214e24cbaa1abfa7d405133299f5229c
+size 140

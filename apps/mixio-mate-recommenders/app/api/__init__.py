@@ -1,12 +1,3 @@
-from flask_restx import Api
-from flask import Blueprint
-
-from .recommendations.controller import api as recommendations_ns
-
-# Import controller APIs as namespaces.
-api_bp = Blueprint("api", __name__)
-
-api = Api(api_bp, title="API", description="Main routes.")
-
-# API namespaces
-api.add_namespace(recommendations_ns)
+version https://git-lfs.github.com/spec/v1
+oid sha256:97c733eb2c49f27c86ceee022be552f1d60407ca3c78cc1a3363215421e639fd
+size 316

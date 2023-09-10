@@ -1,17 +1,3 @@
-{
-  "$schema": "https://turborepo.org/schema.json",
-  "pipeline": {
-    "setup": {
-      "outputs": ["dist"]
-    },
-    "dev": {
-      "cache": false
-    },
-    "lint": {
-      "outputs": []
-    },
-    "format": {
-      "outputs": []
-    }
-  }
-}
+version https://git-lfs.github.com/spec/v1
+oid sha256:5784f177d163c0056cec475017272430e8776b05d161c918c56efb10de776178
+size 245

@@ -1,19 +1,3 @@
-from flask_restx import Resource
-from flask import current_app
-
-from app.utils import err_resp, ok_resp, internal_err_resp
-from .service import RecommendationService
-from .dto import RecommendationDto
-
-api = RecommendationDto.api
-# data_resp = RecommendationDto.data_resp
-
-@api.route("/")
-class Recommendation(Resource):
-
-    def get(self):
-        try:
-            return RecommendationService.get_recommend(user_id='some_user_id')
-        except Exception as error:
-            current_app.logger.error(error)
-            return internal_err_resp()
+version https://git-lfs.github.com/spec/v1
+oid sha256:2061f94a1a32ddee4c06e66237bb90b3dce3bec5bd9ad3ed5264cdf6e276e4e2
+size 551

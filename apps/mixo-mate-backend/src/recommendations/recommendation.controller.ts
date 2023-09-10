@@ -1,13 +1,3 @@
-import { Controller, Get, Route } from "tsoa";
-import { Cocktail } from "../cocktails/cocktail.dto.js";
-
-@Route("cocktails")
-export class RecommendationController extends Controller {
-  @Get()
-  public async getRecommendedCocktails(): Promise<Cocktail[]> {
-    // TODO: Get userId from user session
-    const userId: string = 'stubbed-user-id'
-
-    return new RecommendationService().getRecommendedCocktailsForUser(userId);
-  }
-}
+version https://git-lfs.github.com/spec/v1
+oid sha256:26c7467404f986950fa129d21575e31e1610cfa1cadfad847445ef18857f2a68
+size 430
