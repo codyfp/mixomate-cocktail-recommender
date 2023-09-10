@@ -36,14 +36,20 @@ export class UserService {
     if (!mongoose.isValidObjectId(userId)) {
       throw new Error('Invalid ID')
     }
-
     const doc = await UserModel.findById(userId)
-    const updatedDoc = await doc.setLikesAndDislikes(likes, dislikes)
+    if (!doc) {
+      throw new Error('User not found')
+    }
+    doc.likes = likes
+    doc.dislikes = dislikes
+    const updatedDoc = await doc.save()
+
     return {
       id: updatedDoc.id,
       username: updatedDoc.username,
       likes: updatedDoc.likes,
       dislikes: updatedDoc.dislikes
     }
+
   }
 }
