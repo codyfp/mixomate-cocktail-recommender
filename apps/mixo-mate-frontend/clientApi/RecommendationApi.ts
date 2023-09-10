@@ -24,7 +24,7 @@ export class RecommendationApi extends MixoMateApi {
   }
 
   public async reviewRecommendation(cocktailId: string, rating: number) {
-    const responseData = await this.post('/signup', {
+    const responseData = await this.post('/review', {
       cocktailId,
       rating
     })
