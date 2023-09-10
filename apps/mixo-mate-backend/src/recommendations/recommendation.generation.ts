@@ -1,7 +1,7 @@
 import { Cocktail } from '../cocktails/cocktail.dto.js';
 import { CocktailService } from '../cocktails/cocktail.service.js';
 import { RecommendationModel } from './recommendation.model.js';
-import { Recommendation } from './review.dto.js';
+import { Recommendation } from './recommendation.js';
 
 export default class RecommendationGenerator {
   constructor() {

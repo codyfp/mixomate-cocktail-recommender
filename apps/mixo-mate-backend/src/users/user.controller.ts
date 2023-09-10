@@ -22,15 +22,19 @@ export class UsersController extends Controller {
     // Check if user exists
     const existingUser = await new UserService().getByUsername(username)
     if (existingUser) {
-      this.setStatus(StatusCodes.UNPROCESSABLE_ENTITY);
+      this.setStatus(StatusCodes.CONFLICT);
       return { error: 'Username already taken' }
     }
 
     // Create a new user with the user data provided
-    const user = await new UserService().createUser({ username, password })
-
-    this.setStatus(StatusCodes.CREATED);
-    return { message: 'User created', user: user };
+    try {
+      const user = await new UserService().createUser({ username, password })
+      this.setStatus(StatusCodes.CREATED);
+      return { message: 'User created', user: user };
+    } catch (error) {
+      this.setStatus(StatusCodes.UNPROCESSABLE_ENTITY);
+      return { error: error.message }
+    }
   }
 
   @Get('/current')

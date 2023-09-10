@@ -1,5 +1,5 @@
-import { Recommendation } from "./review.dto.js";
 import RecommendationGenerator from "./recommendation.generation.js";
+import { Recommendation } from "./recommendation.js";
 import { Cocktail } from "../cocktails/cocktail.dto.js";
 import { CocktailService } from "../cocktails/cocktail.service.js";
 

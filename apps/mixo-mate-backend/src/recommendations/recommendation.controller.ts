@@ -5,7 +5,7 @@ import { RecommendationService } from "./recommendation.service.js";
 
 type ReviewRecommendationDto = {
   cocktailId: string,
-  rating: number
+  rating: boolean
 }
 
 @Route("recommendations")
