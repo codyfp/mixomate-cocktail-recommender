@@ -5,11 +5,11 @@ export class CocktailService {
   constructor() {
   }
   
-  getAll(): Cocktail[] {
-    return new CocktailRepo().getAll();
+  async getAll(): Promise<Cocktail[]> {
+    return await new CocktailRepo().getAll();
   }
 
-  getById(id: string): Cocktail | null {
+  async getById(id: string): Promise<Cocktail> {
     return new CocktailRepo().getById(id);
   }
 }
