@@ -18,6 +18,7 @@ export class MixoMateApi {
     this.client = axios.create({
       baseURL: clientBaseURL,
       headers: { "Content-Type": "application/json" },
+      withCredentials: true,
     });
   }
 
