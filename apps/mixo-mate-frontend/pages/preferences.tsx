@@ -1,8 +1,11 @@
 import React, { useState } from "react";
 import Head from "next/head";
 import Link from "next/link";
-import LikesAndDislikes from "../components/LikesAndDislikes";
+import dynamic from "next/dynamic";
+// import LikesAndDislikes from "../components/LikesAndDislikes";
 import FlavourProfile from "@/components/FlavourProfile";
+
+const LikesAndDislikes = dynamic(() => import("../components/LikesAndDislikes"), { ssr: false });
 
 export default function Preferences() {
   const [step, setStep] = useState(0);
@@ -28,10 +31,10 @@ export default function Preferences() {
         )
       case 1:
         return (
-        <div className='flex flex-col justify-center items-center'>
-          <br></br>
-          <FlavourProfile onSubmit={() => setStep(step + 1)} onClose={() => setStep(step - 1)} />
-        </div>
+          <div className='flex flex-col justify-center items-center'>
+            <br></br>
+            <FlavourProfile onSubmit={() => setStep(step + 1)} onClose={() => setStep(step - 1)} />
+          </div>
         )
       case 2:
         return (

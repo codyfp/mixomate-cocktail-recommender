@@ -104,8 +104,7 @@ export class UsersController extends Controller {
     }
     const { likes, dislikes } = requestBody;
 
-    const user = await new UserService().setLikesAndDislikes(userId, likes, dislikes)
-    console.log(user)
+    await new UserService().setLikesAndDislikes(userId, likes, dislikes)
     return { message: 'Login successful' }
   }
 }
