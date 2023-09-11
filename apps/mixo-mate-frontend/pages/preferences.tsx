@@ -23,9 +23,10 @@ const steps = [
   LikesAndDislikes,
   () => (
     <>
-      <p>Enter your flavour Profile?</p>
-      <p>Coming soon...</p>
-      <FlavourProfile />
+      <div className='flex flex-col justify-center items-center'>
+        <br></br>
+        <FlavourProfile onSubmit={() => setStep(step + 1)} onClose={() => setStep(step - 1)} />
+      </div>
     </>
   ),
   () => (

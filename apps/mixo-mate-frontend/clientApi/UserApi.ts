@@ -11,7 +11,7 @@ export class UserApi extends MixoMateApi {
   }
 
   public async create(username: string, password: string) {
-    const response = await this.client.post('/signup', {
+    const response = await this.client.post('/', {
       username,
       password
     })
