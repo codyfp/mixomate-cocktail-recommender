@@ -1,5 +1,5 @@
 import bcrypt from 'bcryptjs';
-import { DocumentType, getModelForClass, pre, prop } from "@typegoose/typegoose";
+import { DocumentType, getModelForClass, pre, prop, PropType } from "@typegoose/typegoose";
 
 @pre<UserClass>('save', async function (next) {
   try {
@@ -31,13 +31,13 @@ class UserClass {
   @prop({ type: () => String, required: true })
   public password: string;
 
-  @prop({ type: () => [String], required: false })
+  @prop({ type: () => [String], required: false }, PropType.ARRAY)
   public likes?: string[];
 
-  @prop({ type: () => [String], required: false })
+  @prop({ type: () => [String], required: false }, PropType.ARRAY)
   public dislikes?: string[];
 
-  @prop({ type: () => [String], required: false })
+  @prop({ type: () => [String], required: false }, PropType.ARRAY)
   public flavourProfile?: string[];
 
   public async matchPassword(this: DocumentType<UserClass>, password: string) {
