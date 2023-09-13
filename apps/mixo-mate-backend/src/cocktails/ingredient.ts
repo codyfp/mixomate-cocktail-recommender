@@ -1,4 +1,4 @@
 export type Ingredient = {
-  quantity: string;
-  ingredient: string;
+  id: string;
+  name: string;
 }

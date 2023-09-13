@@ -1,15 +1,12 @@
-import { Portion } from "./portion.dto.js";
+import { Ingredient } from "./ingredient.js"
 
 export type Cocktail = {
   id: string,
   name: string,
-  price: number,
-  glassware: string, // See if an enum is needed here
-  portions?: Portion[],
 
-  instructions?: string,
-  imageURL?: string
+  n_steps: number,
+  n_ingredients: number,
 
-  // Determine whether these are needed
-  origin?: string;
+  steps: string,
+  ingredients: Ingredient[]
 }
