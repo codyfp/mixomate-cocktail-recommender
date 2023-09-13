@@ -5,29 +5,17 @@ import LikesAndDislikes from "../components/LikesAndDislikes";
 import FlavourProfile from "@/components/FlavourProfile";
 
 export default function Preferences() {
-  return (
-    <div className="flex flex-1 flex-col h-full bg-gray-300">
-      <Head>
-        <title>Mixo Mate | Preferences</title>
-        <link rel="icon" href="/favicon.ico" />
-      </Head>
+  const [step, setStep] = useState(0);
+ 
 
-      <main>
-        <RenderCurrentStep />
-      </main>
-    </div>
-  );
-}
 
 const steps = [
   LikesAndDislikes,
   () => (
-    <>
-      <div className='flex flex-col justify-center items-center'>
-        <br></br>
-        <FlavourProfile onSubmit={() => setStep(step + 1)} onClose={() => setStep(step - 1)} />
-      </div>
-    </>
+    <div className='flex flex-col justify-center items-center'>
+          <br></br>
+          <FlavourProfile onSubmit={() => setStep(step + 1)} onClose={() => setStep(step - 1)} />
+    </div>
   ),
   () => (
     <>
@@ -109,5 +97,18 @@ function StepControlButton({
     >
       {children}
     </button>
+  );
+}
+  return (
+    <div className="flex flex-1 flex-col h-full bg-gray-300"> 
+      <Head>
+        <title>Mixo Mate | Preferences</title>
+        <link rel="icon" href="/favicon.ico" />
+      </Head>
+
+      <main>
+        <RenderCurrentStep />
+      </main>
+    </div>
   );
 }
