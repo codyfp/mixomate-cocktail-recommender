@@ -23,7 +23,7 @@ export default function Cocktails() {
   return (
     <div>
       <Head>
-        <title>Mixo Mate | Recommendations</title>
+        <title>Mixo Mate | Cocktails</title>
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <main>
