@@ -1,16 +1,20 @@
 import { MixoMateApi } from "./MixoMateApi";
 
-type Cocktail = {
+export type Cocktail = {
   id: string,
   name: string,
-  price: number,
-  glassware: string, // See if an enum is needed here
+  rating: number,
 
-  instructions?: string,
-  imageURL?: string
+  n_steps: number,
+  n_ingredients: number,
 
-  // Determine whether these are needed
-  origin?: string;
+  steps: string,
+  ingredients: Ingredient[];
+}
+
+export type Ingredient = {
+  id: string;
+  name: string;
 }
 
 export class CocktailApi extends MixoMateApi {
