@@ -4,7 +4,7 @@ function LikesAndDislikes() {
   return (
     <div className="flex flex-row">
       <div className="pr-14 w-3/5">
-        <h1 className="mb-8 text-center">List your preferences!</h1>
+        <h1 className="x-title mb-8 text-center">List your preferences!</h1>
 
         <InputChips label="Likes" className="mb-8" />
 
@@ -62,7 +62,7 @@ function InputChips({
   return (
     <div className={`bg-white px-5 py-4 min-h-[12rem] rounded-xl ${className}`}>
       <div className="flex flex-row items-center mb-4">
-        <label>{label}:</label>
+        <label className="x-title w-32">{label}:</label>
 
         <input
           className="bg-gray-300 rounded-full h-8 w-60 px-5 uppercase"
