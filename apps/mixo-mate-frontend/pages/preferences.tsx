@@ -3,6 +3,7 @@ import Head from "next/head";
 import Link from "next/link";
 import LikesAndDislikes from "../components/LikesAndDislikes";
 import FlavourProfile from "@/components/FlavourProfile";
+import Allergens from "@/components/Allergens";
 
 export default function Preferences() {
   const [step, setStep] = useState(0);
@@ -36,8 +37,7 @@ export default function Preferences() {
       case 2:
         return (
           <div className='flex flex-col'>
-            <p>Any allergens?</p>
-            <p>Coming soon...</p>
+            <Allergens/>
             <ControlButtons />
           </div>
         )
