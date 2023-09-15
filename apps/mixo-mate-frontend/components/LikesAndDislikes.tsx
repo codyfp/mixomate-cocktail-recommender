@@ -62,9 +62,9 @@ function InputChips({
   return (
     <div className={`bg-white px-5 py-4 min-h-[12rem] rounded-xl ${className}`}>
       <div className="flex flex-row items-center mb-4">
-        <label className="x-title w-32">{label}:</label>
+        <label className="x-title w-32" >{label}:</label>
 
-        <input
+        <input placeholder="Enter here"
           className="bg-gray-300 rounded-full h-8 w-60 px-5 uppercase"
           value={input}
           onChange={(e) => onChange(e.target.value)}
