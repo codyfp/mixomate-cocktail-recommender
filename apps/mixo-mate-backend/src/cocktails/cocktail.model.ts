@@ -1,7 +1,7 @@
 import { PropType, Ref, getModelForClass, mongoose, prop } from "@typegoose/typegoose";
 import { HydratedDocument } from "mongoose";
-import { IngredientClass } from "./ingredient.model.js";
-import { Ingredient } from "./ingredient.js";
+import { IngredientClass } from "../ingredients/ingredient.model.js";
+import { Ingredient } from "../ingredients/ingredient.js";
 
 class CocktailClass {
   @prop({ type: () => String, required: true })

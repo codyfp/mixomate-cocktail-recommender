@@ -1,4 +1,4 @@
-import { Ingredient } from "./ingredient.js"
+import { Ingredient } from "../ingredients/ingredient.js"
 
 export type Cocktail = {
   id: string,
