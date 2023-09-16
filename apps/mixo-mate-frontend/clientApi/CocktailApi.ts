@@ -1,3 +1,4 @@
+import { Ingredient } from "./IngredientApi";
 import { MixoMateApi } from "./MixoMateApi";
 
 export type Cocktail = {
@@ -10,11 +11,6 @@ export type Cocktail = {
 
   steps: string,
   ingredients: Ingredient[];
-}
-
-export type Ingredient = {
-  id: string;
-  name: string;
 }
 
 export class CocktailApi extends MixoMateApi {
