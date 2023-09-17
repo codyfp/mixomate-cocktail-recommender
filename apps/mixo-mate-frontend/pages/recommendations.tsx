@@ -2,19 +2,7 @@ import React, { useEffect, useState } from "react";
 import Head from "next/head";
 
 import { RecommendationApi } from '@/clientApi/RecommendationApi';
-
-export type Cocktail = {
-  id: string,
-  name: string,
-  price: number,
-  glassware: string, // See if an enum is needed here
-
-  instructions?: string,
-  imageURL?: string
-
-  // Determine whether these are needed
-  origin?: string;
-}
+import { Cocktail } from "@/clientApi/CocktailApi";
 
 export default function Recommendations() {
   const [recommendedCocktails, setRecommendedCocktails] = useState<Cocktail[]>([]);
@@ -23,7 +11,7 @@ export default function Recommendations() {
     async function fetchRecommendedCocktails() {
       try {
         const api = new RecommendationApi();
-        const data = await api.getRecommendedCocktails();
+        const data: Cocktail[] = await api.getRecommendedCocktails();
         setRecommendedCocktails(data);
       } catch (error) {
         const err = error as Error
