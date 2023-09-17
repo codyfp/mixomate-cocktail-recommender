@@ -23,6 +23,24 @@ yarn format
 5. Run `docker version` to check if you have Docker installed (install it otherwise)
 6. Run `docker compose up` to start all the apps
 
+## Import dataset into mongodb
+
+Run the following commands on your host machine to import datasets into MongoDB.
+
+```Bash
+docker exec mongo mongoimport \
+  --collection=cocktailclasses \
+  --file=/opt/datasets/cocktailclasses \
+  --authenticationDatabase=admin \
+  --uri mongodb://root:pass12345@mongo:27017/test?ssl=false
+
+  docker exec mongo mongoimport \
+  --collection=ingredientclasses \
+  --file=/opt/datasets/ingredientclasses \
+  --authenticationDatabase=admin \
+  --uri mongodb://root:pass12345@mongo:27017/test?ssl=false
+```
+
 ## Adding a new app
 1. add the app to the `/apps` directory
 2. inside the app, give it access to the shared packages inside the package.json // expand on this

@@ -10,7 +10,7 @@ class Database {
   public async connect(): Promise<void> {
     try {
       Logger.info('Connecting to database...');
-      await mongoose.connect(connectionURI)
+      await mongoose.connect(connectionURI, { dbName: 'test' })
       Logger.info('Database connection successful');
     } catch (error) {
       Logger.error(`Database connection failed. ${error.message}`);

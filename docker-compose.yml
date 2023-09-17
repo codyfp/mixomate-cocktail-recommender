@@ -57,6 +57,7 @@ services:
       MONGO_INITDB_ROOT_PASSWORD: pass12345
     volumes:
       - mongodb_data:/data/db
+      - ./apps/mixo-mate-backend/datasets:/opt/datasets
     ports:
       - 27017:27017
     networks:
