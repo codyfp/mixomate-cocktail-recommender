@@ -29,24 +29,31 @@ function InputChips({ label, className }: InputChipsProps) {
     };
 
     return (
-        <div className={`bg-white px-5 py-4 min-h-[12rem] rounded-xl ${className}`}>
-            <div className="flex flex-row items-center mb-4">
-                <label className={`x-title w-32 ${label === 'Allergens' ? 'mr-4' : ''}`}>{label}:</label>
-                <input 
-                    placeholder="Enter here"
-                    className="bg-gray-300 rounded-full h-8 w-60 px-5 uppercase"
-                    value={input}
-                    onChange={(e) => onChange(e.target.value)}
-                    onKeyDown={(e) => onAddItem(e.key)}
-                />
+        <div className={`bg-white px-5 py-4 min-h-[12rem] rounded-xl ${className} flex flex-col`}>
+            <div>
+                <div className="flex flex-row items-center mb-4">
+                    <label className={`x-title w-32 ${label === 'Allergens' ? 'mr-4' : ''}`}>{label}:</label>
+                    <input 
+                        placeholder="Enter here"
+                        className="bg-gray-300 rounded-full h-8 w-60 px-5 uppercase"
+                        value={input}
+                        onChange={(e) => onChange(e.target.value)}
+                        onKeyDown={(e) => onAddItem(e.key)}
+                    />
+                </div>
+                <div className="flex flex-row flex-wrap gap-1 mb-4">
+                    {chips.map((chip, index) => (
+                        <Chip key={index} onClick={() => onDeleteItem(index)}>
+                            {chip}
+                        </Chip>
+                    ))}
+                </div>
             </div>
-            <div className="flex flex-row flex-wrap gap-1">
-                {chips.map((chip, index) => (
-                    <Chip key={index} onClick={() => onDeleteItem(index)}>
-                        {chip}
-                    </Chip>
-                ))}
-            </div>
+            {label === 'Allergens' && 
+                <button className="self-center mt-auto bg-custom-orange text-white px-7 py-2 rounded">
+                    I don't have any allergens
+                </button>
+            }
         </div>
     );
 }
