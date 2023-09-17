@@ -37,7 +37,8 @@ export default function Preferences() {
       case 2:
         return (
           <div className='flex flex-col'>
-            <Allergens/>
+            <p>Any allergens?</p>
+            <p>Coming soon...</p>
             <ControlButtons />
           </div>
         )
