@@ -18,12 +18,7 @@ const steps = [
           <FlavourProfile onSubmit={() => setStep(step + 1)} onClose={() => setStep(step - 1)} />
     </div>
   ),
-  () => (
-    <>
-      <p>Any allergens?</p>
-      <p>Coming soon...</p>
-    </>
-  ),
+  Allergens,
   () => (
     <>
       <p>Ready to get recommendations?</p>

@@ -1,7 +1,9 @@
+import InputChips from "./InputChips"
+
 const Allergens = () => {
     return (
       <div className='flex flex-col'>
-        <p>Allergens</p>
+        <InputChips label="Allergens" className="mb-8"/>
       </div>
     )
   }
