@@ -2,50 +2,73 @@ import React, { useState } from "react";
 import Head from "next/head";
 import Link from "next/link";
 import dynamic from "next/dynamic";
+import { UserApi } from './../clientApi/UserApi';
 
 const LikesAndDislikes = dynamic(() => import("../components/LikesAndDislikes"), { ssr: false });
 const FlavourProfile = dynamic(() => import("../components/FlavourProfile"), { ssr: false });
 
 export default function Preferences() {
   const [step, setStep] = useState(0);
+  const userApi = new UserApi();
+  const [likes, setLikes] = useState<string[]>([]);
+  const [dislikes, setDislikes] = useState<string[]>([]);
 
-
+  const handleSaveLikes = (likes: string[], dislikes: string[]) => {
+    userApi.setLikesAndDislikes(likes, dislikes);
+  }
 
   const steps = [
-    LikesAndDislikes,
-    () => (
-      <div className='flex flex-col justify-center items-center'>
-        <br></br>
-        <FlavourProfile onSubmit={() => setStep(step + 1)} onClose={() => setStep(step - 1)} />
-      </div>
-    ),
-    () => (
-      <>
-        <p>Any allergens?</p>
-        <p>Coming soon...</p>
-      </>
-    ),
-    () => (
-      <>
-        <p>Ready to get recommendations?</p>
+    {
+      RenderComponent: LikesAndDislikes,
+      props: {
+        likes,
+        setLikes,
+        dislikes,
+        setDislikes,
+      },
+      handleNext: () => {
+        setStep(step + 1);
+        handleSaveLikes(likes, dislikes);
+      },
+    },
+    {
+      RenderComponent: FlavourProfile,
+      props: {
+        onSubmit: () => setStep(step + 1),
+        onClose: () => setStep(step - 1),
+      },
+    },
+    {
+      RenderComponent: () => (
+        <>
+          <p>Any allergens?</p>
+          <p>Coming soon...</p>
+        </>
+      )
+    },
+    {
+      RenderComponent: () => (
+        <>
+          <p>Ready to get recommendations?</p>
 
-        <Link href="/recommendations">
-          <button className="p-2 bg-blue-100 rounded-3xl text-blue-500 w-[120px]">
-            {"Let's go!"}
-          </button>
-        </Link>
-      </>
-    ),
+          <Link href="/recommendations">
+            <button className="p-2 bg-blue-100 rounded-3xl text-blue-500 w-[120px]">
+              {"Let's go!"}
+            </button>
+          </Link>
+        </>
+      )
+    },
   ];
 
   function RenderCurrentStep() {
-    const [step, setStep] = useState(0);
-    const CurrentStep = steps[step];
+    const { RenderComponent, props, handleNext = () => setStep(step + 1) } = steps[step];
 
     return (
       <div className="p-8">
         <div className="mb-8">
-          <CurrentStep />
+          {/* TS error but idk how to fix atm */}
+          <RenderComponent {...props} />
         </div>
 
         <div className="flex justify-end">
@@ -66,7 +89,7 @@ export default function Preferences() {
             )}
 
             {step < steps.length - 1 && (
-              <StepControlButton onClick={() => setStep(step + 1)}>
+              <StepControlButton onClick={() => handleNext()}>
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   height="1em"

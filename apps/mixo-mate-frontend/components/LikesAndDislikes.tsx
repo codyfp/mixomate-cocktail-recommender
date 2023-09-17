@@ -1,10 +1,14 @@
 import { useState } from "react";
-import { UserApi } from './../clientApi/UserApi';
 
-function LikesAndDislikes() {
-  const [likes, setLikes] = useState<string[]>([]);
-  const [dislikes, setDislikes] = useState<string[]>([]);
+interface LikesAndDislikesProps {
+  likes: string[];
+  setLikes: (likes: string[]) => void;
+  dislikes: string[];
+  setDislikes: (dislikes: string[]) => void;
+}
 
+function LikesAndDislikes(props: LikesAndDislikesProps) {
+  const { likes, setLikes, dislikes, setDislikes } = props;
   return (
     <div className="flex flex-row">
       <div className="pr-14 w-3/5">
