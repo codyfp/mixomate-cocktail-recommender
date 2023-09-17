@@ -7,8 +7,6 @@ import Allergens from "@/components/Allergens";
 
 export default function Preferences() {
   const [step, setStep] = useState(0);
- 
-
 
 const steps = [
   LikesAndDislikes,
