@@ -103,12 +103,16 @@ export class UsersController extends Controller {
       return { error: 'Must be logged in to set preferences' }
     }
     const { likes, dislikes } = requestBody;
-
-    await new UserService().setLikesAndDislikes(userId, likes, dislikes)
-    return { message: 'Set likes and dislikes successfully' }
+    try {
+      await new UserService().setLikesAndDislikes(userId, likes, dislikes)
+      return { message: 'Set likes and dislikes successfully' }
+    } catch (error) {
+      this.setStatus(StatusCodes.UNPROCESSABLE_ENTITY)
+      return { error: error.message }
+    }
   }
 
-  @Post('/setFlavours')
+  @Post('/flavourPreferences ')
   public async setFlavours(
     @Body() requestBody: { flavourProfile: string[] },
     @Request() request: AuthenticatedRequest,
@@ -118,8 +122,12 @@ export class UsersController extends Controller {
       return { error: 'Must be logged in to set preferences' }
     }
     const { flavourProfile } = requestBody;
-
-    await new UserService().setFlavourProfile(userId, flavourProfile)
-    return { message: 'Set your flavour profile successfully' }
+    try {
+      await new UserService().setFlavourProfile(userId, flavourProfile)
+      return { message: 'Set your flavour profile successfully' }
+    } catch (error) {
+      this.setStatus(StatusCodes.UNPROCESSABLE_ENTITY)
+      return { error: error.message }
+    }
   }
 }
