@@ -90,6 +90,44 @@ export class UsersController extends Controller {
     request.session.userId = existingUser.id
     request.session.save();
 
-    return { message: 'Login successful'}
+    return { message: 'Login successful' }
+  }
+
+  @Post('/likes')
+  public async likes(
+    @Body() requestBody: { likes: string[], dislikes: string[] },
+    @Request() request: AuthenticatedRequest,
+  ): Promise<unknown> {
+    let { userId } = request.session;
+    if (!userId) {
+      return { error: 'Must be logged in to set preferences' }
+    }
+    const { likes, dislikes } = requestBody;
+    try {
+      await new UserService().setLikesAndDislikes(userId, likes, dislikes)
+      return { message: 'Set likes and dislikes successfully' }
+    } catch (error) {
+      this.setStatus(StatusCodes.UNPROCESSABLE_ENTITY)
+      return { error: error.message }
+    }
+  }
+
+  @Post('/flavourPreferences ')
+  public async setFlavours(
+    @Body() requestBody: { flavourProfile: string[] },
+    @Request() request: AuthenticatedRequest,
+  ): Promise<unknown> {
+    let { userId } = request.session;
+    if (!userId) {
+      return { error: 'Must be logged in to set preferences' }
+    }
+    const { flavourProfile } = requestBody;
+    try {
+      await new UserService().setFlavourProfile(userId, flavourProfile)
+      return { message: 'Set your flavour profile successfully' }
+    } catch (error) {
+      this.setStatus(StatusCodes.UNPROCESSABLE_ENTITY)
+      return { error: error.message }
+    }
   }
 }

@@ -1,7 +1,7 @@
 import bcrypt from 'bcryptjs';
-import { DocumentType, getModelForClass, pre, prop } from "@typegoose/typegoose";
+import { DocumentType, getModelForClass, pre, prop, PropType } from "@typegoose/typegoose";
 
-@pre<UserClass>('save', async function(next) {
+@pre<UserClass>('save', async function (next) {
   try {
     // Check method of registration
     const user = this;
@@ -31,6 +31,15 @@ class UserClass {
   @prop({ type: () => String, required: true })
   public password: string;
 
+  @prop({ type: () => [String], required: false }, PropType.ARRAY)
+  public likes?: string[];
+
+  @prop({ type: () => [String], required: false }, PropType.ARRAY)
+  public dislikes?: string[];
+
+  @prop({ type: () => [String], required: false }, PropType.ARRAY)
+  public flavourProfile?: string[];
+
   public async matchPassword(this: DocumentType<UserClass>, password: string) {
     try {
       return await bcrypt.compare(password, this.password);
@@ -38,6 +47,7 @@ class UserClass {
       throw new Error(error);
     }
   }
+
 }
 
 export const UserModel = getModelForClass(UserClass);

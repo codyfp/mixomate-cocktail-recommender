@@ -27,4 +27,27 @@ export class UserApi extends MixoMateApi {
 
     return response.data;
   }
+
+  public async getAccountPreferences() {
+    const response = await this.client.get('/preferences')
+
+    return response.data;
+  }
+
+  public async setLikesAndDislikes(likes: string[], dislikes: string[]) {
+    const response = await this.client.post('/likes', {
+      likes,
+      dislikes
+    })
+
+    return response.data;
+  }
+
+  public async setFlavourProfile(flavourProfile: string[]) {
+    const response = await this.client.post('/flavourPreferences', {
+      flavourProfile
+    })
+
+    return response.data;
+  }
 }
