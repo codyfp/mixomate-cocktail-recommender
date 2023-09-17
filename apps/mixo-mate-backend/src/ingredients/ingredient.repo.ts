@@ -19,12 +19,12 @@ export class IngredientRepo {
     try {
       const document = await IngredientModel.findById(id)
       if (!document) {
-        throw new Error('Not exist')
+        throw new Error(`Ingredient with ID: ${id} does not exist`)
       }
 
       return this._documentToIngredient(document)
     } catch (error) {
-      throw new Error('Not exist')
+      throw new Error(`Ingredient with ID: ${id} does not exist`)
     }
   }
 
