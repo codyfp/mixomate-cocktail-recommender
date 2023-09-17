@@ -31,4 +31,42 @@ export class UserService {
       username: doc.username
     }
   }
+
+  async setLikesAndDislikes(userId: string, likes: string[], dislikes: string[]): Promise<User> {
+    if (!mongoose.isValidObjectId(userId)) {
+      throw new Error('Invalid ID')
+    }
+    const doc = await UserModel.findById(userId)
+    if (!doc) {
+      throw new Error('User not found')
+    }
+    doc.likes = likes
+    doc.dislikes = dislikes
+    const updatedDoc = await doc.save()
+
+    return {
+      id: updatedDoc.id,
+      username: updatedDoc.username,
+      likes: updatedDoc.likes,
+      dislikes: updatedDoc.dislikes
+    }
+  }
+
+  async setFlavourProfile(userId: string, flavourProfile: string[]): Promise<User> {
+    if (!mongoose.isValidObjectId(userId)) {
+      throw new Error('Invalid ID')
+    }
+    const doc = await UserModel.findById(userId)
+    if (!doc) {
+      throw new Error('User not found')
+    }
+    doc.flavourProfile = flavourProfile
+    const updatedDoc = await doc.save()
+
+    return {
+      id: updatedDoc.id,
+      username: updatedDoc.username,
+      flavourProfile: updatedDoc.flavourProfile,
+    }
+  }
 }

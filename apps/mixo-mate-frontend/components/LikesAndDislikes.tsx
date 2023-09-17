@@ -1,14 +1,22 @@
 import { useState } from "react";
 
-function LikesAndDislikes() {
+interface LikesAndDislikesProps {
+  likes: string[];
+  setLikes: (likes: string[]) => void;
+  dislikes: string[];
+  setDislikes: (dislikes: string[]) => void;
+}
+
+function LikesAndDislikes(props: LikesAndDislikesProps) {
+  const { likes, setLikes, dislikes, setDislikes } = props;
   return (
     <div className="flex flex-row">
       <div className="pr-14 w-3/5">
         <h1 className="x-title mb-8 text-center">List your preferences!</h1>
 
-        <InputChips label="Likes" className="mb-8" />
+        <InputChips label="Likes" className="mb-8" options={likes} setOptions={setLikes} />
 
-        <InputChips label="Dislikes" />
+        <InputChips label="Dislikes" options={dislikes} setOptions={setDislikes} />
       </div>
 
       <div className="pl-14 h-[30rem] w-2/5">
@@ -24,16 +32,19 @@ function LikesAndDislikes() {
   );
 }
 
- export default LikesAndDislikes;
+export default LikesAndDislikes;
 
 function InputChips({
   label,
   className,
+  options,
+  setOptions,
 }: {
   label: string;
   className?: string;
+  options: string[];
+  setOptions: (options: string[]) => void;
 }) {
-  const [chips, setChips] = useState<string[]>([]);
   const [input, setInput] = useState<string>("");
 
   const onChange = (text: string) => {
@@ -42,21 +53,20 @@ function InputChips({
 
   const onAddItem = (key: string) => {
     if (key === "Enter" && input.trim() !== "") {
-      const _chips = [...chips];
+      const _chips = [...options];
 
       _chips.push(input);
 
-      setChips(_chips);
+      setOptions(_chips);
       setInput("");
     }
   };
 
   const onDeleteItem = (index: number) => {
-    const _chips = [...chips];
+    const _chips = [...options];
 
     _chips.splice(index, 1);
-
-    setChips(_chips);
+    setOptions(_chips);
   };
 
   return (
@@ -73,7 +83,7 @@ function InputChips({
       </div>
 
       <div className="flex flex-row flex-wrap gap-1">
-        {chips.map((chip, index) => (
+        {options.map((chip, index) => (
           <Chip key={index} onClick={() => onDeleteItem(index)}>
             {chip}
           </Chip>
