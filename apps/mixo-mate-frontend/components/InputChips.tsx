@@ -1,7 +1,8 @@
 import React, { useState, ReactNode } from 'react';
+import { InputLabel } from '@/types/InputLabels';
 
 interface InputChipsProps {
-    label: string;
+    label: InputLabel;
     className?: string;
 }
 
@@ -21,6 +22,9 @@ function InputChips({ label, className }: InputChipsProps) {
     };
 
     const onDeleteItem = (index: number) => {
+        if (label === InputLabel.ALLERGENS) {
+            // 
+        }
         setChips(prevChips => {
             const updatedChips = [...prevChips];
             updatedChips.splice(index, 1);
