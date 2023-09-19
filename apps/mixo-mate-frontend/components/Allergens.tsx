@@ -1,10 +1,18 @@
 import InputChips from "./InputChips"
 import { InputLabel } from '@/types/InputLabels'
 
-const Allergens = () => {
+interface AllergensProps {
+  allergens: string[]
+  setAllergens: (allergens: string[]) => void
+}
+
+const Allergens = (props: AllergensProps) => {
+
+  const { allergens, setAllergens } = props
+
     return (
       <div className='flex flex-col'>
-        <InputChips label={InputLabel.ALLERGENS} className="mb-8"/>
+        <InputChips title={InputLabel.ALLERGENS} options={allergens} setOptions={setAllergens}/>
       </div>
     )
   }
