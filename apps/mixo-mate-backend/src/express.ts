@@ -18,6 +18,10 @@ export const expressApp = express();
 // Use body parser to read sent json payloads
 expressApp.use(urlencoded({ extended: true }));
 expressApp.use(json());
+expressApp.options('*', cors({
+  origin: ['http://localhost:3000', 'http://0.0.0:3000'],
+  credentials: true
+}))
 expressApp.use(cors({
   origin: ['http://localhost:3000', 'http://0.0.0.0:3000'],
   credentials: true
