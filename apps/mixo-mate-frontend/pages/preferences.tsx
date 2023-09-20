@@ -6,12 +6,14 @@ import { UserApi } from './../clientApi/UserApi';
 
 const LikesAndDislikes = dynamic(() => import("../components/LikesAndDislikes"), { ssr: false });
 const FlavourProfile = dynamic(() => import("../components/FlavourProfile"), { ssr: false });
+const Allergens = dynamic(() => import("../components/Allergens"), { ssr: false });
 
 export default function Preferences() {
   const [step, setStep] = useState(0);
   const userApi = new UserApi();
   const [likes, setLikes] = useState<string[]>([]);
   const [dislikes, setDislikes] = useState<string[]>([]);
+  const [allergens, setAllergens] = useState<string[]>([]);
 
   const handleSaveLikes = (likes: string[], dislikes: string[]) => {
     userApi.setLikesAndDislikes(likes, dislikes);
@@ -39,12 +41,11 @@ export default function Preferences() {
       },
     },
     {
-      RenderComponent: () => (
-        <>
-          <p>Any allergens?</p>
-          <p>Coming soon...</p>
-        </>
-      )
+      RenderComponent: Allergens,
+      props: {
+        allergens,
+        setAllergens,
+      }
     },
     {
       RenderComponent: () => (
