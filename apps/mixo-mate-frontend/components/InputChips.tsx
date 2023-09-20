@@ -52,7 +52,7 @@ export default function InputChips({ title, options, setOptions }: InputChipProp
         </div>
       </div>
       
-      {title === 'Allergens' && 
+      {title === 'Allergens' && options.length === 0 &&
         <button className="self-center mt-4 bg-custom-orange text-white px-7 py-2 rounded">
             I don't have any allergens
         </button>
