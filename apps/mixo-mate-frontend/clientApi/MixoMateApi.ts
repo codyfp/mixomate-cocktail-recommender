@@ -1,7 +1,7 @@
 import axios, { AxiosInstance } from "axios";
 
 export class MixoMateApi {
-  protected client: AxiosInstance;
+  private client: AxiosInstance;
 
   constructor(resource: string) {
 
@@ -47,7 +47,7 @@ export class MixoMateApi {
     } catch (error: unknown) {
       if (axios.isAxiosError(error))  {
         // Access to config, request, and response
-        throw new Error(error.response?.data)
+        throw new Error(error.response?.data?.error)
       } else if (error instanceof Error) {
         // Just a stock error
         throw new Error(error.message)
