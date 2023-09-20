@@ -41,7 +41,7 @@ const FlavourProfile: React.FC<Props> = ({ onSubmit, onClose }) => {
   const handleSubmission = () => {
     saveProfile()
     // Triggers next button flow
-    // onSubmit() 
+    onSubmit()
   }
 
   return (
