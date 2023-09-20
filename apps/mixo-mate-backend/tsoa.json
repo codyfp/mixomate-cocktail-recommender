@@ -7,6 +7,12 @@
     "specVersion": 3
   },
   "routes": {
-    "routesDir": "build"
+    "esm": true,
+    "routesDir": "build",
+    "authenticationModule": "./src/authentication.ts"
+  },
+  "compilerOptions": {
+    "experimentalDecorators": true,
+    "emitDecoratorMetadata": true
   }
 }
