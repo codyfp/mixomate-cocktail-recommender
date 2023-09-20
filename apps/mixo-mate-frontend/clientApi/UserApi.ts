@@ -6,12 +6,12 @@ export class UserApi extends MixoMateApi {
   }
 
   public async getCurrent(): Promise<unknown> {
-    const response = await this.client.get('/current')
+    const response = await this.get('/current')
     return response.data;
   }
 
   public async create(username: string, password: string) {
-    const response = await this.client.post('/', {
+    const response = await this.post('/', {
       username,
       password
     })
@@ -20,7 +20,7 @@ export class UserApi extends MixoMateApi {
   }
 
   public async login(username: string, password: string) {
-    const response = await this.client.post('/login', {
+    const response = await this.post('/login', {
       username,
       password
     })
@@ -29,13 +29,13 @@ export class UserApi extends MixoMateApi {
   }
 
   public async getAccountPreferences() {
-    const response = await this.client.get('/preferences')
+    const response = await this.get('/preferences')
 
     return response.data;
   }
 
   public async setLikesAndDislikes(likes: string[], dislikes: string[]) {
-    const response = await this.client.post('/likes', {
+    const response = await this.post('/likes', {
       likes,
       dislikes
     })
@@ -44,7 +44,7 @@ export class UserApi extends MixoMateApi {
   }
 
   public async setFlavourProfile(flavourProfile: string[]) {
-    const response = await this.client.post('/flavourPreferences', {
+    const response = await this.post('/flavourPreferences', {
       flavourProfile
     })
 
