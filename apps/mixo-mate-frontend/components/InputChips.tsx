@@ -28,11 +28,17 @@ export default function InputChips({ title, options, setOptions }: InputChipProp
     setShowDropdown(text.length > 0 && title === 'Allergens')
   }
 
-  const onAddItem = (key: string) => {
-    if (key === "Enter" && input.trim() !== "") {
-      setOptions(prev => [...prev, input])
+  const onAddItem = () => {
+    if (input.trim() !== "" && !options.includes(input.trim())) {
+      setOptions(prev => [...prev, input.trim()])
       setInput("")
+      setShowDropdown(false)
     }
+  }
+
+  const onSelectItem = (item: string) => {
+    setInput(item)
+    onAddItem()
   }
 
   const onDeleteItem = (index: number) => {
@@ -41,7 +47,7 @@ export default function InputChips({ title, options, setOptions }: InputChipProp
 
   const filteredIngredients = useMemo(() => {
     if (!input) return []
-    const lowercaseInput = input.toLowerCase();
+    const lowercaseInput = input.toLowerCase()
     return ingredients.filter(ingredient => ingredient.toLowerCase().includes(lowercaseInput))
   }, [input, ingredients])
 
@@ -55,16 +61,16 @@ export default function InputChips({ title, options, setOptions }: InputChipProp
             className="bg-gray-300 rounded-full h-8 w-60 px-5 uppercase"
             value={input}
             onChange={(e) => onChange(e.target.value)}
-            onKeyDown={(e) => onAddItem(e.key)}
+            onKeyDown={(e) => e.key === "Enter" && onAddItem()}
           />
         </div>
         {showDropdown && (
           <div className="absolute top-full mt-1 w-60 bg-white border border-gray-300 rounded-md shadow-lg z-10 overflow-hidden">
-            {filteredIngredients.map((ingredient, index) => (
+            {filteredIngredients.map(ingredient => (
               <div
-                key={index}
+                key={ingredient}
                 className="p-2 hover:bg-gray-200 cursor-pointer"
-                onClick={() => {setInput(ingredient); setShowDropdown(false);}}
+                onClick={() => onSelectItem(ingredient)}
               >
                 {ingredient}
               </div>
@@ -89,7 +95,7 @@ export default function InputChips({ title, options, setOptions }: InputChipProp
   )
 }
 
-function Chip({ children, onClick }: { children: React.ReactNode; onClick?: () => void; }) {
+function Chip({ children, onClick }: { children: React.ReactNode; onClick?: () => void }) {
   return (
     <div className="bg-gray-300 flex items-center gap-3 rounded-full pl-5 pr-2 h-8 w-max">
       <div className="font-bold uppercase">{children}</div>
