@@ -59,7 +59,7 @@ export default function InputChips({ title, options, setOptions }: InputChipProp
           />
         </div>
         {showDropdown && (
-          <div className="absolute top-full mt-1 w-60 bg-white border border-gray-300 rounded-md shadow-lg z-10 overflow-hidden"> {/* Changed mt-2 to mt-1 and added overflow-hidden */}
+          <div className="absolute top-full mt-1 w-60 bg-white border border-gray-300 rounded-md shadow-lg z-10 overflow-hidden">
             {filteredIngredients.map((ingredient, index) => (
               <div
                 key={index}
