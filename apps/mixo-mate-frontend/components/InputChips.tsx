@@ -1,31 +1,18 @@
-import React, { useState, useEffect, useMemo } from 'react'
-import { InputLabel } from '@/types/InputLabels'
-import { IngredientApi } from "@/clientApi/IngredientApi"
+import React, { useState } from 'react';
 
 interface InputChipProps {
-  title: InputLabel
+  title: string
   options: string[]
   setOptions: (options: string[]) => void
 }
 
 export default function InputChips({ title, options, setOptions }: InputChipProps) {
   const [input, setInput] = useState<string>("")
-  const [ingredients, setIngredients] = useState<string[]>([])
   const [showDropdown, setShowDropdown] = useState<boolean>(false)
 
-  useEffect(() => {
-    if (title === 'Allergens') getIngredients()
-  }, [title])
-
-  const getIngredients = async () => {
-    const ingredientsApi = new IngredientApi()
-    const allIngredients = await ingredientsApi.getIngredients()
-    setIngredients(allIngredients.map(ingredient => ingredient.name))
-  }
-
   const onChange = (text: string) => {
-    setInput(text)
-    setShowDropdown(text.length > 0 && title === 'Allergens')
+    setInput(text);
+    setShowDropdown(text.length > 0);
   }
 
   const onAddItem = () => {
@@ -45,17 +32,11 @@ export default function InputChips({ title, options, setOptions }: InputChipProp
     setOptions(prev => prev.filter((_, i) => i !== index))
   }
 
-  const filteredIngredients = useMemo(() => {
-    if (!input) return []
-    const lowercaseInput = input.toLowerCase()
-    return ingredients.filter(ingredient => ingredient.toLowerCase().includes(lowercaseInput))
-  }, [input, ingredients])
-
   return (
     <div className="bg-white px-5 py-4 min-h-[12rem] rounded-xl flex flex-col justify-between items-center">
       <div className="relative">
         <div className="flex flex-row items-center mb-4">
-          <label className={`x-title w-32 ${title === 'Allergens' ? 'mr-4' : ''}`}>{title}:</label>
+          <label className={`x-title w-32`}>{title}:</label>
           <input 
             placeholder="Enter here"
             className="bg-gray-300 rounded-full h-8 w-60 px-5 uppercase"
@@ -64,19 +45,6 @@ export default function InputChips({ title, options, setOptions }: InputChipProp
             onKeyDown={(e) => e.key === "Enter" && onAddItem()}
           />
         </div>
-        {showDropdown && (
-          <div className="absolute top-full mt-1 w-60 bg-white border border-gray-300 rounded-md shadow-lg z-10 overflow-hidden">
-            {filteredIngredients.map(ingredient => (
-              <div
-                key={ingredient}
-                className="p-2 hover:bg-gray-200 cursor-pointer"
-                onClick={() => onSelectItem(ingredient)}
-              >
-                {ingredient}
-              </div>
-            ))}
-          </div>
-        )}
         <div className="flex flex-row flex-wrap gap-1 mb-4">
           {options.map((chip, index) => (
             <Chip key={index} onClick={() => onDeleteItem(index)}>
@@ -85,12 +53,6 @@ export default function InputChips({ title, options, setOptions }: InputChipProp
           ))}
         </div>
       </div>
-      
-      {title === 'Allergens' && options.length === 0 && (
-        <button className="self-center mt-4 bg-custom-orange text-white px-7 py-2 rounded">
-          I don't have any allergens
-        </button>
-      )}
     </div>
   )
 }
