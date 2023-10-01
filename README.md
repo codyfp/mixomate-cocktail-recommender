@@ -48,3 +48,13 @@ docker exec mongo mongoimport \
 ## Apps in this repo
 1. mixo-mate-frontend - a nextjs app for frontend, locally runs on port 3000 by default
 2. mixo-mate-backend - a backend API server, locally runs on port 4000 by default
+
+## Setting up Chromedriver
+This project uses Chromedriver for browser automation. Since .exe files are platform-specific and to keep the repository light, we don't include the Chromedriver executable directly in the repository. Here's how to set it up:
+
+**Installation** 
+1. Visit the Chromedriver [download page](https://sites.google.com/a/chromium.org/chromedriver/downloads).
+2. Download the version corresponding to your Chrome browser.
+3. Unzip the downloaded file to retrieve chromedriver.exe (or just chromedriver for macOS/Linux).
+4. Place the chromedriver.exe in a suitable directory.
+5. Set the path to chromedriver.exe in the juypter notebook or add the directory containing the executable to your system's PATH.
