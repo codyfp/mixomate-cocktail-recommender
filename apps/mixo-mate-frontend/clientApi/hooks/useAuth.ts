@@ -38,7 +38,7 @@ export const useAuth = () => {
     },
     logout: async () => {
       if (userApi) {
-        const response = await userApi.get('/logout');
+        const response = await userApi.logout();
         getCurrentUser();
         return response;
       }

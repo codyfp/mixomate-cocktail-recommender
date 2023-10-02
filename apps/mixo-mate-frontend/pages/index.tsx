@@ -36,8 +36,7 @@ export default function Home() {
             </div>
           </div>
         ) : (
-          <div className='flex flex-col'>
-            <p>User Login</p>
+          <div className='flex flex-col mt-10'>
             <input type="text" placeholder='Username'
               value={username}
               onChange={(e) => setUsername(e.target.value)}
@@ -48,11 +47,11 @@ export default function Home() {
             <div className='flex flex-row gap-3 m-4'>
               <button
                 onClick={() => userApi && userApi.login(username, password)}
-                className='rounded-2xl p-2 bg-yellow-500 text-white border-yellow-500 border-2 w-20'>
+                className='rounded-3xl p-2 bg-yellow-500 text-white border-yellow-500 border-2 w-20'>
                 Login
               </button>
               <button
-                className='rounded-2xl p-2 text-yellow-500 border-yellow-500 border-2 w-20'>
+                className='rounded-3xl p-2 text-yellow-500 border-yellow-500 border-2 w-20'>
                 Sign Up
               </button>
             </div>

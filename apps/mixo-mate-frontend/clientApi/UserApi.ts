@@ -40,6 +40,11 @@ export class UserApi extends MixoMateApi {
     return response.data;
   }
 
+  public async logout() {
+    const response = await this.get('/logout')
+    return response.data;
+  }
+
   public async getAccountPreferences() {
     const response = await this.get('/preferences')
 

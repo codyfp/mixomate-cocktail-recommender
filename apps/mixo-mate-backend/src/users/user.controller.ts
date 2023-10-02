@@ -47,6 +47,18 @@ export class UsersController extends Controller {
     }
   }
 
+  @Get('/logout')
+  public async logout(
+    @Request() request: AuthenticatedRequest
+  ): Promise<unknown> {
+    if (!request.session?.userId) {
+      return { message: 'Not authenticated' }
+    }
+
+    request.session.destroy();
+    return { message: 'Logged out successfully' }
+  }
+
   @Get('/sessionTest')
   public async sessionTest(
     @Request() request: AuthenticatedRequest
