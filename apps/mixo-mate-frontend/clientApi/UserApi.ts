@@ -15,7 +15,7 @@ export class UserApi extends MixoMateApi {
   public async getCurrent(): Promise<User | null> {
     try {
       const response = await this.get('/current');
-      return response.data;
+      return response;
     } catch (error: unknown) {
       console.error(error);
       return null;
