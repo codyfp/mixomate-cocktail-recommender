@@ -16,6 +16,10 @@ const config: Config = {
       backgroundColor: {
         'custom-orange': 'rgb(251, 156, 42)',
       },
+      colors: {
+        'custom-orange': 'rgb(251, 156, 42)',
+        'brand': 'rgb(251, 156, 42)'
+      },
     },
   },
   plugins: [],

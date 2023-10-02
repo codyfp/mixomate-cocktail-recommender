@@ -1,61 +1,64 @@
 import { FormEvent, MouseEvent, useState } from 'react'
-import { UserApi } from './../clientApi/UserApi';
+import { useAuth } from '@/clientApi/hooks/useAuth';
 import Head from 'next/head'
-
-const handleLogin = async (e: FormEvent<HTMLFormElement>) => {
-  e.preventDefault();
-
-  const username = e.currentTarget.username.value
-  const password = e.currentTarget.password.value
-
-  const api = new UserApi();
-  const data = await api.login(username, password);
-
-  if (data?.error) {
-    alert('Login failed')
-  } else {
-    alert('Login successful')
-  }
-}
-
-const handleSignup = async (e: FormEvent<HTMLFormElement>) => {
-  e.preventDefault();
-
-  const username = e.currentTarget.username.value
-  const password = e.currentTarget.password.value
-
-  const api = new UserApi();
-  const data = await api.create(username, password);
-  if (data?.error) {
-    alert('Registration failed')
-  } else {
-    alert('Registration successful')
-  }
-}
+import Link from 'next/link';
 
 export default function Home() {
+  const { userApi, loading: isAuthLoading, currentUser } = useAuth();
+  const [username, setUsername] = useState('');
+  const [password, setPassword] = useState('');
   return (
-    <div>
+    <>
       <Head>
         <title>Mixo Mate</title>
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <main>
-        <div className='flex flex-col'>
-          <form onSubmit={handleLogin}>
+      <div className='flex self-center justify-center h-full'>
+        {currentUser?.username ? (
+          <div className='mt-10 flex flex-col gap-5 justify-between'>
+            <div className='text-yellow-500'>
+              Welcome <span className='text-black'>{currentUser.username}</span>!
+            </div>
+            <Link
+              href='/preferences'
+              className='text-brand underline'
+            >
+              Go to Preferences
+            </Link>
+            <div className='text-gray-300 mt-auto mb-2'>
+              Not you?&nbsp;
+              <button
+                onClick={() => userApi && userApi.logout()}
+                className='underline'
+              >
+                Logout
+              </button>
+            </div>
+          </div>
+        ) : (
+          <div className='flex flex-col'>
             <p>User Login</p>
-            <input type="text" name="username" placeholder='Username' />
-            <input type="password" name="password" placeholder='Password' />
-            <button type="submit">Login</button>
-          </form>
-          <form onSubmit={handleSignup}>
-            <p>User Registration</p>
-            <input type="text" name="username" placeholder='Username' />
-            <input type="password" name="password" placeholder='Password' />
-            <button type="submit">Sign Up</button>
-          </form>
-        </div>
-      </main>
-    </div>
+            <input type="text" placeholder='Username'
+              value={username}
+              onChange={(e) => setUsername(e.target.value)}
+            />
+            <input type="password" placeholder='Password'
+              value={password}
+              onChange={(e) => setPassword(e.target.value)} />
+            <div className='flex flex-row gap-3 m-4'>
+              <button
+                onClick={() => userApi && userApi.login(username, password)}
+                className='rounded-2xl p-2 bg-yellow-500 text-white border-yellow-500 border-2 w-20'>
+                Login
+              </button>
+              <button
+                className='rounded-2xl p-2 text-yellow-500 border-yellow-500 border-2 w-20'>
+                Sign Up
+              </button>
+            </div>
+          </div>
+        )}
+      </div>
+    </>
   )
 }
