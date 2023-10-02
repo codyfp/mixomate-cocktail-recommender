@@ -7,7 +7,7 @@ const Header = dynamic(() => import('@/components/Header'), { ssr: false })
 export default function App({ Component, pageProps }: AppProps) {
   return (
     <div className='flex flex-col h-full'>
-      <Header logoSrc="images/logo.png" />
+      <Header />
 
       <Component {...pageProps} />
     </div>

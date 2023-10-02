@@ -1,13 +1,25 @@
 import { MixoMateApi } from "./MixoMateApi";
 
+type User = {
+  id: string,
+  username: string,
+  likes?: string[],
+  dislikes?: string[],
+  flavourProfile?: string[]
+}
 export class UserApi extends MixoMateApi {
   constructor() {
     super('users');
   }
 
-  public async getCurrent(): Promise<unknown> {
-    const response = await this.get('/current')
-    return response.data;
+  public async getCurrent(): Promise<User | null> {
+    try {
+      const response = await this.get('/current');
+      return response.data;
+    } catch (error: unknown) {
+      console.error(error);
+      return null;
+    }
   }
 
   public async create(username: string, password: string) {

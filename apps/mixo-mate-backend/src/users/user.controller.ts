@@ -33,7 +33,7 @@ export class UsersController extends Controller {
   @Get('/current')
   public async getCurrentUser(
     @Request() request: AuthenticatedRequest
-  ): Promise<unknown> {
+  ): Promise<User | object> {
     if (!request.session?.userId) {
       return { message: 'Not authenticated' }
     }

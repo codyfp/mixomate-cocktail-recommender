@@ -2,12 +2,12 @@ import { useMemo } from 'react';
 import { UserApi } from './../clientApi/UserApi';
 import Link from 'next/link';
 
-const Header = ({ logoSrc }) => {
+const Header = () => {
   const userApi = new UserApi();
-  const username: string | undefined = useMemo(async () => {
+  const username = useMemo(() => {
     if (userApi) {
-      let name = await userApi.getCurrent()?.username;
-      return name;
+      let name = userApi.getCurrent();
+      return name?.username;
     }
     return undefined;
   }, [userApi]);
@@ -15,12 +15,14 @@ const Header = ({ logoSrc }) => {
   return (
     <header className="bg-custom-orange shadow-md h-[14vh]">
       <div className="container mx-auto flex items-center justify-between h-full">
-        <img src={logoSrc} alt="Logo" className="h-full w-auto blend-multiply" />
+        <img src="images/logo.png" alt="Logo" className="h-full w-auto blend-multiply" />
         {username ? (
-          <div className="text-white mr-4">Welcome {username}</div>
+          <div className="text-white mr-4">
+            Welcome {username}
+          </div>
         ) : (
-          <Link href="/">
-            <a className="text-white mr-4">Login or Register</a>
+          <Link href="/" className="text-white mr-4">
+            Login or Register
           </Link>
         )}
 
