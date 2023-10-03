@@ -16,7 +16,7 @@ const Header = () => {
     <header className="bg-custom-orange shadow-md h-[14vh]">
       <div className="container mx-auto flex items-center justify-between h-full">
         <img src="images/logo.png" alt="Logo" className="h-full w-auto blend-multiply" />
-        {username ? (
+        {/* {username ? (
           <div className="text-white mr-4">
             Welcome {username}
           </div>
@@ -24,7 +24,7 @@ const Header = () => {
           <Link href="/" className="text-white mr-4">
             Login or Register
           </Link>
-        )}
+        )} */}
 
         <div className="cursor-pointer">
           <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" className="h-6 w-6 text-white">

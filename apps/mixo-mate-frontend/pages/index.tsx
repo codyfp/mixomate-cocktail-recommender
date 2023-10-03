@@ -13,7 +13,7 @@ export default function Home() {
         <title>Mixo Mate</title>
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <div className='flex self-center justify-center h-full'>
+      <div className='flex self-center justify-center h-full bg-gray-300 w-full'>
         {currentUser?.username ? (
           <div className='mt-10 flex flex-col gap-5 justify-between'>
             <div className='text-yellow-500'>
@@ -36,7 +36,8 @@ export default function Home() {
             </div>
           </div>
         ) : (
-          <div className='flex flex-col mt-10'>
+          <div className='flex flex-col mt-10 bg-white h-max p-4 rounded-3xl shadow'>
+            <h1 className='text-xl mb-2 font-medium'>Welcome to MixoMate!</h1>
             <input type="text" placeholder='Username'
               value={username}
               onChange={(e) => setUsername(e.target.value)}
