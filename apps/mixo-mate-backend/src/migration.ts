@@ -5,6 +5,10 @@
 // import mongoose from "mongoose";
 // import { Cocktail } from "./cocktails/cocktail.dto.js";
 // import { CocktailModel } from "./cocktails/cocktail.model.js";
+
+// import { parse } from 'csv-parse'
+// import { createReadStream } from "fs";
+
 // import { CocktailService } from "./cocktails/cocktail.service.js";
 // import { IngredientModel, RawIngredient } from "./cocktails/ingredient.model.js";
 
@@ -77,3 +81,53 @@
 //     await doc.save();
 //   }
 // }
+
+// export const addRecipeIdAndFlavourProfile = async () => {
+//   await new Promise((resolve) => {
+//     createReadStream("/app/src/cocktail_data_mongo.csv")
+//     .pipe(parse({
+//       columns: ['recipe_id', 'rating', 'name', 'n_steps', 'n_ingredients', 'flavour_profile'],
+//       from: 2
+//     }
+//     ))
+//     .on("data", async (data) => {
+
+//       // Handle NaN rating
+//       if (isNaN(data.rating)) {
+//         console.log(`Issue with row: ${JSON.stringify(data)}`)
+//         return;
+//       }
+      
+//       // Find potential matching cocktail
+//       const uppercaseCocktailName = data.name.charAt(0).toUpperCase() + data.name.slice(1);
+//       const matchingCocktails = await CocktailModel.find({
+//         n_ingredients: data.n_ingredients,
+//         n_steps: data.n_steps,
+//         rating: Number(data.rating),
+//         name: uppercaseCocktailName
+//       })
+
+//       if (matchingCocktails.length === 0) {
+//         console.log(`Failed to match row with recipe_id: ${data.recipe_id} and name: ${data.name}`)
+//         return;
+//       } else if (matchingCocktails.length > 1) {
+//         console.log('Multiple records matched')
+//         return;
+//       }
+
+//       // Update matching document and save
+//       const matchingCocktail = matchingCocktails[0];
+//       const needsUpdate: boolean = matchingCocktail.flavour_profile !== data.flavour_profile || matchingCocktail.recipe_id !== data.recipe_id;
+//       if (needsUpdate) {
+//         matchingCocktail.flavour_profile = data.flavour_profile
+//         matchingCocktail.recipe_id = data.recipe_id;
+//         await matchingCocktail.save();
+//       }
+//     })
+//     .on("end", () => {
+//       console.log('File processed')
+//       return resolve(true);
+//     });
+//   })
+// }
+
