@@ -18,6 +18,7 @@ const Header = () => {
         <Image 
           src="/images/logo.png" 
           alt="Logo" 
+          priority={true}
           className="h-full w-auto blend-multiply"
           height={200}
           width={200}
