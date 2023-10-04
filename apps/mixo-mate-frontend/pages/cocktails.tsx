@@ -20,7 +20,8 @@ const mainStyle = {
 
 const headerStyle = {
   fontSize: '1.8em',
-  marginBottom: '20px'
+  marginBottom: '20px',
+  textAlign: 'center'
 };
 
 const tableHeaderStyle = {
@@ -84,7 +85,7 @@ export default function Cocktails() {
             rowsPerPageOptions={[5, 10, 25, 50]}
             sortMode="single" 
             className="p-datatable-gridlines p-shadow-2" 
-            rowStyle={gridLineStyle}>
+            style={gridLineStyle}>
             <Column field="name" header="Name" sortable filter filterPlaceholder="Filter by name" style={gridLineStyle} headerStyle={tableHeaderStyle} filterStyle={filterInputStyle}></Column>
             <Column field="recipe_id" header="Recipe ID" style={gridLineStyle} headerStyle={tableHeaderStyle}></Column>
             <Column field="rating" header="Rating" sortable filter filterPlaceholder="Filter by rating" style={gridLineStyle} headerStyle={tableHeaderStyle} filterStyle={filterInputStyle}></Column>
