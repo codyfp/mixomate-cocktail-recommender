@@ -29,7 +29,7 @@ export class MixoMateApi {
     } catch (error: unknown) {
       if (axios.isAxiosError(error))  {
         // Access to config, request, and response
-        throw (error.response?.data)
+        throw new Error(error.response?.data)
       } else if (error instanceof Error) {
         // Just a stock error
         throw new Error(error.message)

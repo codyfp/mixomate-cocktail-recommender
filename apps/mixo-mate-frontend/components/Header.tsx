@@ -1,6 +1,6 @@
 import { useMemo } from 'react';
 import { UserApi } from './../clientApi/UserApi';
-import Link from 'next/link';
+import Image from 'next/image';
 
 const Header = () => {
   const userApi = new UserApi();
@@ -15,7 +15,14 @@ const Header = () => {
   return (
     <header className="bg-custom-orange shadow-md h-[14vh]">
       <div className="container mx-auto flex items-center justify-between h-full">
-        <img src="images/logo.png" alt="Logo" className="h-full w-auto blend-multiply" />
+        <Image 
+          src="/images/logo.png" 
+          alt="Logo" 
+          className="h-full w-auto blend-multiply"
+          height={200}
+          width={200}
+          onClick={() => window.location.replace('/')}
+        />
         {/* {username ? (
           <div className="text-white mr-4">
             Welcome {username}

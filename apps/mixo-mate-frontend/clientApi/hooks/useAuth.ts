@@ -31,15 +31,17 @@ export const useAuth = () => {
   const authApi = {
     login: async (username: string, password: string) => {
       if (userApi) {
-        const response = await userApi.login(username, password);
+        const responseData = await userApi.login(username, password);
         getCurrentUser();
-        return response;
+
+        return responseData;
       }
     },
     logout: async () => {
       if (userApi) {
         const response = await userApi.logout();
         getCurrentUser();
+
         return response;
       }
     },
@@ -47,6 +49,7 @@ export const useAuth = () => {
       if (userApi) {
         const response = await userApi.create(username, password);
         getCurrentUser();
+
         return response;
       }
     }

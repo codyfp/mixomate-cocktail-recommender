@@ -23,20 +23,12 @@ export class UserApi extends MixoMateApi {
   }
 
   public async create(username: string, password: string) {
-    const response = await this.post('/', {
-      username,
-      password
-    })
-
+    const response = await this.post('/', { username, password })
     return response.data;
   }
 
   public async login(username: string, password: string) {
-    const response = await this.post('/login', {
-      username,
-      password
-    })
-
+    const response = await this.post('/login', { username, password })
     return response.data;
   }
 
@@ -47,24 +39,16 @@ export class UserApi extends MixoMateApi {
 
   public async getAccountPreferences() {
     const response = await this.get('/preferences')
-
     return response.data;
   }
 
   public async setLikesAndDislikes(likes: string[], dislikes: string[]) {
-    const response = await this.post('/likes', {
-      likes,
-      dislikes
-    })
-
+    const response = await this.post('/likes', { likes, dislikes })
     return response.data;
   }
 
   public async setFlavourProfile(flavourProfile: string[]) {
-    const response = await this.post('/flavourPreferences', {
-      flavourProfile
-    })
-
+    const response = await this.post('/flavourPreferences', { flavourProfile })
     return response.data;
   }
 }
