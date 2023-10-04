@@ -4,6 +4,7 @@ import { MixoMateApi } from "./MixoMateApi";
 export type Cocktail = {
   id: string,
   name: string,
+  recipe_id: string,
   rating: number,
 
   n_steps: number,
@@ -11,6 +12,31 @@ export type Cocktail = {
 
   steps: string,
   ingredients: Ingredient[];
+
+  flavour_profile: FlavourProfile;
+}
+
+export enum FlavourProfile {
+  Fruity = 'Fruity',
+  Refreshing = 'Refreshing',
+  Sour = 'Sour',
+  Bitter = 'Bitter',
+  Spicy = 'Spicy',
+  Sweet = 'Sweet',
+  Citrusy = 'Citrusy',
+  Tropical = 'Tropical',
+  Tart = 'Tart',
+  Savoury = 'Savoury',
+  Tangy = 'Tangy',
+  Chocolatey = 'Chocolatey',
+  Herby = 'Herby',
+  Mellow = 'Mellow',
+  Caramelly = 'Caramelly',
+  Nutty = 'Nutty',
+  Minty = 'Minty',
+  Creamy = 'Creamy',
+  Winey = 'Winey',
+  Flowery = 'Flowery'
 }
 
 export class CocktailApi extends MixoMateApi {
