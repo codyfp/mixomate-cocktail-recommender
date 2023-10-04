@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 import { UserApi } from './../clientApi/UserApi';
+import { FlavourProfile as FlavourProfileEnum } from '@/clientApi/CocktailApi';
 interface Props {
   onSubmit: () => void
   onClose: () => void
@@ -8,17 +9,11 @@ interface Props {
 const FlavourProfile: React.FC<Props> = ({ onSubmit, onClose }) => {
   const title = "Choose up to 3 flavour profiles!"
 
-  const [chipData, setChipData] = useState([
-    { label: 'Sweet', selected: false },
-    { label: 'Smoky', selected: false },
-    { label: 'Spicy', selected: false },
-    { label: 'Tropical', selected: false },
-    { label: 'Floral', selected: false },
-    { label: 'Earthy', selected: false },
-    { label: 'Citrus', selected: false },
-    { label: 'Herbal', selected: false },
-    { label: 'Fruity', selected: false },
-  ]);
+  const [chipData, setChipData] = useState(
+    Object.values(FlavourProfileEnum).map((FlavourProfileEnum) => {
+      return { label: FlavourProfileEnum, selected: false}
+    })
+  );
 
   const toggleChipSelection = (index: number) => {
     const newChipData = [...chipData]
