@@ -1,6 +1,11 @@
 import React, { useEffect, useState } from "react";
 import Head from "next/head";
 import { Cocktail, CocktailApi } from "@/clientApi/CocktailApi";
+import 'primereact/resources/themes/saga-blue/theme.css';
+import 'primereact/resources/primereact.min.css';
+import 'primeicons/primeicons.css';
+import { DataTable } from 'primereact/datatable';
+import { Column } from 'primereact/column';
 
 export default function Cocktails() {
   const [cocktails, setCocktails] = useState<Cocktail[]>([]);
@@ -12,13 +17,13 @@ export default function Cocktails() {
         const data = await api.getCocktails();
         setCocktails(data);
       } catch (error) {
-        const err = error as Error
-        alert(`Failed to get cocktails. ${err.message}`)
+        const err = error as Error;
+        alert(`Failed to get cocktails. ${err.message}`);
       }
     }
 
     fetchCocktails();
-  }, [])
+  }, []);
   
   return (
     <div>
@@ -29,26 +34,12 @@ export default function Cocktails() {
       <main>
         <div className='flex flex-col'>
           <h1>Cocktails</h1>
-          <table className="table-auto">
-            <thead>
-              <tr>
-                <th>Name</th>
-                <th>Rating</th>
-                <th>Number of Steps</th>
-                <th>Number of Ingredients</th>
-              </tr>
-            </thead>
-            <tbody>
-              {cocktails.map((cocktail) => (
-                <tr key={cocktail.id} className="text-center">
-                  <td>{cocktail.name}</td>
-                  <td>{cocktail.rating}</td>
-                  <td>{cocktail.n_steps}</td>
-                  <td>{cocktail.n_ingredients}</td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
+          <DataTable value={cocktails}>
+            <Column field="name" header="Name"></Column>
+            <Column field="rating" header="Rating"></Column>
+            <Column field="n_steps" header="Number of Steps"></Column>
+            <Column field="n_ingredients" header="Number of Ingredients"></Column>
+          </DataTable>
         </div>
       </main>
     </div>
