@@ -11,6 +11,28 @@ const gridLineStyle = {
   border: "1px solid #d1d1d1"
 };
 
+const mainStyle = {
+  maxWidth: '1200px',
+  margin: '0 auto',
+  padding: '20px'
+};
+
+const headerStyle = {
+  fontSize: '1.8em',
+  marginBottom: '20px'
+};
+
+const tableHeaderStyle = {
+  background: '#f5f5f5'
+};
+
+const filterInputStyle = {
+  borderRadius: '4px',
+  border: '1px solid #ccc',
+  padding: '4px 8px',
+  fontSize: '0.9em'
+};
+
 export default function Cocktails() {
   const [cocktails, setCocktails] = useState<Cocktail[]>([]);
 
@@ -35,21 +57,21 @@ export default function Cocktails() {
         <title>Mixo Mate | Cocktails</title>
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <main>
+      <main style={mainStyle}>
         <div className='flex flex-col'>
-          <h1>Cocktails</h1>
+          <h1 style={headerStyle}>Cocktails</h1>
           <DataTable 
             value={cocktails} 
             paginator 
             rows={5} 
             rowsPerPageOptions={[5, 10, 25, 50]}
             sortMode="single" 
-            className="p-datatable-gridlines" 
+            className="p-datatable-gridlines p-shadow-2" 
             rowStyle={gridLineStyle}>
-            <Column field="name" header="Name" sortable filter style={gridLineStyle}></Column>
-            <Column field="rating" header="Rating" sortable filter style={gridLineStyle}></Column>
-            <Column field="n_steps" header="Number of Steps" sortable filter style={gridLineStyle}></Column>
-            <Column field="n_ingredients" header="Number of Ingredients" sortable filter style={gridLineStyle}></Column>
+            <Column field="name" header="Name" sortable filter filterPlaceholder="Filter by name" style={gridLineStyle} headerStyle={tableHeaderStyle} filterStyle={filterInputStyle}></Column>
+            <Column field="rating" header="Rating" sortable filter filterPlaceholder="Filter by rating" style={gridLineStyle} headerStyle={tableHeaderStyle} filterStyle={filterInputStyle}></Column>
+            <Column field="n_steps" header="Number of Steps" sortable filter filterPlaceholder="Filter by steps" style={gridLineStyle} headerStyle={tableHeaderStyle} filterStyle={filterInputStyle}></Column>
+            <Column field="n_ingredients" header="Number of Ingredients" sortable filter filterPlaceholder="Filter by ingredients" style={gridLineStyle} headerStyle={tableHeaderStyle} filterStyle={filterInputStyle}></Column>
           </DataTable>
         </div>
       </main>
