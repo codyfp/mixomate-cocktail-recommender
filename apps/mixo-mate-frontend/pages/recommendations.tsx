@@ -20,7 +20,7 @@ export default function Recommendations() {
     }
 
     fetchRecommendedCocktails();
-  })
+  }, [])
   
   return (
     <div>
