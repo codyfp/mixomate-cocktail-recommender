@@ -5,14 +5,19 @@ import { RecommendationAPI } from './recommendation.api.js';
 export default class RecommendationGenerator {
   async generateNewRecommendations(userId: string, count: number = 5): Promise<Recommendation[]> {
     const api = new RecommendationAPI();
-    const recommendedCocktails: Cocktail[] = await api.getRecommended(userId, count);
 
-    return recommendedCocktails.map((cocktail: Cocktail): Recommendation => {
-      return { 
-        userId: userId, 
-        cocktailId: cocktail.id
-      }
-    })
+    try {
+      const recommendedCocktails: Cocktail[] = await api.getRecommended(userId, count);
+      return recommendedCocktails.map((cocktail: Cocktail): Recommendation => {
+        return { 
+          userId: userId, 
+          cocktailId: cocktail.id
+        }
+      })
+
+    } catch (error) {
+      return [];
+    }
   }
 
   async reviewRecommendation(review: Required<Recommendation>): Promise<void> {
