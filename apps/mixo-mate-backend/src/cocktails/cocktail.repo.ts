@@ -1,6 +1,6 @@
 import { Cocktail } from "./cocktail.dto.js";
 import { CocktailModel, PopulatedCocktail } from "./cocktail.model.js";
-import { Ingredient } from "./ingredient.js";
+import { Ingredient } from "../ingredients/ingredient.js"
 
 export class CocktailRepo {
   constructor() {
@@ -46,11 +46,15 @@ export class CocktailRepo {
     return {
       id: document.id,
       name: document.name,
+      recipe_id: document.recipe_id,
+
       n_steps: document.n_steps,
       n_ingredients: document.n_ingredients,
 
       steps: document.steps,
-      ingredients: document.ingredients
+      ingredients: document.ingredients,
+
+      flavour_profile: document.flavour_profile
     }
   }
 }

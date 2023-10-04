@@ -32,6 +32,7 @@ const filterInputStyle = {
   padding: '4px 8px',
   fontSize: '0.9em'
 };
+import Image from "next/image";
 
 export default function Cocktails() {
   const [cocktails, setCocktails] = useState<Cocktail[]>([]);
@@ -49,7 +50,11 @@ export default function Cocktails() {
     }
 
     fetchCocktails();
-  }, []);
+  }, [])
+
+  const generateImageURL = (recipe_id: string) => {
+    return `https://mixomate-cocktails.s3.ap-southeast-2.amazonaws.com/${recipe_id}.jpg`
+  }
   
   return (
     <div>
@@ -73,6 +78,41 @@ export default function Cocktails() {
             <Column field="n_steps" header="Number of Steps" sortable filter filterPlaceholder="Filter by steps" style={gridLineStyle} headerStyle={tableHeaderStyle} filterStyle={filterInputStyle}></Column>
             <Column field="n_ingredients" header="Number of Ingredients" sortable filter filterPlaceholder="Filter by ingredients" style={gridLineStyle} headerStyle={tableHeaderStyle} filterStyle={filterInputStyle}></Column>
           </DataTable>
+          <h1>Cocktails</h1>
+          <table className="table-auto">
+            <thead>
+              <tr>
+                <th>Name</th>
+                <th>Recipe ID</th>
+                <th>Rating</th>
+                <th>Number of Steps</th>
+                <th>Number of Ingredients</th>
+                <th>Flavour Profile</th>
+                <th>Picture</th>
+              </tr>
+            </thead>
+            <tbody>
+              {cocktails.map((cocktail) => (
+                <tr key={cocktail.id} className="text-center">
+                  <td>{cocktail.name}</td>
+                  <td>{cocktail.recipe_id}</td>
+                  <td>{cocktail.rating}</td>
+                  <td>{cocktail.n_steps}</td>
+                  <td>{cocktail.n_ingredients}</td>
+                  <td>{cocktail.flavour_profile}</td>
+                  <td>
+                    <Image 
+                      src={generateImageURL(cocktail.recipe_id)}
+                      height={300}
+                      width={300}
+                      loading="lazy"
+                      alt={`Image of recipe ${cocktail.recipe_id}`}
+                    />
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
         </div>
       </main>
     </div>
