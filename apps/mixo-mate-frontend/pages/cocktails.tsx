@@ -6,6 +6,7 @@ import 'primereact/resources/primereact.min.css';
 import 'primeicons/primeicons.css';
 import { DataTable } from 'primereact/datatable';
 import { Column } from 'primereact/column';
+import Image from "next/image";
 
 const gridLineStyle = {
   border: "1px solid #d1d1d1"
@@ -32,7 +33,6 @@ const filterInputStyle = {
   padding: '4px 8px',
   fontSize: '0.9em'
 };
-import Image from "next/image";
 
 export default function Cocktails() {
   const [cocktails, setCocktails] = useState<Cocktail[]>([]);
@@ -56,6 +56,18 @@ export default function Cocktails() {
     return `https://mixomate-cocktails.s3.ap-southeast-2.amazonaws.com/${recipe_id}.jpg`
   }
   
+  const imageTemplate = (rowData: Cocktail) => {
+    return (
+      <Image 
+        src={generateImageURL(rowData.recipe_id)}
+        height={100}
+        width={100}
+        loading="lazy"
+        alt={`Image of recipe ${rowData.recipe_id}`}
+      />
+    )
+  }
+
   return (
     <div>
       <Head>
@@ -74,47 +86,15 @@ export default function Cocktails() {
             className="p-datatable-gridlines p-shadow-2" 
             rowStyle={gridLineStyle}>
             <Column field="name" header="Name" sortable filter filterPlaceholder="Filter by name" style={gridLineStyle} headerStyle={tableHeaderStyle} filterStyle={filterInputStyle}></Column>
+            <Column field="recipe_id" header="Recipe ID" style={gridLineStyle} headerStyle={tableHeaderStyle}></Column>
             <Column field="rating" header="Rating" sortable filter filterPlaceholder="Filter by rating" style={gridLineStyle} headerStyle={tableHeaderStyle} filterStyle={filterInputStyle}></Column>
             <Column field="n_steps" header="Number of Steps" sortable filter filterPlaceholder="Filter by steps" style={gridLineStyle} headerStyle={tableHeaderStyle} filterStyle={filterInputStyle}></Column>
             <Column field="n_ingredients" header="Number of Ingredients" sortable filter filterPlaceholder="Filter by ingredients" style={gridLineStyle} headerStyle={tableHeaderStyle} filterStyle={filterInputStyle}></Column>
+            <Column field="flavour_profile" header="Flavour Profile" style={gridLineStyle} headerStyle={tableHeaderStyle}></Column>
+            <Column header="Picture" body={imageTemplate} style={gridLineStyle} headerStyle={tableHeaderStyle}></Column>
           </DataTable>
-          <h1>Cocktails</h1>
-          <table className="table-auto">
-            <thead>
-              <tr>
-                <th>Name</th>
-                <th>Recipe ID</th>
-                <th>Rating</th>
-                <th>Number of Steps</th>
-                <th>Number of Ingredients</th>
-                <th>Flavour Profile</th>
-                <th>Picture</th>
-              </tr>
-            </thead>
-            <tbody>
-              {cocktails.map((cocktail) => (
-                <tr key={cocktail.id} className="text-center">
-                  <td>{cocktail.name}</td>
-                  <td>{cocktail.recipe_id}</td>
-                  <td>{cocktail.rating}</td>
-                  <td>{cocktail.n_steps}</td>
-                  <td>{cocktail.n_ingredients}</td>
-                  <td>{cocktail.flavour_profile}</td>
-                  <td>
-                    <Image 
-                      src={generateImageURL(cocktail.recipe_id)}
-                      height={300}
-                      width={300}
-                      loading="lazy"
-                      alt={`Image of recipe ${cocktail.recipe_id}`}
-                    />
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
         </div>
       </main>
     </div>
   )
-}
+  }
