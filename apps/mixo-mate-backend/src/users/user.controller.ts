@@ -2,6 +2,7 @@ import { Body, Controller, Get, Post, Route, Request, SuccessResponse, Security 
 import { AuthenticatedRequest } from "./user.types.js";
 import { UserService } from "./user.service.js";
 import { StatusCodes } from "../status-codes.js";
+import { User } from "./user.dto.js";
 
 @Route("users")
 export class UsersController extends Controller {
@@ -33,10 +34,12 @@ export class UsersController extends Controller {
   @Get('/current')
   public async getCurrentUser(
     @Request() request: AuthenticatedRequest
-  ): Promise<unknown> {
+  ): Promise<User | object> {
     if (!request.session?.userId) {
       return { message: 'Not authenticated' }
     }
+
+    console.log(`User ID: ${request.session.userId}`)
 
     try {
       const currentUser = new UserService().getById(request.session.userId)
@@ -45,6 +48,21 @@ export class UsersController extends Controller {
       this.setStatus(StatusCodes.UNPROCESSABLE_ENTITY)
       return { error: 'Failed to retrieve user details' }
     }
+  }
+
+  @Get('/logout')
+  public async logout(
+    @Request() request: AuthenticatedRequest
+  ): Promise<unknown> {
+    if (!request.session?.userId) {
+      return { message: 'Not authenticated' }
+    }
+
+    request.session.destroy(() => {
+      return { message: 'Logged out successfully' }
+    });
+
+    return { error: 'Failed to log out' }
   }
 
   @Get('/sessionTest')
@@ -59,10 +77,6 @@ export class UsersController extends Controller {
     @Body() requestBody: { username: string, password: string },
     @Request() request: AuthenticatedRequest,
   ): Promise<unknown> {
-    if (request.session?.userId) {
-      return { message: 'Already authenticated' }
-    }
-
     const { username, password } = requestBody;
 
     // Ensure user exists
