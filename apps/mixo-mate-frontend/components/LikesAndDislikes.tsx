@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import Image from 'next/image';
 import InputChips from './InputChips'
 import {InputLabel} from '../types/InputLabels'
 
@@ -22,9 +22,11 @@ function LikesAndDislikes(props: LikesAndDislikesProps) {
       </div>
       <div className="pl-14 h-[30rem] w-2/5">
         <div className="rounded-xl overflow-hidden h-full w-full">
-          <img 
-            src="images/cocktails.jpg"
+          <Image 
+            src="/images/cocktails.jpg"
             alt="Cocktails"
+            height={400}
+            width={200}
             className="object-cover w-full h-full"
           />
         </div>

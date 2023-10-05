@@ -39,8 +39,6 @@ export class UsersController extends Controller {
       return { message: 'Not authenticated' }
     }
 
-    console.log(`User ID: ${request.session.userId}`)
-
     try {
       const currentUser = new UserService().getById(request.session.userId)
       return currentUser;
