@@ -12,7 +12,7 @@ export type Cocktail = {
   steps: string;
   ingredients: Ingredient[];
 
-  image_url: String;
+  image_url: string;
 }
 
 export class CocktailApi extends MixoMateApi {
@@ -27,7 +27,7 @@ export class CocktailApi extends MixoMateApi {
   }
 
   public async getById(cocktailId: string): Promise<Cocktail> {
-    const response: Cocktail = await this.get(`/${cocktailId}`)
+    const response: Cocktail = await this.get(`/${cocktailId}`);
     return response;
   }
 }
