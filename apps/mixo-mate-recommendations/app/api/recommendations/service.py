@@ -2,12 +2,17 @@ import pickle
 import gzip
 import h5py
 import pandas as pd
+import os
 from model import get_similar_cocktails 
 
-with gzip.open(r'apps\mixo-mate-recommendations\app\api\recommendations\compressed_combined_df.pkl.gz', 'rb') as f:
+file_path1 = os.path.join('apps', 'mixo-mate-recommendations', 'app', 'api', 'recommendations', 'compressed_combined_df.pkl.gz')
+file_path2 = os.path.join('apps', 'mixo-mate-recommendations', 'app', 'api', 'recommendations', 'compressed_similarity_matrix.h5')
+
+
+with gzip.open(file_path1, 'rb') as f:
     combined_df = pickle.load(f)
 
-with h5py.File(r"apps\mixo-mate-recommendations\app\api\recommendations\compressed_similarity_matrix.h5", "r") as hf:
+with h5py.File(file_path2, "r") as hf:
     similarity_matrix = hf["similarity_matrix"][:]
 
 
