@@ -51,6 +51,8 @@ export class CocktailRepo {
       n_steps: document.n_steps,
       n_ingredients: document.n_ingredients,
 
+      rating: document.rating,
+
       steps: document.steps,
       ingredients: document.ingredients,
 
