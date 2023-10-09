@@ -4,6 +4,7 @@ import Link from "next/link";
 import dynamic from "next/dynamic";
 import { UserApi } from "@/clientApi/UserApi";
 import { useAuth } from "@/clientApi/hooks/useAuth";
+import { FlavourProfile as FlavourProfileEnum } from '@/clientApi/CocktailApi';
 
 const LikesAndDislikes = dynamic(() => import("../components/LikesAndDislikes"), { ssr: false });
 const FlavourProfile = dynamic(() => import("../components/FlavourProfile"), { ssr: false });
@@ -17,6 +18,9 @@ export default function Preferences() {
   const [likes, setLikes] = useState<string[]>([]);
   const [dislikes, setDislikes] = useState<string[]>([]);
   const [allergens, setAllergens] = useState<string[]>([]);
+  const [flavourProfileChips, setFlavourProfileChips] = useState(Object.values(FlavourProfileEnum).map((FlavourProfileEnum) => {
+    return { label: FlavourProfileEnum, selected: false }
+  }));
 
   useEffect(() => {
     if (currentUser?.likes) {
@@ -27,6 +31,15 @@ export default function Preferences() {
     }
     if (currentUser?.allergens) {
       setAllergens(currentUser.allergens)
+    }
+    if (currentUser?.flavourProfile && currentUser?.flavourProfile.length > 0) {
+      const selectedChips = flavourProfileChips.map(chip => {
+        if (currentUser.flavourProfile.includes(chip.label)) {
+          chip.selected = true;
+        }
+        return chip;
+      })
+      setFlavourProfileChips(selectedChips)
     }
   }, [currentUser])
 
@@ -51,9 +64,19 @@ export default function Preferences() {
     {
       RenderComponent: FlavourProfile,
       props: {
-        onSubmit: () => setStep(step + 1),
-        onClose: () => setStep(step - 1),
+        chipData: flavourProfileChips,
+        setChipData: setFlavourProfileChips,
+        toggleChipSelection: (index: number) => {
+          const newChipData = [...flavourProfileChips]
+          newChipData[index].selected = !newChipData[index].selected
+          setFlavourProfileChips(newChipData)
+        }
       },
+      handleNext: () => {
+        setStep(step + 1);
+        const selectedChips = flavourProfileChips.filter(chip => chip.selected).map(chip => chip.label)
+        userApi.setFlavourProfile(selectedChips);
+      }
     },
     {
       RenderComponent: Allergens,
