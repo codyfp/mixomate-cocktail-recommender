@@ -1,8 +1,9 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Head from "next/head";
 import Link from "next/link";
 import dynamic from "next/dynamic";
-import { UserApi } from './../clientApi/UserApi';
+import { UserApi } from "@/clientApi/UserApi";
+import { useAuth } from "@/clientApi/hooks/useAuth";
 
 const LikesAndDislikes = dynamic(() => import("../components/LikesAndDislikes"), { ssr: false });
 const FlavourProfile = dynamic(() => import("../components/FlavourProfile"), { ssr: false });
@@ -10,10 +11,24 @@ const Allergens = dynamic(() => import("../components/Allergens"), { ssr: false 
 
 export default function Preferences() {
   const [step, setStep] = useState(0);
+  const { currentUser } = useAuth();
+  console.log(currentUser)
   const userApi = new UserApi();
   const [likes, setLikes] = useState<string[]>([]);
   const [dislikes, setDislikes] = useState<string[]>([]);
   const [allergens, setAllergens] = useState<string[]>([]);
+
+  useEffect(() => {
+    if (currentUser?.likes) {
+      setLikes(currentUser.likes)
+    }
+    if (currentUser?.dislikes) {
+      setDislikes(currentUser.dislikes)
+    }
+    if (currentUser?.allergens) {
+      setAllergens(currentUser.allergens)
+    }
+  }, [currentUser])
 
   const handleSaveLikes = (likes: string[], dislikes: string[]) => {
     userApi.setLikesAndDislikes(likes, dislikes);
