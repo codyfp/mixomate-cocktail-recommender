@@ -4,7 +4,7 @@ import { IngredientApi } from "@/clientApi/IngredientApi"
 interface AllergensProps {
   allergens: string[]
   setAllergens: (allergens: string[]) => void,
-  skipStep?: () => void
+  skipStep: () => void
 }
 
 const Allergens = (props: AllergensProps) => {

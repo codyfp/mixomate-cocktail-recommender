@@ -60,13 +60,14 @@ export default function Preferences() {
       props: {
         allergens,
         setAllergens,
-        skipStep: () => setStep(step + 1),
+        skipStep: () => {
+          setStep(step + 1);
+          userApi.setAllergens([]);
+        }
       },
       handleNext: () => {
         setStep(step + 1);
-        if (allergens.length > 0) {
-          userApi.setAllergens(allergens);
-        }
+        userApi.setAllergens(allergens);
       },
     },
     {
