@@ -1,11 +1,14 @@
-from .model import recommendationModel
+from .model import recommendationModel 
 
 class RecommendationService:
     @staticmethod
-    def generate_for_user(user_id):
+    def recommend_similar_cocktails(cocktail_id, count=5):
         try:
             # Use RecommendationModel
-            return recommendationModel.generate_recommendation_for_user(user_id)
+            recipe_ids = recommendationModel.get_similar_cocktails(cocktail_id, N=count)
+
+            # Return recommended cocktail/recipe IDs
+            return list(map(lambda id: int(id), recipe_ids))
 
         except Exception as error:
             raise Exception(f'Failed to generate recommendations. {error}')

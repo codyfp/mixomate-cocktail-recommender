@@ -12,7 +12,7 @@ api = RecommendationDto.api
 class Recommendation(Resource):
     def get(self):
         try:
-            return RecommendationService.generate_for_user(user_id='some_user_id')
+            return RecommendationService.recommend_similar_cocktails(cocktail_id=182985)
         except Exception as error:
             current_app.logger.error(error)
             return internal_err_resp()
