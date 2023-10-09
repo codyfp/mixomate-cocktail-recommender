@@ -131,4 +131,21 @@ export class UsersController extends Controller {
       return { error: error.message }
     }
   }
+
+  @Post('/allergens')
+  @Security("mixio_auth")
+  public async setAllergens(
+    @Body() requestBody: { allergens: string[] },
+    @Request() request: AuthenticatedRequest,
+  ): Promise<unknown> {
+    const { allergens } = requestBody;
+
+    try {
+      await new UserService().setAllergens(request.session.userId, allergens)
+      return { message: 'Set your allergens successfully' }
+    } catch (error) {
+      this.setStatus(StatusCodes.UNPROCESSABLE_ENTITY)
+      return { error: error.message }
+    }
+  }
 }
