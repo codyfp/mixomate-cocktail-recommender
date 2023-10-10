@@ -25,7 +25,7 @@ export class CocktailRepo {
   async getById(id: string): Promise<Cocktail> {
     try {
       const document = await CocktailModel
-        .findById(id)
+        .findOne({ recipe_id: id })
         .populate<{ ingredients: Ingredient[] }>({
           path: 'ingredients',
           select: '_id name',
@@ -33,27 +33,26 @@ export class CocktailRepo {
         }) as PopulatedCocktail;
 
       if (!document) {
-        throw new Error('Not exist')
+        throw new Error(`Cocktail with ID: ${id}, does not exist`)
       }
 
       return this._documentToCocktail(document)
     } catch (error) {
-      throw new Error('Not exist')
+      throw new Error(`Cocktail with ID: ${id}, does not exist. ${error.message}`)
     }
   }
 
   private _documentToCocktail(document: PopulatedCocktail): Cocktail {
     return {
-      id: document.id,
+      id: document.recipe_id,
       name: document.name,
-      recipe_id: document.recipe_id,
 
       n_steps: document.n_steps,
       n_ingredients: document.n_ingredients,
 
       rating: document.rating,
 
-      steps: document.steps,
+      steps: [...document.stepsArr],
       ingredients: document.ingredients,
 
       flavour_profile: document.flavour_profile
