@@ -18,7 +18,7 @@ export default function Ingredients() {
     }
 
     fetchCocktails();
-  })
+  }, [])
   
   return (
     <div>

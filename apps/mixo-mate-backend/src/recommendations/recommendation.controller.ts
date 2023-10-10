@@ -1,7 +1,8 @@
-import { Body, Controller, Get, Put, Request, Route } from "tsoa";
+import { Body, Controller, Get, Put, Request, Route, Security } from "tsoa";
 import { Cocktail } from "../cocktails/cocktail.dto.js";
 import { AuthenticatedRequest } from "../users/user.types.js";
 import { RecommendationService } from "./recommendation.service.js";
+import { StatusCodes } from "../status-codes.js";
 
 type ReviewRecommendationDto = {
   cocktailId: string,
@@ -9,6 +10,7 @@ type ReviewRecommendationDto = {
 }
 
 @Route("recommendations")
+@Security("mixio_auth")
 export class RecommendationController extends Controller {
   @Get()
   public async getRecommendedCocktails(
@@ -30,7 +32,7 @@ export class RecommendationController extends Controller {
         rating: requestBody.rating
       })
     } catch (error) {
-      this.setStatus(422)
+      this.setStatus(StatusCodes.UNPROCESSABLE_ENTITY)
       return { error: `Failed to review cocktail. ${error.message}` }
     }
 

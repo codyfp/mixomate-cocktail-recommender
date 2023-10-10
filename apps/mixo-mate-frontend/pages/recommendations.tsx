@@ -59,8 +59,8 @@ export default function Recommendations() {
     }
 
     fetchRecommendedCocktails();
-  });
-
+  }, [])
+  
   return (
     <div className="flex flex-1 flex-col bg-gray-300">
       <Head>

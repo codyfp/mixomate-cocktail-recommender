@@ -1,19 +1,13 @@
-import { Body, Controller, Get, Post, Route, Request, SuccessResponse } from "tsoa";
-import { User } from "./user.dto.js";
+import { Body, Controller, Get, Post, Route, Request, SuccessResponse, Security } from "tsoa";
 import { AuthenticatedRequest } from "./user.types.js";
 import { UserService } from "./user.service.js";
 import { StatusCodes } from "../status-codes.js";
+import { User } from "./user.dto.js";
 
 @Route("users")
 export class UsersController extends Controller {
-  @Get()
-  public async getUsers(
-  ): Promise<User[]> {
-    return [];
-  }
-
-  @SuccessResponse("201", "Created")
   @Post()
+  @SuccessResponse("201", "Created")
   public async createUser(
     @Body() requestBody: { username: string, password: string },
   ): Promise<unknown> {
@@ -40,7 +34,7 @@ export class UsersController extends Controller {
   @Get('/current')
   public async getCurrentUser(
     @Request() request: AuthenticatedRequest
-  ): Promise<unknown> {
+  ): Promise<User | object> {
     if (!request.session?.userId) {
       return { message: 'Not authenticated' }
     }
@@ -52,6 +46,21 @@ export class UsersController extends Controller {
       this.setStatus(StatusCodes.UNPROCESSABLE_ENTITY)
       return { error: 'Failed to retrieve user details' }
     }
+  }
+
+  @Get('/logout')
+  public async logout(
+    @Request() request: AuthenticatedRequest
+  ): Promise<unknown> {
+    if (!request.session?.userId) {
+      return { message: 'Not authenticated' }
+    }
+
+    request.session.destroy(() => {
+      return { message: 'Logged out successfully' }
+    });
+
+    return { error: 'Failed to log out' }
   }
 
   @Get('/sessionTest')
@@ -66,10 +75,6 @@ export class UsersController extends Controller {
     @Body() requestBody: { username: string, password: string },
     @Request() request: AuthenticatedRequest,
   ): Promise<unknown> {
-    if (request.session?.userId) {
-      return { message: 'Already authenticated' }
-    }
-
     const { username, password } = requestBody;
 
     // Ensure user exists
@@ -94,36 +99,32 @@ export class UsersController extends Controller {
   }
 
   @Post('/likes')
+  @Security("mixio_auth")
   public async likes(
     @Body() requestBody: { likes: string[], dislikes: string[] },
     @Request() request: AuthenticatedRequest,
   ): Promise<unknown> {
-    let { userId } = request.session;
-    if (!userId) {
-      return { error: 'Must be logged in to set preferences' }
-    }
     const { likes, dislikes } = requestBody;
+
     try {
-      await new UserService().setLikesAndDislikes(userId, likes, dislikes)
-      return { message: 'Set likes and dislikes successfully' }
+      await new UserService().setLikesAndDislikes(request.session.userId, likes, dislikes)
+      return { message: 'Likes and dislikes set successfully' }
     } catch (error) {
       this.setStatus(StatusCodes.UNPROCESSABLE_ENTITY)
       return { error: error.message }
     }
   }
 
-  @Post('/flavourPreferences ')
+  @Post('/flavourPreferences')
+  @Security("mixio_auth")
   public async setFlavours(
     @Body() requestBody: { flavourProfile: string[] },
     @Request() request: AuthenticatedRequest,
   ): Promise<unknown> {
-    let { userId } = request.session;
-    if (!userId) {
-      return { error: 'Must be logged in to set preferences' }
-    }
     const { flavourProfile } = requestBody;
+
     try {
-      await new UserService().setFlavourProfile(userId, flavourProfile)
+      await new UserService().setFlavourProfile(request.session.userId, flavourProfile)
       return { message: 'Set your flavour profile successfully' }
     } catch (error) {
       this.setStatus(StatusCodes.UNPROCESSABLE_ENTITY)
