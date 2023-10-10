@@ -131,3 +131,33 @@
 //   })
 // }
 
+// export const convertStepsToArray = async () => {
+
+//   // Get all Cocktails and get unique list of ingredient names
+//   const docs = await CocktailModel.find({ stepsArr: [] })
+
+//   const failedIds = []
+
+//   for(const doc of docs) {
+//     const jsonString = doc.steps
+//       .replaceAll(", \'", ', "')
+//       .replaceAll("', \"", "\", \"")
+//       .replaceAll("']", "\"]")
+//       .replaceAll("['", "[\"")
+//       .replaceAll("2\"", "2 inches")
+
+//     try {
+//       // Update steps array
+//       doc.stepsArr = JSON.parse(jsonString);
+//       await doc.save();
+//     } catch (error) {
+//       doc.stepsArr = []
+//       await doc.save();
+
+//       failedIds.push(doc.id)
+//       Logger.error(`Cannot parse Cocktail ${doc.id}. Steps: ${jsonString}`)
+//     }
+//   }
+
+//   Logger.debug(failedIds)
+// }
