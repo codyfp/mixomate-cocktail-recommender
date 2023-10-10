@@ -1,8 +1,32 @@
-import winston from 'winston';
+import { createLogger, format, transports } from 'winston';
 
-export const Logger = winston.createLogger({
-  level: 'info',
-  format: winston.format.json(),
+function formatObject(param) {
+  if (param instanceof Object) {
+    return JSON.stringify(param);
+  }
+  return param;
+}
+
+// Format splat into message string
+const all = format(info => {
+  const splat = info[Symbol.for('splat')] || [];
+  const message = formatObject(info.message);
+  const rest = splat.map(formatObject).join(' ');
+  info.message = `${message} ${rest}`;
+  return info;
+});
+
+export const Logger = createLogger({
+  level: 'debug',
+  handleExceptions: true,
+  format: format.combine(
+    all(),
+    format.colorize(),
+    format.align(),
+    format.printf(info => {
+      return `${info.level}: ${formatObject(info.message)}`;
+    })
+  ),
   transports: [
     //
     // - Write all logs with importance level of `error` or less to `error.log`
@@ -18,7 +42,7 @@ export const Logger = winston.createLogger({
 // `${info.level}: ${info.message} JSON.stringify({ ...rest }) `
 //
 if (process.env.NODE_ENV !== 'production') {
-  Logger.add(new winston.transports.Console({
-    format: winston.format.simple(),
+  Logger.add(new transports.Console({
+    format: format.simple(),
   }));
 }
