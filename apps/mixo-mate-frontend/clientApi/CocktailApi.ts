@@ -9,7 +9,7 @@ export type Cocktail = {
   n_steps: number;
   n_ingredients: number;
 
-  steps: string;
+  steps: string[];
   ingredients: Ingredient[];
 
   image_url: string;
