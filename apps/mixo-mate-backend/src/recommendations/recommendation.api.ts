@@ -11,16 +11,25 @@ export class RecommendationAPI {
   }
 
   /**
-   * Recommend N number of Cocktails for a User
+   * Recommend N number of Cocktails
    * 
-   * @param {string} userId User ID
    * @param {number} count Number of cocktails to recommend
+   * @param {string[]} allergens Allergens (ingredient IDs)
+   * @param {string[]} likes Likes (ingredient IDs)
+   * @param {string[]} dislikes Dislikes (ingredient IDs)
+   * @param {string[]} flavourProfile Flavour Profiles
    * @returns {string[]} IDs of recommended cocktails
    */
-  public async getRecommended(userId: string, count: number = 5): Promise<string[]> {
+  public async getRecommended(
+    count: number = 5,
+    allergens: string[],
+    likes: string[],
+    dislikes: string[],
+    flavourProfile: string[]
+  ): Promise<string[]> {
     try {
-      const _requestBody = { userId, count }
-      const response = await this._httpClient.get('/')
+      const requestBody = { count, allergens, likes, dislikes, flavourProfile }
+      const response = await this._httpClient.post('/', requestBody)
 
       return response.data;
     } catch (error: unknown) {
