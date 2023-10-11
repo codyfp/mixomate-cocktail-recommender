@@ -1,3 +1,5 @@
+'use client'
+
 import { Cocktail } from "@/clientApi/CocktailApi";
 import { RecommendationApi } from "@/clientApi/RecommendationApi";
 import { useRouter } from "next/router";
@@ -7,8 +9,10 @@ import Image from "next/image";
 
 type ReactionType = "like" | "dislike";
 
-function Cocktail() {
+export default function Cocktail() {
   const router = useRouter();
+
+  console.log("HELLO WOLD")
 
   const [cocktail, setCocktail] = useState<Cocktail>();
   const [reaction, setReaction] = useState<ReactionType>();
@@ -18,8 +22,12 @@ function Cocktail() {
   };
 
   useEffect(() => {
+    console.log(router.query)
+
     async function fetchCocktail() {
       const id = router.query.id as string;
+      console.log(id)
+
       if (id) {
         return;
       }
@@ -27,6 +35,9 @@ function Cocktail() {
       try {
         const api = new RecommendationApi();
         const data: Cocktail = await api.getCocktail(id);
+
+        console.log(data)
+
         setCocktail(data);
       } catch (error) {
         const err = error as Error;
@@ -35,11 +46,10 @@ function Cocktail() {
     }
 
     fetchCocktail();
-  }, [router.query.id]);
+  });
 
-  if (!cocktail) {
-    return null;
-  }
+  console.log(router.query)
+
 
   const generateImageURL = (id: string) => {
     return `https://mixomate-cocktails.s3.ap-southeast-2.amazonaws.com/${id}.jpg`
@@ -95,8 +105,6 @@ function Cocktail() {
     </div>
   );
 }
-
-export default Cocktail;
 
 function Card({
   title,
