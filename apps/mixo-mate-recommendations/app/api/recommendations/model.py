@@ -13,15 +13,16 @@ class RecommendationModel:
 
     def adjust_score_for_cocktail(self, cocktail, score, allergen_ids, like_ids, dislike_ids):
         """Adjust the similarity score based on user preferences using ingredient IDs."""
-        if any(allergen in cocktail['ingredient_ids'] for allergen in allergen_ids):
-            score = -1
+        for allergen in allergen_ids:
+            if cocktail[allergen] == 1.0:
+                return -1  
 
         for like in like_ids:
-            if like in cocktail['ingredient_ids']:
+            if cocktail[like] == 1.0:
                 score += 1
 
         for dislike in dislike_ids:
-            if dislike in cocktail['ingredient_ids']:
+            if cocktail[dislike] == 1.0:
                 score *= 0.80
 
         return score
@@ -33,7 +34,7 @@ class RecommendationModel:
             user_scores[idx] = self.adjust_score_for_cocktail(cocktail, 1, allergen_ids, like_ids, dislike_ids)
 
         sorted_indices = np.argsort(user_scores)[::-1][:N]
-        return self.combined_df.iloc[sorted_indices]['name'].tolist()
+        return self.combined_df.iloc[sorted_indices]['recipe_id'].tolist()
 
 # Create and expose a single model
 recommendationModel = RecommendationModel()
