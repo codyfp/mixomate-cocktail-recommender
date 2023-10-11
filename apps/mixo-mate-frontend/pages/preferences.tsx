@@ -1,8 +1,10 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Head from "next/head";
 import Link from "next/link";
 import dynamic from "next/dynamic";
-import { UserApi } from './../clientApi/UserApi';
+import { UserApi } from "@/clientApi/UserApi";
+import { useAuth } from "@/clientApi/hooks/useAuth";
+import { FlavourProfile as FlavourProfileEnum } from '@/clientApi/CocktailApi';
 
 const LikesAndDislikes = dynamic(() => import("../components/LikesAndDislikes"), { ssr: false });
 const FlavourProfile = dynamic(() => import("../components/FlavourProfile"), { ssr: false });
@@ -10,10 +12,36 @@ const Allergens = dynamic(() => import("../components/Allergens"), { ssr: false 
 
 export default function Preferences() {
   const [step, setStep] = useState(0);
+  const { currentUser } = useAuth();
+  console.log(currentUser)
   const userApi = new UserApi();
   const [likes, setLikes] = useState<string[]>([]);
   const [dislikes, setDislikes] = useState<string[]>([]);
   const [allergens, setAllergens] = useState<string[]>([]);
+  const [flavourProfileChips, setFlavourProfileChips] = useState(Object.values(FlavourProfileEnum).map((FlavourProfileEnum) => {
+    return { label: FlavourProfileEnum, selected: false }
+  }));
+
+  useEffect(() => {
+    if (currentUser?.likes) {
+      setLikes(currentUser.likes)
+    }
+    if (currentUser?.dislikes) {
+      setDislikes(currentUser.dislikes)
+    }
+    if (currentUser?.allergens) {
+      setAllergens(currentUser.allergens)
+    }
+    if (currentUser?.flavourProfile && currentUser?.flavourProfile.length > 0) {
+      const selectedChips = flavourProfileChips.map(chip => {
+        if (currentUser.flavourProfile.includes(chip.label)) {
+          chip.selected = true;
+        }
+        return chip;
+      })
+      setFlavourProfileChips(selectedChips)
+    }
+  }, [currentUser])
 
   const handleSaveLikes = (likes: string[], dislikes: string[]) => {
     userApi.setLikesAndDislikes(likes, dislikes);
@@ -36,16 +64,34 @@ export default function Preferences() {
     {
       RenderComponent: FlavourProfile,
       props: {
-        onSubmit: () => setStep(step + 1),
-        onClose: () => setStep(step - 1),
+        chipData: flavourProfileChips,
+        setChipData: setFlavourProfileChips,
+        toggleChipSelection: (index: number) => {
+          const newChipData = [...flavourProfileChips]
+          newChipData[index].selected = !newChipData[index].selected
+          setFlavourProfileChips(newChipData)
+        }
       },
+      handleNext: () => {
+        setStep(step + 1);
+        const selectedChips = flavourProfileChips.filter(chip => chip.selected).map(chip => chip.label)
+        userApi.setFlavourProfile(selectedChips);
+      }
     },
     {
       RenderComponent: Allergens,
       props: {
         allergens,
         setAllergens,
-      }
+        skipStep: () => {
+          setStep(step + 1);
+          userApi.setAllergens([]);
+        }
+      },
+      handleNext: () => {
+        setStep(step + 1);
+        userApi.setAllergens(allergens);
+      },
     },
     {
       RenderComponent: () => (

@@ -1,10 +1,10 @@
 import { useEffect, useState } from 'react';
-import { UserApi } from '../UserApi';
+import { UserApi, User, UserApiType } from '../UserApi';
 
 export const useAuth = () => {
-  const [userApi, setApi] = useState<UserApi | null>(null);
+  const [userApi, setApi] = useState<UserApiType | null>(null);
   const [loading, setLoading] = useState(true);
-  const [currentUser, setCurrentUser] = useState<unknown | null>(null);
+  const [currentUser, setCurrentUser] = useState<User | null>(null);
 
   useEffect(() => {
     const api = new UserApi();
@@ -55,5 +55,5 @@ export const useAuth = () => {
     }
   }
 
-  return { userApi: authApi, loading, currentUser, getCurrentUser };
+  return { authApi, loading, currentUser, getCurrentUser };
 };

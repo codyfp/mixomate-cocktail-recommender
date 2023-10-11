@@ -4,17 +4,17 @@ import Head from 'next/head'
 import Link from 'next/link';
 
 export default function Home() {
-  const { userApi, loading: isAuthLoading, currentUser } = useAuth();
+  const { authApi, loading: isAuthLoading, currentUser } = useAuth();
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
 
   const handleLogin = async () => {
-    if (!userApi) {
+    if (!authApi) {
       return;
     }
 
     try {
-      await userApi.login(username, password)
+      await authApi.login(username, password)
       window.location.replace('/preferences')
     } catch (error) {
       window.alert(error?.message)
@@ -22,12 +22,12 @@ export default function Home() {
   }
 
   const handleSignup = async () => {
-    if (!userApi) {
+    if (!authApi) {
       return;
     }
 
     try {
-      await userApi.create(username, password)
+      await authApi.create(username, password)
       window.location.replace('/preferences')
     } catch (error) {
       window.alert(error?.message)
@@ -52,7 +52,7 @@ export default function Home() {
                 Go to Preferences
               </Link>
               <button
-                onClick={() => userApi && userApi.logout()}
+                onClick={() => authApi && authApi.logout()}
                 className='underline'
               >
                 Logout
@@ -80,7 +80,7 @@ export default function Home() {
                 }
               }}
             />
-              
+
             <div className='flex flex-row gap-3 m-4'>
               <button
                 onClick={handleLogin}
