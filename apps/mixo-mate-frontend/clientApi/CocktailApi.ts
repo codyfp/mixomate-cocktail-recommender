@@ -12,7 +12,6 @@ export type Cocktail = {
   steps: string[];
   ingredients: Ingredient[];
 
-  image_url: string;
   flavour_profile: FlavourProfile;
 }
 

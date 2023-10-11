@@ -5,39 +5,6 @@ import { RecommendationApi } from "@/clientApi/RecommendationApi";
 import { Cocktail } from "@/clientApi/CocktailApi";
 import CocktailCard from "@/components/CocktailCard";
 
-const mockData: Cocktail[] = [
-  {
-    id: "1",
-    name: "Zombie Cokctail",
-    image_url: "/images/recommendations/margarita.jpg",
-  } as any,
-  {
-    id: "2",
-    name: "Turkish Delight Delight Turkish Delight",
-    image_url: "/images/recommendations/mojito.jpg",
-  } as any,
-  {
-    id: "3",
-    name: "Cointreau Fizz",
-    image_url: "/images/recommendations/plum-sake-manhattan.jpg",
-  } as any,
-  {
-    id: "4",
-    name: "Mojito",
-    image_url: "/images/recommendations/mojito.jpg",
-  } as any,
-  {
-    id: "4",
-    name: "Margarita",
-    image_url: "/images/recommendations/margarita.jpg",
-  } as any,
-  {
-    id: "5",
-    name: "Martini",
-    image_url: "/images/recommendations/plum-sake-manhattan.jpg",
-  } as any,
-];
-
 export default function Recommendations() {
   const [recommendedCocktails, setRecommendedCocktails] = useState<Cocktail[]>(
     []
@@ -46,11 +13,9 @@ export default function Recommendations() {
   useEffect(() => {
     async function fetchRecommendedCocktails() {
 
-      setRecommendedCocktails(mockData);
-
       try {
         const api = new RecommendationApi();
-        const data = await api.getRecommendedCocktails();
+        const data: Cocktail[] = await api.getRecommendedCocktails();
         setRecommendedCocktails(data);
       } catch (error) {
         const err = error as Error;
