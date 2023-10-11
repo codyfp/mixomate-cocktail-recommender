@@ -4,7 +4,6 @@ import { MixoMateApi } from "./MixoMateApi";
 export type Cocktail = {
   id: string;
   name: string;
-  recipe_id: string;
   rating: number;
 
   n_steps: number;
@@ -13,7 +12,6 @@ export type Cocktail = {
   steps: string[];
   ingredients: Ingredient[];
 
-  image_url: string;
   flavour_profile: FlavourProfile;
 }
 

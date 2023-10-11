@@ -1,5 +1,4 @@
 import axios, { AxiosInstance } from "axios";
-import { Cocktail } from "../cocktails/cocktail.dto.js";
 import { Recommendation } from "./recommendation.js";
 
 export class RecommendationAPI {
@@ -7,15 +6,31 @@ export class RecommendationAPI {
 
   constructor() {
     this._httpClient = axios.create({ 
-      baseURL: 'http://localhost:5000/api/recommendations',
-      headers: { "Content-Type": "application/json" },
+      baseURL: 'http://recommendations:5000/api/recommendations',
     })
   }
 
-  public async getRecommended(userId: string, count: number = 5): Promise<Cocktail[]> {
+  /**
+   * Recommend N number of Cocktails
+   * 
+   * @param {number} count Number of cocktails to recommend
+   * @param {string[]} allergens Allergens (ingredient IDs)
+   * @param {string[]} likes Likes (ingredient IDs)
+   * @param {string[]} dislikes Dislikes (ingredient IDs)
+   * @param {string[]} flavourProfile Flavour Profiles
+   * @returns {string[]} IDs of recommended cocktails
+   */
+  public async getRecommended(
+    count: number = 5,
+    allergens: string[],
+    likes: string[],
+    dislikes: string[],
+    flavourProfile: string[]
+  ): Promise<string[]> {
     try {
-      const requestBody = { userId, count }
-      const response = await this._httpClient.post('', requestBody)
+      const requestBody = { count, allergens, likes, dislikes, flavourProfile }
+      const response = await this._httpClient.post('/', requestBody)
+
       return response.data;
     } catch (error: unknown) {
       if (axios.isAxiosError(error))  {

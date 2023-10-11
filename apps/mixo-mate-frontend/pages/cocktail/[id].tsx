@@ -1,34 +1,12 @@
-import { Cocktail } from "@/clientApi/CocktailApi";
-import { RecommendationApi } from "@/clientApi/RecommendationApi";
+import { Cocktail, CocktailApi } from "@/clientApi/CocktailApi";
 import { useRouter } from "next/router";
 import Head from "next/head";
 import React, { useEffect, useState } from "react";
+import Image from "next/image";
 
 type ReactionType = "like" | "dislike";
 
-const mockCocktail: Cocktail = {
-  id: "4",
-  name: "Margarita",
-  image_url: "/images/recommendations/margarita.jpg",
-  rating: 4.5,
-  ingredients: [
-    { id: "1", name: "1 1/2 ounces jamaican rum" },
-    { id: "2", name: "1 1/2 ounces puerto rican gold run" },
-    { id: "3", name: "1 ounce 151-proof demerara rum" },
-    { id: "4", name: "3/4 ounce lime juice, freshly squeezed" },
-    { id: "5", name: "1/2 ounce don's mix (Recipe below)" },
-  ],
-  steps: [
-    "Add the Jamaica rum, Puerto Rican gold rum, demerara rum, pernod, lime juice, donn's mix, falernum, grenadine and bitters into a blender, then add 6 ounces of crushed ice.",
-    "Blend at high speed for no more than 5 seconds.",
-    "Pour the contents into a tall glass or tiki mug and add additional crushed ice to fill, if necesary.",
-    "Garnish with a mint sprig.",
-  ],
-  n_ingredients: 5,
-  n_steps: 4,
-};
-
-function Cocktail() {
+export default function Cocktail() {
   const router = useRouter();
 
   const [cocktail, setCocktail] = useState<Cocktail>();
@@ -38,30 +16,33 @@ function Cocktail() {
     setReaction(reactionType);
   };
 
-  useEffect(() => {
-    async function fetchCocktail() {
-      const id = router.query.id as string;
+  async function fetchCocktail() {
+    const id = new URL(window.location.href).pathname.split("/").slice(-1)[0] as string;
 
-      if (id) {
-        return;
-      }
-      setCocktail(mockCocktail); //Can remove when API works 
+    try {
+      const api = new CocktailApi();
+      const data: Cocktail = await api.getById(id);
+      console.log(data)
 
-      try {
-        const api = new RecommendationApi();
-        const data = await api.getCocktail(id);
-        setCocktail(data);
-      } catch (error) {
-        const err = error as Error;
-        alert(`Failed to get cocktail. ${err.message}`);
-      }
+      setCocktail(data);
+    } catch (error) {
+      const err = error as Error;
+      alert(`Failed to get cocktail. ${err.message}`);
     }
+  }
 
+  useEffect(() => {
     fetchCocktail();
-  }, [router.query.id]);
+  }, []);
+
+  const generateImageURL = (id: string) => {
+    return `https://mixomate-cocktails.s3.ap-southeast-2.amazonaws.com/${id}.jpg`
+  }
 
   if (!cocktail) {
-    return null;
+    return (
+      <div>Loading...</div>
+    )
   }
 
   return (
@@ -77,10 +58,12 @@ function Cocktail() {
         <div className="flex">
           <div className="flex flex-col items-center w-1/2">
             <div className="overflow-hidden rounded-[20px] w-[300px] h-[400px]">
-              <img
-                src={cocktail.image_url}
+              <Image
+                src={generateImageURL(cocktail.id)}
                 alt={cocktail.name}
                 className="w-full h-full object-cover"
+                height={400}
+                width={400}
               />
             </div>
 
@@ -112,8 +95,6 @@ function Cocktail() {
     </div>
   );
 }
-
-export default Cocktail;
 
 function Card({
   title,

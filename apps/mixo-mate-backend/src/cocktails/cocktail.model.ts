@@ -11,8 +11,9 @@ class CocktailClass {
   @prop({ type: () => String, required: true, index: true, unique: true })
   public recipe_id: string;
 
-  @prop({ type: () => String, required: true })
-  public steps: string;
+  @prop({ type: () => String, default: [], required: true }, PropType.ARRAY)
+  public stepsArr: string[];
+
   @prop({ type: () => Number, required: true, index: true })
   public n_steps: number;
 
@@ -32,7 +33,7 @@ class CocktailClass {
 export type RawCocktail = HydratedDocument<{
   name: string;
   recipe_id: string;
-  steps: string;
+  stepsArr: string[];
   n_steps: number;
   n_ingredients: number;
   rating: number;
@@ -43,7 +44,7 @@ export type RawCocktail = HydratedDocument<{
 export type PopulatedCocktail = HydratedDocument<{
   name: string;
   recipe_id: string;
-  steps: string;
+  stepsArr: string[];
   n_steps: number;
   n_ingredients: number;
   rating: number;

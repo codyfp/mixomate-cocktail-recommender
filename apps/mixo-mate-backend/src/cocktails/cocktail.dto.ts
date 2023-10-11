@@ -3,12 +3,12 @@ import { Ingredient } from "../ingredients/ingredient.js"
 export type Cocktail = {
   id: string,
   name: string,
-  recipe_id: string,
+  rating: number,
 
   n_steps: number,
   n_ingredients: number,
 
-  steps: string,
+  steps: string[],
   ingredients: Ingredient[],
 
   flavour_profile: FlavourProfile

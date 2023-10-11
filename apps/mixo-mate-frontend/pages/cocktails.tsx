@@ -53,18 +53,18 @@ export default function Cocktails() {
     fetchCocktails();
   }, [])
 
-  const generateImageURL = (recipe_id: string) => {
-    return `https://mixomate-cocktails.s3.ap-southeast-2.amazonaws.com/${recipe_id}.jpg`
+  const generateImageURL = (id: string) => {
+    return `https://mixomate-cocktails.s3.ap-southeast-2.amazonaws.com/${id}.jpg`
   }
   
   const imageTemplate = (rowData: Cocktail) => {
     return (
       <Image 
-        src={generateImageURL(rowData.recipe_id)}
+        src={generateImageURL(rowData.id)}
         height={100}
         width={100}
         loading="lazy"
-        alt={`Image of recipe ${rowData.recipe_id}`}
+        alt={`Image of recipe ${rowData.id}`}
       />
     )
   }
@@ -87,7 +87,7 @@ export default function Cocktails() {
             className="p-datatable-gridlines p-shadow-2" 
             style={gridLineStyle}>
             <Column field="name" header="Name" sortable filter filterPlaceholder="Filter by name" style={gridLineStyle} headerStyle={tableHeaderStyle} filterStyle={filterInputStyle}></Column>
-            <Column field="recipe_id" header="Recipe ID" style={gridLineStyle} headerStyle={tableHeaderStyle}></Column>
+            <Column field="id" header="ID" sortable style={gridLineStyle} headerStyle={tableHeaderStyle}></Column>
             <Column field="rating" header="Rating" sortable filter filterPlaceholder="Filter by rating" style={gridLineStyle} headerStyle={tableHeaderStyle} filterStyle={filterInputStyle}></Column>
             <Column field="n_steps" header="Number of Steps" sortable filter filterPlaceholder="Filter by steps" style={gridLineStyle} headerStyle={tableHeaderStyle} filterStyle={filterInputStyle}></Column>
             <Column field="n_ingredients" header="Number of Ingredients" sortable filter filterPlaceholder="Filter by ingredients" style={gridLineStyle} headerStyle={tableHeaderStyle} filterStyle={filterInputStyle}></Column>

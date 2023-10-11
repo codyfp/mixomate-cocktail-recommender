@@ -36,10 +36,12 @@ export class UserService {
     if (!mongoose.isValidObjectId(userId)) {
       throw new Error('Invalid ID')
     }
+
     const doc = await UserModel.findById(userId)
     if (!doc) {
       throw new Error('User not found')
     }
+
     doc.likes = likes
     doc.dislikes = dislikes
     const updatedDoc = await doc.save()
@@ -56,10 +58,12 @@ export class UserService {
     if (!mongoose.isValidObjectId(userId)) {
       throw new Error('Invalid ID')
     }
+
     const doc = await UserModel.findById(userId)
     if (!doc) {
       throw new Error('User not found')
     }
+
     doc.flavourProfile = flavourProfile
     const updatedDoc = await doc.save()
 
@@ -74,10 +78,12 @@ export class UserService {
     if (!mongoose.isValidObjectId(userId)) {
       throw new Error('Invalid ID')
     }
+
     const doc = await UserModel.findById(userId)
     if (!doc) {
       throw new Error('User not found')
     }
+
     doc.allergens = allergens
     const updatedDoc = await doc.save()
 
