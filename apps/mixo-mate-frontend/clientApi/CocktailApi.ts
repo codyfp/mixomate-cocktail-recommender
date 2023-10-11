@@ -2,16 +2,17 @@ import { Ingredient } from "./IngredientApi";
 import { MixoMateApi } from "./MixoMateApi";
 
 export type Cocktail = {
-  id: string,
-  name: string,
-  rating: number,
+  id: string;
+  name: string;
+  rating: number;
 
-  n_steps: number,
-  n_ingredients: number,
+  n_steps: number;
+  n_ingredients: number;
 
-  steps: string[],
+  steps: string[];
   ingredients: Ingredient[];
 
+  image_url: string;
   flavour_profile: FlavourProfile;
 }
 
@@ -50,7 +51,7 @@ export class CocktailApi extends MixoMateApi {
   }
 
   public async getById(cocktailId: string): Promise<Cocktail> {
-    const response: Cocktail = await this.get(`/${cocktailId}`)
+    const response: Cocktail = await this.get(`/${cocktailId}`);
     return response;
   }
 }
