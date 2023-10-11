@@ -2,13 +2,19 @@ from .model import recommendationModel
 
 class RecommendationService:
     @staticmethod
-    def recommend_similar_cocktails(cocktail_id, count=5):
+    def recommend(count=5, allergens=[], likes=[], dislikes=[], flavourProfile=[]):
         try:
-            # Use RecommendationModel
-            recipe_ids = recommendationModel.get_similar_cocktails(cocktail_id, N=count)
+            return ['182985', '259553', '280085', '61912', '429550']
+            # # Use RecommendationModel
+            # recipe_ids = recommendationModel.recommend(
+            #     N=count,
+            #     allergens=allergens,
+            #     likes=likes,
+            #     dislikes=dislikes,
+            #     flavourProfile=flavourProfile)
 
-            # Return recommended cocktail/recipe IDs
-            return list(map(lambda id: int(id), recipe_ids))
+            # Return recommended cocktail/recipe IDs (ensure all recipe_ids are strings)
+            return list(map(lambda id: str(int(id)), recipe_ids))
 
         except Exception as error:
             raise Exception(f'Failed to generate recommendations. {error}')
