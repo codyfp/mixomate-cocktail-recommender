@@ -1,7 +1,4 @@
-'use client'
-
-import { Cocktail } from "@/clientApi/CocktailApi";
-import { RecommendationApi } from "@/clientApi/RecommendationApi";
+import { Cocktail, CocktailApi } from "@/clientApi/CocktailApi";
 import { useRouter } from "next/router";
 import Head from "next/head";
 import React, { useEffect, useState } from "react";
@@ -12,8 +9,6 @@ type ReactionType = "like" | "dislike";
 export default function Cocktail() {
   const router = useRouter();
 
-  console.log("HELLO WOLD")
-
   const [cocktail, setCocktail] = useState<Cocktail>();
   const [reaction, setReaction] = useState<ReactionType>();
 
@@ -21,38 +16,33 @@ export default function Cocktail() {
     setReaction(reactionType);
   };
 
-  useEffect(() => {
-    console.log(router.query)
+  async function fetchCocktail() {
+    const id = new URL(window.location.href).pathname.split("/").slice(-1)[0] as string;
 
-    async function fetchCocktail() {
-      const id = router.query.id as string;
-      console.log(id)
+    try {
+      const api = new CocktailApi();
+      const data: Cocktail = await api.getById(id);
+      console.log(data)
 
-      if (id) {
-        return;
-      }
-
-      try {
-        const api = new RecommendationApi();
-        const data: Cocktail = await api.getCocktail(id);
-
-        console.log(data)
-
-        setCocktail(data);
-      } catch (error) {
-        const err = error as Error;
-        alert(`Failed to get cocktail. ${err.message}`);
-      }
+      setCocktail(data);
+    } catch (error) {
+      const err = error as Error;
+      alert(`Failed to get cocktail. ${err.message}`);
     }
+  }
 
+  useEffect(() => {
     fetchCocktail();
-  });
-
-  console.log(router.query)
-
+  }, []);
 
   const generateImageURL = (id: string) => {
     return `https://mixomate-cocktails.s3.ap-southeast-2.amazonaws.com/${id}.jpg`
+  }
+
+  if (!cocktail) {
+    return (
+      <div>Loading...</div>
+    )
   }
 
   return (
