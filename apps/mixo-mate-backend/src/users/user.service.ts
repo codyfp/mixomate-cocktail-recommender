@@ -69,4 +69,22 @@ export class UserService {
       flavourProfile: updatedDoc.flavourProfile,
     }
   }
+
+  async setAllergens(userId: string, allergens: string[]): Promise<User> {
+    if (!mongoose.isValidObjectId(userId)) {
+      throw new Error('Invalid ID')
+    }
+    const doc = await UserModel.findById(userId)
+    if (!doc) {
+      throw new Error('User not found')
+    }
+    doc.allergens = allergens
+    const updatedDoc = await doc.save()
+
+    return {
+      id: updatedDoc.id,
+      username: updatedDoc.username,
+      allergens: updatedDoc.allergens,
+    }
+  }
 }

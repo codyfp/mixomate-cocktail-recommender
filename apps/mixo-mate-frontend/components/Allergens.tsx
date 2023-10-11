@@ -3,11 +3,12 @@ import { IngredientApi } from "@/clientApi/IngredientApi"
 
 interface AllergensProps {
   allergens: string[]
-  setAllergens: (allergens: string[]) => void
+  setAllergens: (allergens: string[]) => void,
+  skipStep: () => void
 }
 
 const Allergens = (props: AllergensProps) => {
-  const { allergens, setAllergens } = props
+  const { allergens, setAllergens, skipStep } = props
 
   const [input, setInput] = useState<string>("");
   const [ingredients, setIngredients] = useState<string[]>([])
@@ -36,7 +37,7 @@ const Allergens = (props: AllergensProps) => {
       setShowDropdown(false)
     }
   }
-  
+
   const onSelectItem = (item: string) => {
     onAddItem(item)
   }
@@ -87,7 +88,7 @@ const Allergens = (props: AllergensProps) => {
           </div>
         </div>
         {allergens.length === 0 && (
-          <button className="self-center mt-4 bg-custom-orange text-white px-7 py-2 rounded">
+          <button className="self-center mt-4 bg-custom-orange text-white px-7 py-2 rounded" onClick={() => { setAllergens([]); skipStep() }}>
             I don't have any allergens
           </button>
         )}
