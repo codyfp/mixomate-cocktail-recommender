@@ -1,11 +1,12 @@
 import { MixoMateApi } from "./MixoMateApi";
 
-type User = {
+export type User = {
   id: string,
   username: string,
   likes?: string[],
   dislikes?: string[],
-  flavourProfile?: string[]
+  flavourProfile?: string[],
+  allergens?: string[]
 }
 export class UserApi extends MixoMateApi {
   constructor() {
@@ -51,4 +52,20 @@ export class UserApi extends MixoMateApi {
     const response = await this.post('/flavourPreferences', { flavourProfile })
     return response.data;
   }
+
+  public async setAllergens(allergens: string[]) {
+    const response = await this.post('/allergens', { allergens })
+    return response.data;
+  }
+}
+
+export type UserApiType = {
+  login: (username: string, password: string) => Promise<User | null>,
+  logout: () => Promise<User | null>,
+  create: (username: string, password: string) => Promise<User | null>,
+  getCurrent: () => Promise<User | null>,
+  getAccountPreferences: () => Promise<User | null>,
+  setLikesAndDislikes: (likes: string[], dislikes: string[]) => Promise<User | null>,
+  setFlavourProfile: (flavourProfile: string[]) => Promise<User | null>,
+  setAllergens: (allergens: string[]) => Promise<User | null>,
 }
