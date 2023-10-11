@@ -9,8 +9,12 @@ function CocktailCard(props: { cocktail: Cocktail }) {
     return `https://mixomate-cocktails.s3.ap-southeast-2.amazonaws.com/${id}.jpg`
   }
 
+  const redirectToCocktailPage = (e: any) => {
+    window.location.href = `/cocktail/${cocktail.id}`
+  }
+
   return (
-    <div className="flex flex-col bg-white rounded-[20px] overflow-hidden w-[250px] h-full">
+    <div className="flex flex-col bg-white rounded-[20px] overflow-hidden w-[250px] h-full" onClick={redirectToCocktailPage}>
       <div className="w-full h-[300px]">
         <Image
           src={generateImageURL(cocktail.id)}
