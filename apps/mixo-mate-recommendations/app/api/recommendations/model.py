@@ -1,6 +1,5 @@
 import pickle
 import gzip
-import h5py
 import numpy as np
 
 # Adjusted paths for Docker container
@@ -26,14 +25,14 @@ class RecommendationModel:
 
         return score
 
-    def get_similar_cocktails(self, N=5, allergen_ids=[], like_ids=[], dislike_ids=[]):
+    def get_recommended_cocktails(self, N=5, allergen_ids=[], like_ids=[], dislike_ids=[], flavour_profile=[]):
         user_scores = np.zeros(len(self.combined_df))
         
         for idx, cocktail in self.combined_df.iterrows():
             user_scores[idx] = self.adjust_score_for_cocktail(cocktail, 1, allergen_ids, like_ids, dislike_ids)
 
         sorted_indices = np.argsort(user_scores)[::-1][:N]
-        return self.combined_df.iloc[sorted_indices]['name'].tolist()
+        return self.combined_df.iloc[sorted_indices]['recipe_id'].tolist()
 
 # Create and expose a single model
 recommendationModel = RecommendationModel()

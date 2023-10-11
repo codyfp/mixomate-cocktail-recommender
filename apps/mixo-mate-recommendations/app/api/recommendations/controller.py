@@ -18,7 +18,7 @@ class Recommendation(Resource):
             allergens = data.get('allergens', [])
             likes = data.get('likes', [])
             dislikes = data.get('dislikes', [])
-            flavourProfile = data.get('flavourProfile', [])
+            flavour_profile = data.get('flavourProfile', [])
 
             # Ensure count is an integer and is > 0
             if not isinstance(count, int):
@@ -33,7 +33,7 @@ class Recommendation(Resource):
                 return "Likes must be an array", 400
             if not isinstance(dislikes, list):
                 return "Dislikes must be an array", 400
-            if not isinstance(flavourProfile, list):
+            if not isinstance(flavour_profile, list):
                 return "Flavour profile must be an array", 400
 
             # Ensure arrays only contain strings
@@ -43,21 +43,21 @@ class Recommendation(Resource):
                 return "Likes must only contain strings", 400
             if not all(isinstance(s, str) for s in dislikes):
                 return "Dislikes must only contain strings", 400
-            if not all(isinstance(s, str) for s in flavourProfile):
+            if not all(isinstance(s, str) for s in flavour_profile):
                 return "Flavour profile must only contain strings", 400
 
             print(count, flush=True)
             print(allergens, flush=True)
             print(likes, flush=True)
             print(dislikes, flush=True)
-            print(flavourProfile, flush=True)
+            print(flavour_profile, flush=True)
 
             return RecommendationService.recommend(
                 count=count,
                 allergens=allergens,
                 likes=likes,
                 dislikes=dislikes,
-                flavourProfile=flavourProfile)
+                flavour_profile=flavour_profile)
 
         except Exception as error:
             current_app.logger.error(error)
