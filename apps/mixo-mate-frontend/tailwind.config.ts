@@ -14,11 +14,11 @@ const config: Config = {
           'conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))',
       },
       backgroundColor: {
-        'custom-orange': 'rgb(251, 156, 42)',
+        'custom-orange': 'rgb(250, 145, 39)',
       },
       colors: {
-        'custom-orange': 'rgb(251, 156, 42)',
-        'brand': 'rgb(251, 156, 42)'
+        'custom-orange': 'rgb(250, 145, 39)',
+        'brand': 'rgb(250, 145, 39)'
       },
     },
   },
