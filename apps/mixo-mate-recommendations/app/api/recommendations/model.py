@@ -12,15 +12,16 @@ class RecommendationModel:
 
     def adjust_score_for_cocktail(self, cocktail, score, allergen_ids, like_ids, dislike_ids):
         """Adjust the similarity score based on user preferences using ingredient IDs."""
-        if any(allergen in cocktail['ingredient_ids'] for allergen in allergen_ids):
-            score = -1
+        for allergen in allergen_ids:
+            if cocktail[allergen] == 1.0:
+                return -1  
 
         for like in like_ids:
-            if like in cocktail['ingredient_ids']:
+            if cocktail[like] == 1.0:
                 score += 1
 
         for dislike in dislike_ids:
-            if dislike in cocktail['ingredient_ids']:
+            if cocktail[dislike] == 1.0:
                 score *= 0.80
 
         return score
