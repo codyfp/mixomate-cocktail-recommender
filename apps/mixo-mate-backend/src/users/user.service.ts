@@ -74,7 +74,7 @@ export class UserService {
     }
   }
 
-  async setAllergens(userId: string, allergens: string[]): Promise<User> {
+  async setAllergens(userId: string, allergens: {name: string, id: string}[]): Promise<User> {
     if (!mongoose.isValidObjectId(userId)) {
       throw new Error('Invalid ID')
     }

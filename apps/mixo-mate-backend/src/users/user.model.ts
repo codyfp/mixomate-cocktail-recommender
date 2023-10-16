@@ -24,6 +24,14 @@ import { DocumentType, getModelForClass, pre, prop, PropType } from "@typegoose/
   }
 })
 
+class Allergen {
+  @prop({ required: true })
+  public id!: string;
+
+  @prop({ required: true })
+  public name!: string;
+}
+
 class UserClass {
   @prop({ type: () => String, required: true })
   public username: string;
@@ -40,8 +48,8 @@ class UserClass {
   @prop({ type: () => [String], required: false }, PropType.ARRAY)
   public flavourProfile?: string[];
 
-  @prop({ type: () => [String], required: false }, PropType.ARRAY)
-  public allergens?: string[];
+  @prop({ type: () => [Allergen], required: false })
+  public allergens?: Allergen[];
 
   public async matchPassword(this: DocumentType<UserClass>, password: string) {
     try {

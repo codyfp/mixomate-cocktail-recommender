@@ -4,7 +4,7 @@ export type User = {
   likes?: string[],
   dislikes?: string[],
   flavourProfile?: string[],
-  allergens?: string[]
+  allergens?: {name: string, id: string}[]
 }
 
 export type CreateUser = {

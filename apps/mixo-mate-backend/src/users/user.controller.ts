@@ -135,7 +135,7 @@ export class UsersController extends Controller {
   @Post('/allergens')
   @Security("mixio_auth")
   public async setAllergens(
-    @Body() requestBody: { allergens: string[] },
+    @Body() requestBody: { allergens: {name: string, id: string}[] },
     @Request() request: AuthenticatedRequest,
   ): Promise<unknown> {
     const { allergens } = requestBody;
