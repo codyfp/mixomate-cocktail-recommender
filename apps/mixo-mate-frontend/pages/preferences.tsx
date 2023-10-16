@@ -16,7 +16,7 @@ export default function Preferences() {
   const userApi = new UserApi();
   const [likes, setLikes] = useState<string[]>([]);
   const [dislikes, setDislikes] = useState<string[]>([]);
-  const [allergens, setAllergens] = useState<string[]>([]);
+  const [allergens, setAllergens] = useState<{ id: string, name: string }[]>([]);
   const [flavourProfileChips, setFlavourProfileChips] = useState(Object.values(FlavourProfileEnum).map((FlavourProfileEnum) => {
     return { label: FlavourProfileEnum, selected: false }
   }));
@@ -90,6 +90,7 @@ export default function Preferences() {
       },
       handleNext: () => {
         setStep(step + 1);
+        console.log('Allergens being sent', allergens)
         userApi.setAllergens(allergens);
       },
     },

@@ -31,6 +31,7 @@ const Allergens = (props: AllergensProps) => {
 
   const onAddItem = (item?: { id: string, name: string }) => {
     const value = item ? item.name.trim() : input.trim()
+    console.log('VALUE', value)
     if (value !== "" && !allergens.some(allergen => allergen.name === value)) {
       setAllergens(prev => [...prev, item || { id: '', name: value }])
       setInput("")
