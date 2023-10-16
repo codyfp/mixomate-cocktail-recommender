@@ -2,8 +2,8 @@ import React, { useState, useEffect, useMemo } from 'react'
 import { IngredientApi } from "@/clientApi/IngredientApi"
 
 interface AllergensProps {
-  allergens: string[]
-  setAllergens: (allergens: string[]) => void,
+  allergens: { id: string, name: string }[]
+  setAllergens: (allergens: { id: string, name: string }[]) => void
   skipStep: () => void
 }
 
@@ -11,7 +11,7 @@ const Allergens = (props: AllergensProps) => {
   const { allergens, setAllergens, skipStep } = props
 
   const [input, setInput] = useState<string>("");
-  const [ingredients, setIngredients] = useState<string[]>([])
+  const [ingredients, setIngredients] = useState<{ id: string, name: string }[]>([])
   const [showDropdown, setShowDropdown] = useState<boolean>(false)
 
   useEffect(() => {
@@ -21,7 +21,7 @@ const Allergens = (props: AllergensProps) => {
   const getIngredients = async () => {
     const ingredientsApi = new IngredientApi()
     const allIngredients = await ingredientsApi.getIngredients()
-    setIngredients(allIngredients.map(ingredient => ingredient.name))
+    setIngredients(allIngredients)
   }
 
   const onChange = (text: string) => {
@@ -29,17 +29,17 @@ const Allergens = (props: AllergensProps) => {
     setShowDropdown(text.length > 0)
   }
 
-  const onAddItem = (item?: string) => {
-    const value = item ? item.trim() : input.trim()
-    if (value !== "" && !allergens.includes(value)) {
-      setAllergens(prev => [...prev, value])
+  const onAddItem = (item?: { id: string, name: string }) => {
+    const value = item ? item.name.trim() : input.trim()
+    if (value !== "" && !allergens.some(allergen => allergen.name === value)) {
+      setAllergens(prev => [...prev, item || { id: '', name: value }])
       setInput("")
       setShowDropdown(false)
     }
   }
 
-  const onSelectItem = (item: string) => {
-    onAddItem(item)
+  const onSelectItem = (ingredient: { id: string, name: string }) => {
+    onAddItem(ingredient)
   }
 
   const onDeleteItem = (index: number) => {
@@ -49,7 +49,9 @@ const Allergens = (props: AllergensProps) => {
   const filteredIngredients = useMemo(() => {
     if (!input) return [];
     const lowercaseInput = input.toLowerCase()
-    return ingredients.filter(ingredient => ingredient.toLowerCase().includes(lowercaseInput))
+    return ingredients.filter(ingredient =>
+      ingredient.name.toLowerCase().includes(lowercaseInput)
+    )
   }, [input, ingredients])
 
   return (
@@ -70,25 +72,25 @@ const Allergens = (props: AllergensProps) => {
             <div className="absolute top-full mt-1 w-60 bg-white border border-gray-300 rounded-md shadow-lg z-10 overflow-hidden">
               {filteredIngredients.map(ingredient => (
                 <div
-                  key={ingredient}
+                  key={ingredient.id}
                   className="p-2 hover:bg-gray-200 cursor-pointer"
                   onClick={() => onSelectItem(ingredient)}
                 >
-                  {ingredient}
+                  {ingredient.name}
                 </div>
               ))}
             </div>
           )}
           <div className="flex flex-row flex-wrap gap-1 mb-4">
             {allergens.map((chip, index) => (
-              <Chip key={index} onClick={() => onDeleteItem(index)}>
-                {chip}
+              <Chip key={chip.id} onClick={() => onDeleteItem(index)}>
+                {chip.name}
               </Chip>
             ))}
           </div>
         </div>
         {allergens.length === 0 && (
-          <button className="self-center mt-4 bg-custom-orange text-white px-7 py-2 rounded" onClick={() => { setAllergens([]); skipStep() }}>
+          <button className="self-center mt-4 bg-custom-orange text-white px-7 py-2 rounded" onClick={() => { setAllergens([]); skipStep(); }}>
             I don't have any allergens
           </button>
         )}

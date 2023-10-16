@@ -13,7 +13,6 @@ const Allergens = dynamic(() => import("../components/Allergens"), { ssr: false 
 export default function Preferences() {
   const [step, setStep] = useState(0);
   const { currentUser } = useAuth();
-  console.log(currentUser)
   const userApi = new UserApi();
   const [likes, setLikes] = useState<string[]>([]);
   const [dislikes, setDislikes] = useState<string[]>([]);
@@ -31,6 +30,7 @@ export default function Preferences() {
     }
     if (currentUser?.allergens) {
       setAllergens(currentUser.allergens)
+      console.log(currentUser.allergens, 'hahahahaha')
     }
     if (currentUser?.flavourProfile && currentUser?.flavourProfile.length > 0) {
       const selectedChips = flavourProfileChips.map(chip => {
