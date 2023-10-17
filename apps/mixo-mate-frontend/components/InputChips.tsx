@@ -19,6 +19,7 @@ export default function InputChips({ title, options, setOptions, searchOptions =
   }, [searchOptions]);
 
   useEffect(() => {
+    // Datalist is limited in browsers to about 100-200 options, so we need to filter the options for users to actually find what they want
     const filteredOptions = searchOptions.filter((ingredient) => {
       return ingredient.name.toLowerCase().includes(input.toLowerCase())
     })
@@ -29,7 +30,7 @@ export default function InputChips({ title, options, setOptions, searchOptions =
     // i.e if you try to type 'orange liqueur' it will add 'orange' first and clear the input
     if (optionNames.has(input)) {
       const _chips = [...options]
-      _chips.push(optionNames.get(input) as Ingredient)
+      _chips.push(optionNames.get(input) as Ingredient) // ngl idk what this as Ingredient is doing but it works; thanks copilot cause im delerious af
       setOptions(_chips)
       setInput("")
     }
