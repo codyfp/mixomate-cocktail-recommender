@@ -1,10 +1,11 @@
 import { MixoMateApi } from "./MixoMateApi";
+import { Ingredient } from "./IngredientApi";
 
 export type User = {
   id: string,
   username: string,
-  likes?: string[],
-  dislikes?: string[],
+  likes?: Ingredient[],
+  dislikes?: Ingredient[],
   flavourProfile?: string[],
   allergens?: string[]
 }
