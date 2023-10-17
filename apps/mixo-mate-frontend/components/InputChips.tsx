@@ -1,13 +1,14 @@
 import { useState } from 'react'
 import { InputLabel } from '@/types/InputLabels'
-
+import { Ingredient } from '@/clientApi/IngredientApi'
 interface InputChipProps {
   title: InputLabel
   options: string[]
-  setOptions: (options: string[]) => void
+  setOptions: (options: string[]) => void,
+  searchOptions?: Ingredient[]
 }
 
-export default function InputChips({ title, options, setOptions }: InputChipProps) {
+export default function InputChips({ title, options, setOptions, searchOptions = [] }: InputChipProps) {
   const [input, setInput] = useState<string>("")
 
   const onChange = (text: string) => {
@@ -34,7 +35,7 @@ export default function InputChips({ title, options, setOptions }: InputChipProp
       <div>
         <div className="flex flex-row items-center mb-4">
           <label className={`x-title w-32 ${title === 'Allergens' ? 'mr-4' : ''}`}>{title}:</label>
-          <input 
+          <input
             placeholder="Enter here"
             className="bg-gray-300 rounded-full h-8 w-60 px-5 uppercase"
             value={input}
