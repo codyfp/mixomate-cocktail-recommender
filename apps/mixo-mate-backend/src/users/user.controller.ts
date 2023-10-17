@@ -1,6 +1,7 @@
 import { Body, Controller, Get, Post, Route, Request, SuccessResponse, Security } from "tsoa";
 import { AuthenticatedRequest } from "./user.types.js";
 import { UserService } from "./user.service.js";
+import { IngredientService } from "../ingredients/ingredient.service.js";
 import { StatusCodes } from "../status-codes.js";
 import { User } from "./user.dto.js";
 
@@ -40,8 +41,25 @@ export class UsersController extends Controller {
     }
 
     try {
-      const currentUser = new UserService().getById(request.session.userId)
-      return currentUser;
+      const currentUser = await new UserService().getById(request.session.userId);
+      const ingredients = await new IngredientService().getAll();
+      const likesWithIngredients = currentUser.likes.map((ingredientId) => {
+        return ingredients.find((ingredient) => ingredient.id === ingredientId)
+      })
+
+      const dislikesWithIngredients = currentUser.dislikes.map((ingredientId) => {
+        return ingredients.find((ingredient) => ingredient.id === ingredientId)
+      });
+
+      return {
+        id: currentUser.id,
+        username: currentUser.username,
+        likes: likesWithIngredients,
+        dislikes: dislikesWithIngredients,
+        flavourProfile: currentUser.flavourProfile,
+        allergens: currentUser.allergens
+      }
+
     } catch (error) {
       this.setStatus(StatusCodes.UNPROCESSABLE_ENTITY)
       return { error: 'Failed to retrieve user details' }
