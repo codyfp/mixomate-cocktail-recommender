@@ -3,6 +3,7 @@ import { useRouter } from "next/router";
 import Head from "next/head";
 import React, { useEffect, useState } from "react";
 import Image from "next/image";
+import 'primeicons/primeicons.css';
 
 type ReactionType = "like" | "dislike";
 
@@ -22,8 +23,6 @@ export default function Cocktail() {
     try {
       const api = new CocktailApi();
       const data: Cocktail = await api.getById(id);
-      console.log(data)
-
       setCocktail(data);
     } catch (error) {
       const err = error as Error;
@@ -37,6 +36,10 @@ export default function Cocktail() {
 
   const generateImageURL = (id: string) => {
     return `https://mixomate-cocktails.s3.ap-southeast-2.amazonaws.com/${id}.jpg`
+  }
+
+  const handleBackClick = () => {
+    window.location.href = '/recommendations'
   }
 
   if (!cocktail) {
@@ -53,7 +56,10 @@ export default function Cocktail() {
       </Head>
 
       <main className="p-5">
-        <h1 className="x-title mb-10 text-center">{cocktail?.name}</h1>
+        <span>
+          <i className="pi pi-arrow-left text-xl cursor-pointer" onClick={handleBackClick}></i>
+          <h1 className="x-title mb-10 text-center">{cocktail?.name}</h1>
+        </span>
 
         <div className="flex">
           <div className="flex flex-col items-center w-1/2">
@@ -61,7 +67,8 @@ export default function Cocktail() {
               <Image
                 src={generateImageURL(cocktail.id)}
                 alt={cocktail.name}
-                className="w-full h-full object-cover"
+                priority={true}
+                className="w-full h-full"
                 height={400}
                 width={400}
               />
