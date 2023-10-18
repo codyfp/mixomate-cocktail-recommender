@@ -7,7 +7,7 @@ interface Props {
 }
 
 const FlavourProfile: React.FC<Props> = ({ chipData, setChipData, toggleChipSelection }) => {
-  const title = "Choose up to 3 flavour profiles!"
+  const title = "Choose your desired flavour profiles!"
 
   return (
     <div className="p-10 bg-white rounded-xl">
