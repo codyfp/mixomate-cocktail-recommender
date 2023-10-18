@@ -34,39 +34,52 @@ function Authentication() {
   }
 
   return (
-    <div className='flex flex-col mt-10 bg-white h-max p-4 rounded-3xl shadow'>
-      <h1 className='text-xl mb-2 font-medium'>Welcome to MixoMate!</h1>
-      <input
-        type="text"
-        placeholder='Username'
-        value={username}
-        onChange={(e) => setUsername(e.target.value)}
-        onKeyUp={(e) => {
-          if (e.key === 'Enter') {
-            handleLogin();
-          }
-        }}
-      />
-      <input
-        type="password"
-        placeholder='Password'
-        value={password}
-        onChange={(e) => setPassword(e.target.value)}
-        onKeyUp={(e) => {
-          if (e.key === 'Enter') {
-            handleLogin();
-          }
-        }}
-      />
-      <div className='flex flex-row gap-3 m-4'>
+    <div className='flex flex-col w-96 mx-auto mt-10 bg-gray-200 p-6 rounded-xl shadow-lg'>
+      <h1 className='text-2xl mb-4 font-bold text-center'>Welcome to MixoMate!</h1>
+
+      <div className="mb-4">
+        <label htmlFor="username" className="block text-sm font-medium text-gray-600 mb-2">Username</label>
+        <input
+          id="username"
+          type="text"
+          placeholder='Username'
+          value={username}
+          onChange={(e) => setUsername(e.target.value)}
+          onKeyUp={(e) => {
+            if (e.key === 'Enter') {
+              handleLogin();
+            }
+          }}
+          className="w-full px-3 py-2 border rounded-md outline-none focus:ring-2 focus:ring-yellow-500"
+        />
+      </div>
+
+      <div className="mb-4">
+        <label htmlFor="password" className="block text-sm font-medium text-gray-600 mb-2">Password</label>
+        <input
+          id="password"
+          type="password"
+          placeholder='Password'
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
+          onKeyUp={(e) => {
+            if (e.key === 'Enter') {
+              handleLogin();
+            }
+          }}
+          className="w-full px-3 py-2 border rounded-md outline-none focus:ring-2 focus:ring-yellow-500"
+        />
+      </div>
+
+      <div className='flex justify-between mt-6'>
         <button
           onClick={handleLogin}
-          className='rounded-3xl p-2 bg-yellow-500 text-white border-yellow-500 border-2 w-20'>
+          className='w-1/2 px-4 py-2 mr-2 text-white bg-yellow-500 rounded-xl hover:bg-yellow-600 focus:outline-none focus:ring-2 focus:ring-yellow-500'>
           Login
         </button>
         <button
           onClick={handleSignup}
-          className='rounded-3xl p-2 text-yellow-500 border-yellow-500 border-2 w-20'>
+          className='w-1/2 px-4 py-2 ml-2 text-yellow-500 border border-yellow-500 rounded-xl hover:bg-yellow-100 focus:outline-none focus:ring-2 focus:ring-yellow-500'>
           Sign Up
         </button>
       </div>
