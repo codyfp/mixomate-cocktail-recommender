@@ -7,7 +7,7 @@ export type User = {
   likes?: Ingredient[],
   dislikes?: Ingredient[],
   flavourProfile?: string[],
-  allergens?: string[]
+  allergens?: Ingredient[]
 }
 export class UserApi extends MixoMateApi {
   constructor() {
