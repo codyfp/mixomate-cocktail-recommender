@@ -9,10 +9,9 @@ verify_ssl = true
 flask-migrate = "*"
 flask-restx = "*"
 python-dotenv = "*"
-tensorflow = "*"
 werkzeug = "==2.1.2"
 flask = "==2.1.2"
-pandas = "*"
+pandas = "<2.0.0"
 numpy = "*"
 
 [requires]
