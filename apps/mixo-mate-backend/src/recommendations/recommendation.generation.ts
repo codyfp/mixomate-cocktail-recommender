@@ -1,5 +1,6 @@
 import { Recommendation } from './recommendation.js';
 import { RecommendationAPI } from './recommendation.api.js';
+import { Logger } from '../logger.js';
 
 export default class RecommendationGenerator {
   async generateNewRecommendations(
@@ -14,7 +15,7 @@ export default class RecommendationGenerator {
       const cocktailIds: string[] = await api.getRecommended(count, allergens, likes, dislikes, flavourProfile);
       return cocktailIds.map((cocktailId: string): string => { return cocktailId }  )
     } catch (error) {
-      console.error(`Failed to generate recommended cocktails. ${error.message}`)
+      Logger.error(`Failed to generate recommended cocktails. ${error.message}`)
       return [];
     }
   }
