@@ -14,7 +14,7 @@ const Allergens = dynamic(() => import("../components/Allergens"), { ssr: false 
 export default function Preferences() {
   const [step, setStep] = useState(0);
   const { currentUser } = useAuth();
-  console.log(currentUser)
+
   const userApi = new UserApi();
   const [likes, setLikes] = useState<Ingredient[]>([]);
   const [dislikes, setDislikes] = useState<Ingredient[]>([]);
