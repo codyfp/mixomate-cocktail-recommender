@@ -5,6 +5,7 @@ import dynamic from "next/dynamic";
 import { UserApi } from "@/clientApi/UserApi";
 import { useAuth } from "@/clientApi/hooks/useAuth";
 import { FlavourProfile as FlavourProfileEnum } from '@/clientApi/CocktailApi';
+import { Ingredient } from "@/clientApi/IngredientApi";
 
 const LikesAndDislikes = dynamic(() => import("../components/LikesAndDislikes"), { ssr: false });
 const FlavourProfile = dynamic(() => import("../components/FlavourProfile"), { ssr: false });
@@ -15,9 +16,9 @@ export default function Preferences() {
   const { currentUser } = useAuth();
   console.log(currentUser)
   const userApi = new UserApi();
-  const [likes, setLikes] = useState<string[]>([]);
-  const [dislikes, setDislikes] = useState<string[]>([]);
-  const [allergens, setAllergens] = useState<string[]>([]);
+  const [likes, setLikes] = useState<Ingredient[]>([]);
+  const [dislikes, setDislikes] = useState<Ingredient[]>([]);
+  const [allergens, setAllergens] = useState<Ingredient[]>([]);
   const [flavourProfileChips, setFlavourProfileChips] = useState(Object.values(FlavourProfileEnum).map((FlavourProfileEnum) => {
     return { label: FlavourProfileEnum, selected: false }
   }));
@@ -34,7 +35,7 @@ export default function Preferences() {
     }
     if (currentUser?.flavourProfile && currentUser?.flavourProfile.length > 0) {
       const selectedChips = flavourProfileChips.map(chip => {
-        if (currentUser.flavourProfile.includes(chip.label)) {
+        if (currentUser.flavourProfile?.includes(chip.label)) {
           chip.selected = true;
         }
         return chip;
@@ -43,8 +44,15 @@ export default function Preferences() {
     }
   }, [currentUser])
 
-  const handleSaveLikes = (likes: string[], dislikes: string[]) => {
-    userApi.setLikesAndDislikes(likes, dislikes);
+  const handleSaveLikes = (likes: Ingredient[], dislikes: Ingredient[]) => {
+    const likesIds = likes.map(ingredient => ingredient.id ? ingredient.id : ingredient.name)
+    const dislikesIds = dislikes.map(ingredient => ingredient.id ? ingredient.id : ingredient.name)
+    userApi.setLikesAndDislikes(likesIds, dislikesIds);
+  }
+
+  const handleSaveAllergens = (allergens: Ingredient[]) => {
+    const allergensIds = allergens.map(ingredient => ingredient.id ? ingredient.id : ingredient.name)
+    userApi.setAllergens(allergensIds);
   }
 
   const steps = [
@@ -90,7 +98,7 @@ export default function Preferences() {
       },
       handleNext: () => {
         setStep(step + 1);
-        userApi.setAllergens(allergens);
+        handleSaveAllergens(allergens);
       },
     },
     {
