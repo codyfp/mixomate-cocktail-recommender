@@ -46,12 +46,6 @@ class Recommendation(Resource):
             if not all(isinstance(s, str) for s in flavour_profile):
                 return "Flavour profile must only contain strings", 400
 
-            print(count, flush=True)
-            print(allergens, flush=True)
-            print(likes, flush=True)
-            print(dislikes, flush=True)
-            print(flavour_profile, flush=True)
-
             return RecommendationService.recommend(
                 count=count,
                 allergens=allergens,
