@@ -1,14 +1,19 @@
-import { useAuth } from "@/clientApi/hooks/useAuth";
+import React from 'react'
+import { useAuth } from "@/clientApi/hooks/useAuth"
 
-async function logout() {
-    // eslint-disable-next-line react-hooks/rules-of-hooks
-    const { authApi } = useAuth();
-  
-    if (authApi) {
-      await authApi.logout();
-      window.location.replace('/');
+function Logout() {
+    const { authApi } = useAuth()
+
+    const logout = async () => {
+        if (authApi) {
+            await authApi.logout();
+            window.location.replace('/')
+        }
     }
-  };
 
+    return (
+        <button onClick={logout}>Logout</button>
+    )
+}
 
-export default logout
+export default Logout
