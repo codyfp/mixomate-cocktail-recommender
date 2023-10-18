@@ -51,13 +51,17 @@ export class UsersController extends Controller {
         return ingredients.find((ingredient) => ingredient.id === ingredientId)
       });
 
+      const allergensWithIngredients = currentUser.allergens.map((ingredientId) => {
+        return ingredients.find((ingredient) => ingredient.id === ingredientId)
+      });
+
       return {
         id: currentUser.id,
         username: currentUser.username,
         likes: likesWithIngredients,
         dislikes: dislikesWithIngredients,
         flavourProfile: currentUser.flavourProfile,
-        allergens: currentUser.allergens
+        allergens: allergensWithIngredients
       }
 
     } catch (error) {

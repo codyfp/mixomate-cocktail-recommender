@@ -6,7 +6,7 @@ export type User = {
   likes?: string[] | Ingredient[],
   dislikes?: string[] | Ingredient[],
   flavourProfile?: string[],
-  allergens?: string[]
+  allergens?: string[] | Ingredient[]
 }
 
 export type CreateUser = {
