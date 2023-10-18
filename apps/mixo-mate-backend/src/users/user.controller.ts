@@ -44,15 +44,15 @@ export class UsersController extends Controller {
       const currentUser = await new UserService().getById(request.session.userId);
       const ingredients = await new IngredientService().getAll();
       const likesWithIngredients = currentUser.likes.map((ingredientId) => {
-        return ingredients.find((ingredient) => ingredient.id === ingredientId)
+        return ingredients.find((ingredient) => ingredient.id === ingredientId) || { id: null, name: ingredientId }
       })
 
       const dislikesWithIngredients = currentUser.dislikes.map((ingredientId) => {
-        return ingredients.find((ingredient) => ingredient.id === ingredientId)
+        return ingredients.find((ingredient) => ingredient.id === ingredientId) || { id: null, name: ingredientId }
       });
 
       const allergensWithIngredients = currentUser.allergens.map((ingredientId) => {
-        return ingredients.find((ingredient) => ingredient.id === ingredientId)
+        return ingredients.find((ingredient) => ingredient.id === ingredientId) || { id: null, name: ingredientId }
       });
 
       return {

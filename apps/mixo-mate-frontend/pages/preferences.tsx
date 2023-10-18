@@ -45,13 +45,13 @@ export default function Preferences() {
   }, [currentUser])
 
   const handleSaveLikes = (likes: Ingredient[], dislikes: Ingredient[]) => {
-    const likesIds = likes.map(ingredient => ingredient.id)
-    const dislikesIds = dislikes.map(ingredient => ingredient.id)
+    const likesIds = likes.map(ingredient => ingredient.id ? ingredient.id : ingredient.name)
+    const dislikesIds = dislikes.map(ingredient => ingredient.id ? ingredient.id : ingredient.name)
     userApi.setLikesAndDislikes(likesIds, dislikesIds);
   }
 
   const handleSaveAllergens = (allergens: Ingredient[]) => {
-    const allergensIds = allergens.map(ingredient => ingredient.id)
+    const allergensIds = allergens.map(ingredient => ingredient.id ? ingredient.id : ingredient.name)
     userApi.setAllergens(allergensIds);
   }
 
