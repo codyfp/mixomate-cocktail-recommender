@@ -12,6 +12,7 @@ import cors from 'cors'
 import { ValidateError } from "tsoa";
 import { RegisterRoutes } from "../build/routes.js"
 import { StatusCodes } from "./status-codes.js";
+import { Logger } from "./logger.js";
 
 export const expressApp = express();
 
@@ -52,7 +53,7 @@ expressApp.use(function errorHandler(
   next: NextFunction
 ): ExResponse | void {
   if (err instanceof ValidateError) {
-    console.warn(`Caught Validation Error for ${req.path}:`, err.fields);
+    Logger.warn(`Caught Validation Error for ${req.path}:`, err.fields);
     return res.status(StatusCodes.UNPROCESSABLE_ENTITY).json({
       message: "Validation Failed",
       details: err?.fields,
