@@ -19,7 +19,8 @@ class RecommendationModel:
         
         for allergen in allergen_ids:
             if cocktail[allergen] == 1.0:
-                return -1  
+                score -= -10
+
 
         for like in like_ids:
             if cocktail[like] == 1.0:

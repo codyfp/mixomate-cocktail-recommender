@@ -1,27 +1,40 @@
-import { useState } from 'react'
+import { useState, useEffect, useMemo } from 'react'
 import { InputLabel } from '@/types/InputLabels'
-
+import { Ingredient } from '@/clientApi/IngredientApi'
 interface InputChipProps {
   title: InputLabel
-  options: string[]
-  setOptions: (options: string[]) => void
+  options: Ingredient[]
+  setOptions: (options: Ingredient[]) => void,
+  searchOptions?: Ingredient[],
+  htmlId?: string
 }
 
-export default function InputChips({ title, options, setOptions }: InputChipProps) {
+export default function InputChips({ title, options, setOptions, searchOptions = [], htmlId }: InputChipProps) {
   const [input, setInput] = useState<string>("")
+  const [currentOptions, setCurrentOptions] = useState<Ingredient[]>(searchOptions)
 
-  const onChange = (text: string) => {
-    setInput(text)
-  }
+  // Save optionsNames as a map to avoid looping through searchOptions every time
+  const optionNames = useMemo(() => {
+    return new Map(searchOptions.map((ingredient) => [ingredient.name, ingredient]))
+  }, [searchOptions]);
 
-  const onAddItem = (key: string) => {
-    if (key === "Enter" && input.trim() !== "") {
+  useEffect(() => {
+    // Datalist is limited in browsers to about 100-200 options, so we need to filter the options for users to actually find what they want
+    const filteredOptions = searchOptions.filter((ingredient) => {
+      return ingredient.name.toLowerCase().includes(input.toLowerCase())
+    })
+    setCurrentOptions(filteredOptions)
+
+    // If input matches an option, add it to the list
+    // This is very hacky as it checks each change, so if a partial match exists it will add it, fix if needed could be a debounce?
+    // i.e if you try to type 'orange liqueur' it will add 'orange' first and clear the input
+    if (optionNames.has(input)) {
       const _chips = [...options]
-      _chips.push(input)
+      _chips.push(optionNames.get(input) as Ingredient) // ngl idk what this as Ingredient is doing but it works; thanks copilot cause im delerious af
       setOptions(_chips)
       setInput("")
     }
-  }
+  }, [input])
 
   const onDeleteItem = (index: number) => {
     const _chips = [...options]
@@ -34,19 +47,24 @@ export default function InputChips({ title, options, setOptions }: InputChipProp
       <div>
         <div className="flex flex-row items-center mb-4">
           <label className={`x-title w-32 ${title === 'Allergens' ? 'mr-4' : ''}`}>{title}:</label>
-          <input 
+          <input
             placeholder="Enter here"
             className="bg-gray-300 rounded-full h-8 w-60 px-5 uppercase"
             value={input}
-            onChange={(e) => onChange(e.target.value)}
-            onKeyDown={(e) => onAddItem(e.key)}
+            onChange={(e) => setInput(e.target.value)}
+            list={`${htmlId}+ingredients`}
           />
+          <datalist id={`${htmlId}+ingredients`}>
+            {currentOptions.map((ingredient) => (
+              <option key={ingredient.id} value={ingredient.name} />
+            ))}
+          </datalist>
         </div>
 
         <div className="flex flex-row flex-wrap gap-1 mb-4">
           {options.map((chip, index) => (
             <Chip key={index} onClick={() => onDeleteItem(index)}>
-              {chip}
+              {chip.name}
             </Chip>
           ))}
         </div>
