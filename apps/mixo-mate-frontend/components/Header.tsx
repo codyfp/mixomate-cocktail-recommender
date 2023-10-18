@@ -30,7 +30,8 @@ const Header = () => {
     {label: 'Preferences', icon: 'pi pi-fw pi-cog', command: () => { window.location.href = "/preferences"; }},
     {label: 'Recommendations', icon: 'pi pi-fw pi-shopping-bag', command: () => { window.location.href = "/recommendations"; }},
     {label: 'Cocktails', icon: 'pi pi-fw pi-database', command: () => { window.location.href = "/cocktails"; }},
-    {label: 'Ingredients', icon: 'pi pi-fw pi-database', command: () => { window.location.href = "/ingredients"; }}
+    {label: 'Ingredients', icon: 'pi pi-fw pi-database', command: () => { window.location.href = "/ingredients"; }},
+    {label: 'Logout', icon: 'pi pi-fw pi-sign-out', command: () => { window.location.href = "/logout"; }}
   ];
 
   return (
