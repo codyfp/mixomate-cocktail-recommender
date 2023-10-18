@@ -1,19 +1,35 @@
-import React from 'react'
-import { useAuth } from "@/clientApi/hooks/useAuth"
+import React, { useEffect, useRef } from 'react';
+import { useAuth } from "@/clientApi/hooks/useAuth";
+import { Toast } from 'primereact/toast';
+import 'primereact/resources/themes/saga-blue/theme.css';
+import 'primereact/resources/primereact.min.css';
+import 'primeicons/primeicons.css';
 
 function Logout() {
-    const { authApi } = useAuth()
+    const { authApi } = useAuth();
+    const toast = useRef(null); 
 
-    const logout = async () => {
-        if (authApi) {
-            await authApi.logout();
-            window.location.replace('/')
-        }
-    }
+    useEffect(() => {
+        const processLogout = async () => {
+            if (authApi) {
+                try {
+                    toast.current.show({ severity: 'info', summary: 'Info', detail: 'Logging out...', life: 3000 });
+                    await authApi.logout();
+                    window.location.replace('/');
+                } catch (error) {
+                    toast.current.show({ severity: 'error', summary: 'Error', detail: 'Failed to log out. Please try again.', life: 5000 });
+                }
+            }
+        };
+
+        processLogout();
+    }, [authApi]);
 
     return (
-        <button onClick={logout}>Logout</button>
-    )
+        <div className="flex justify-center items-center h-screen">
+            <Toast ref={toast} />
+        </div>
+    );
 }
 
-export default Logout
+export default Logout;
