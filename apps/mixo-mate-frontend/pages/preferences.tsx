@@ -57,8 +57,6 @@ export default function Preferences() {
     userApi.setAllergens(allergensIds);
   }
 
-  const progress = (step / 3) * 100;
-
   const steps = [
     {
       RenderComponent: LikesAndDislikes,
