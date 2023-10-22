@@ -27,8 +27,8 @@ function Authentication() {
 
     try {
       // hacky fix to avoid newly registered users seeing the likes and dislikes of previously logged in user.
-      await authApi.create(username, password).then(() => {
-         authApi.login(username, password);
+      await authApi.create(username, password).then(async () => {
+         await authApi.login(username, password);
       })
       window.location.replace('/preferences');
     } catch (error) {
