@@ -125,6 +125,18 @@ export default function Preferences() {
                 <AccordionTab header="Can I change my preferences later?">
                     Absolutely! Your taste, our recommendations. Adjust anytime you want.
                 </AccordionTab>
+                <AccordionTab header="How are the cocktail recommendations generated?">
+                    We use a combination of user preferences, expert insights, and proprietary algorithms to generate tailored cocktail recommendations for each user.
+                </AccordionTab>
+                <AccordionTab header="Can I modify my flavor preferences?">
+                    Yes, you can always go to the preferences section and update your flavor profile to get updated recommendations.
+                </AccordionTab>
+                <AccordionTab header="Are allergen restrictions considered in the recommendations?">
+                    Absolutely! We take user safety seriously. If you've added any allergens in your profile, the recommended cocktails will avoid those ingredients.
+                </AccordionTab>
+                <AccordionTab header="How often are new cocktails added to the recommendations?">
+                    We constantly update our database with new cocktails based on seasons, trends, and user feedback. Keep checking back for fresh recommendations!
+                </AccordionTab>
             </Accordion>
           </Card>
 
@@ -135,7 +147,7 @@ export default function Preferences() {
                   {"Let's go!"}
               </button>
           </Link>
-          
+
         </>
       )
     },
