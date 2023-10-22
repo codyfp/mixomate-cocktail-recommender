@@ -108,12 +108,15 @@ export default function Preferences() {
     {
       RenderComponent: () => (
         <>
+
           <Card title="Ready to get recommendations?">
             <p>
               Discover tailored cocktail recommendations based on your preferences. Let's fine-tune your taste!
               </p>
           </Card>
+
           <br></br>
+
           <Card title="Frequently Asked Questions">
             <Accordion>
                 <AccordionTab header="How do we choose your recommendations?">
@@ -124,12 +127,15 @@ export default function Preferences() {
                 </AccordionTab>
             </Accordion>
           </Card>
-          
-          <Link href="/recommendations">
-            <button className="p-2 bg-blue-100 rounded-3xl text-blue-500 w-[120px]">
-              {"Let's go!"}
-            </button>
+
+          <br></br>
+
+          <Link href="/recommendations" className="flex justify-center items-center">
+              <button className="p-4 bg-blue-200 rounded-full text-blue-600 hover:bg-blue-300 transition duration-300 ease-in-out shadow-lg">
+                  {"Let's go!"}
+              </button>
           </Link>
+          
         </>
       )
     },
