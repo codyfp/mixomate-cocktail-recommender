@@ -6,6 +6,7 @@ import { UserApi } from "@/clientApi/UserApi";
 import { useAuth } from "@/clientApi/hooks/useAuth";
 import { FlavourProfile as FlavourProfileEnum } from '@/clientApi/CocktailApi';
 import { Ingredient } from "@/clientApi/IngredientApi";
+import { Card } from 'primereact/card';
 
 const LikesAndDislikes = dynamic(() => import("../components/LikesAndDislikes"), { ssr: false });
 const FlavourProfile = dynamic(() => import("../components/FlavourProfile"), { ssr: false });
@@ -54,6 +55,8 @@ export default function Preferences() {
     const allergensIds = allergens.map(ingredient => ingredient.id ? ingredient.id : ingredient.name)
     userApi.setAllergens(allergensIds);
   }
+
+  const progress = (step / 3) * 100;
 
   const steps = [
     {
@@ -104,8 +107,13 @@ export default function Preferences() {
     {
       RenderComponent: () => (
         <>
-          <p>Ready to get recommendations?</p>
-
+          <Card title="Ready to get recommendations?">
+            <p>
+              Discover tailored cocktail recommendations based on your preferences. Let's fine-tune your taste!
+              </p>
+          </Card>
+          <br></br>
+          
           <Link href="/recommendations">
             <button className="p-2 bg-blue-100 rounded-3xl text-blue-500 w-[120px]">
               {"Let's go!"}
