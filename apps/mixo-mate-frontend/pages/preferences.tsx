@@ -7,6 +7,7 @@ import { useAuth } from "@/clientApi/hooks/useAuth";
 import { FlavourProfile as FlavourProfileEnum } from '@/clientApi/CocktailApi';
 import { Ingredient } from "@/clientApi/IngredientApi";
 import { Card } from 'primereact/card';
+import { Accordion, AccordionTab } from 'primereact/accordion';
 
 const LikesAndDislikes = dynamic(() => import("../components/LikesAndDislikes"), { ssr: false });
 const FlavourProfile = dynamic(() => import("../components/FlavourProfile"), { ssr: false });
@@ -113,6 +114,16 @@ export default function Preferences() {
               </p>
           </Card>
           <br></br>
+          <Card title="Frequently Asked Questions">
+            <Accordion>
+                <AccordionTab header="How do we choose your recommendations?">
+                    We use a sophisticated algorithm considering your likes, dislikes, and other preferences.
+                </AccordionTab>
+                <AccordionTab header="Can I change my preferences later?">
+                    Absolutely! Your taste, our recommendations. Adjust anytime you want.
+                </AccordionTab>
+            </Accordion>
+          </Card>
           
           <Link href="/recommendations">
             <button className="p-2 bg-blue-100 rounded-3xl text-blue-500 w-[120px]">
