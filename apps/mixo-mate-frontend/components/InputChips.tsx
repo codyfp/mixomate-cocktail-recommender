@@ -43,31 +43,29 @@ export default function InputChips({ title, options, setOptions, searchOptions =
   }
 
   return (
-    <div className="bg-white px-5 py-4 min-h-[12rem] rounded-xl flex flex-col justify-between items-center">
-      <div>
-        <div className="flex flex-row items-center mb-4">
-          <label className={`x-title w-32 ${title === 'Allergens' ? 'mr-4' : ''}`}>{title}:</label>
-          <input
-            placeholder="Enter here"
-            className="bg-gray-300 rounded-full h-8 w-60 px-5 uppercase"
-            value={input}
-            onChange={(e) => setInput(e.target.value)}
-            list={`${htmlId}+ingredients`}
-          />
-          <datalist id={`${htmlId}+ingredients`}>
-            {currentOptions.map((ingredient) => (
-              <option key={ingredient.id} value={ingredient.name} />
-            ))}
-          </datalist>
-        </div>
-
-        <div className="flex flex-row flex-wrap gap-1 mb-4">
-          {options.map((chip, index) => (
-            <Chip key={index} onClick={() => onDeleteItem(index)}>
-              {chip.name}
-            </Chip>
+    <div className="bg-white px-5 py-4 min-h-[12rem] rounded-xl flex flex-col items-center">
+      <div className="flex flex-row items-center mb-4">
+        <label className={`x-title w-32 ${title === 'Allergens' ? 'mr-4' : ''}`}>{title}:</label>
+        <input
+          placeholder="Enter here"
+          className="bg-gray-300 rounded-full h-8 w-60 px-5 uppercase"
+          value={input}
+          onChange={(e) => setInput(e.target.value)}
+          list={`${htmlId}+ingredients`}
+        />
+        <datalist id={`${htmlId}+ingredients`}>
+          {currentOptions.map((ingredient) => (
+            <option key={ingredient.id} value={ingredient.name} />
           ))}
-        </div>
+        </datalist>
+      </div>
+
+      <div className="flex flex-row flex-wrap gap-1 mb-4">
+        {options.map((chip, index) => (
+          <Chip key={index} onClick={() => onDeleteItem(index)}>
+            {chip.name}
+          </Chip>
+        ))}
       </div>
     </div>
   )
