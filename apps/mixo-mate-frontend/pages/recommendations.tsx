@@ -50,7 +50,7 @@ export default function Recommendations() {
         {!isLoading && 
           <div className="grid grid-cols-[repeat(auto-fill,_minmax(250px,_1fr))] gap-x-24 gap-y-12">
             {recommendedCocktails.map((cocktail) => (
-              <div key={cocktail.id} className="justify-self-center">
+              <div key={cocktail.id} className="justify-self-center cursor-pointer">
                 <CocktailCard cocktail={cocktail} />
               </div>
             ))}
