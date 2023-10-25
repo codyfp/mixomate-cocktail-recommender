@@ -18,7 +18,8 @@ const config: Config = {
       },
       colors: {
         'custom-orange': 'rgb(250, 145, 39)',
-        'brand': 'rgb(250, 145, 39)'
+        'brand': 'rgb(250, 145, 39)',
+        'dark-orange': 'rgb(200, 116, 31)',
       },
     },
   },

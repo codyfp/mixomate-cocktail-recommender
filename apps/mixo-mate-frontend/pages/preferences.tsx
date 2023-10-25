@@ -8,6 +8,7 @@ import { FlavourProfile as FlavourProfileEnum } from '@/clientApi/CocktailApi';
 import { Ingredient } from "@/clientApi/IngredientApi";
 import { Card } from 'primereact/card';
 import { Accordion, AccordionTab } from 'primereact/accordion';
+import { Timeline } from 'primereact/timeline';
 
 const LikesAndDislikes = dynamic(() => import("../components/LikesAndDislikes"), { ssr: false });
 const FlavourProfile = dynamic(() => import("../components/FlavourProfile"), { ssr: false });
@@ -70,6 +71,8 @@ export default function Preferences() {
         setStep(step + 1);
         handleSaveLikes(likes, dislikes);
       },
+      key: "likesAndDislikes",
+      title: "Likes & Dislikes"
     },
     {
       RenderComponent: FlavourProfile,
@@ -86,7 +89,9 @@ export default function Preferences() {
         setStep(step + 1);
         const selectedChips = flavourProfileChips.filter(chip => chip.selected).map(chip => chip.label)
         userApi.setFlavourProfile(selectedChips);
-      }
+      },
+      key: "flavourProfile",
+      title: "Flavour Profile"
     },
     {
       RenderComponent: Allergens,
@@ -102,6 +107,8 @@ export default function Preferences() {
         setStep(step + 1);
         handleSaveAllergens(allergens);
       },
+      key: "allergens",
+      title: "Allergens"
     },
     {
       RenderComponent: () => (
@@ -146,7 +153,9 @@ export default function Preferences() {
             </div>
           </div>
         </>
-      )
+      ),
+      key: "getRecommendations",
+      title: "Get Recommendations!"
     },
   ];
 
@@ -160,38 +169,46 @@ export default function Preferences() {
           <RenderComponent {...props} />
         </div>
 
-        <div className="flex justify-end">
-          <div className="flex flex-row gap-4">
-            {step !== 0 && (
-              <StepControlButton onClick={() => setStep(step - 1)}>
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  height="1em"
-                  viewBox="0 0 512 512"
-                >
-                  <path
-                    fill="white"
-                    d="M9.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l128 128c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L109.3 288 480 288c17.7 0 32-14.3 32-32s-14.3-32-32-32l-370.7 0 73.4-73.4c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-128 128z"
-                  />
-                </svg>
-              </StepControlButton>
-            )}
-
-            {step < steps.length - 1 && (
-              <StepControlButton onClick={() => handleNext()}>
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  height="1em"
-                  viewBox="0 0 512 512"
-                >
-                  <path
-                    fill="white"
-                    d="M502.6 278.6c12.5-12.5 12.5-32.8 0-45.3l-128-128c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3L402.7 224 32 224c-17.7 0-32 14.3-32 32s14.3 32 32 32l370.7 0-73.4 73.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0l128-128z"
-                  />
-                </svg>
-              </StepControlButton>
-            )}
+        <div className="flex justify-center w-full flex-row gap-4 items-center">
+          <StepControlButton onClick={() => setStep(step - 1)} disabled={step == 0}>
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              height="1em"
+              viewBox="0 0 512 512"
+            >
+              <path
+                fill="white"
+                d="M9.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l128 128c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L109.3 288 480 288c17.7 0 32-14.3 32-32s-14.3-32-32-32l-370.7 0 73.4-73.4c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-128 128z"
+              />
+            </svg>
+          </StepControlButton>
+          <div className="w-full">
+            <Timeline
+              marker={(content) => {
+                const icon = content === steps[step].title ? "pi pi-circle-on" : "pi pi-circle-off";
+                return (
+                  <i className={`${icon} cursor-pointer text-dark-orange`} onClick={() => setStep(steps.findIndex(step => step.title === content))}></i>
+                )
+              }}
+              value={["Likes & Dislikes", "Flavour Profile", "Allergens", "Get Recommendations!"]}
+              layout="horizontal" align="top" className="w-full"
+              content={(item) => {
+                const additions = item === steps[step].title ? "text-dark-orange font-semibold" : "text-gray-500";
+                return (<span className={`whitespace-nowrap ${additions}`} onClick={() => setStep(steps.findIndex(step => step.title === item))}>{item}</span>)
+              }} />
           </div>
+          <StepControlButton onClick={() => handleNext()} disabled={step == steps.length - 1}>
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              height="1em"
+              viewBox="0 0 512 512"
+            >
+              <path
+                fill="white"
+                d="M502.6 278.6c12.5-12.5 12.5-32.8 0-45.3l-128-128c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3L402.7 224 32 224c-17.7 0-32 14.3-32 32s14.3 32 32 32l370.7 0-73.4 73.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0l128-128z"
+              />
+            </svg>
+          </StepControlButton>
         </div>
       </div>
     );
@@ -200,14 +217,17 @@ export default function Preferences() {
   function StepControlButton({
     onClick,
     children,
+    disabled = false,
   }: {
     onClick: () => void;
     children: React.ReactNode;
+    disabled?: boolean;
   }) {
     return (
       <button
-        className="flex items-center justify-center p-2 bg-custom-orange rounded-3xl text-blue-50 w-[120px]"
+        className={`flex items-center justify-center p-2 bg-custom-orange rounded-3xl text-blue-50 w-[120px] h-10 ${disabled ? "opacity-50 cursor-not-allowed" : "hover:bg-blue-600 active:bg-blue-700 transition duration-300 ease-in-out"}`}
         onClick={onClick}
+        disabled={disabled}
       >
         {children}
       </button>

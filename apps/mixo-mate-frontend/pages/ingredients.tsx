@@ -6,7 +6,6 @@ import 'primereact/resources/primereact.min.css';
 import 'primeicons/primeicons.css';
 import { DataTable } from 'primereact/datatable';
 import { Column } from 'primereact/column';
-import Image from "next/image";
 
 const gridLineStyle = {
   border: "1px solid #d1d1d1"
@@ -52,7 +51,7 @@ export default function Ingredients() {
 
     fetchIngredients();
   }, [])
-  
+
   return (
     <div>
       <Head>
@@ -62,13 +61,13 @@ export default function Ingredients() {
       <main style={mainStyle}>
         <div className='flex flex-col'>
           <h1 style={headerStyle}>Ingredients</h1>
-          <DataTable 
-            value={ingredients} 
-            paginator 
-            rows={5} 
+          <DataTable
+            value={ingredients}
+            paginator
+            rows={5}
             rowsPerPageOptions={[5, 10, 25, 50]}
-            sortMode="single" 
-            className="p-datatable-gridlines p-shadow-2" 
+            sortMode="single"
+            className="p-datatable-gridlines p-shadow-2"
             style={gridLineStyle}>
             <Column field="id" header="ID" style={gridLineStyle} headerStyle={tableHeaderStyle}></Column>
             <Column field="name" header="Name" sortable filter filterPlaceholder="Filter by name" style={gridLineStyle} headerStyle={tableHeaderStyle} filterStyle={filterInputStyle}></Column>

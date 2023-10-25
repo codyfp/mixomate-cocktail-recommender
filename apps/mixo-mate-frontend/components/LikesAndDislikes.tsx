@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useMemo } from 'react';
 import { Ingredient, IngredientApi } from "@/clientApi/IngredientApi";
 import Image from 'next/image';
 import InputChips from './InputChips'
@@ -14,6 +14,11 @@ interface LikesAndDislikesProps {
 function LikesAndDislikes(props: LikesAndDislikesProps) {
   const { likes, setLikes, dislikes, setDislikes } = props
   const [ingredients, setIngredients] = useState<Ingredient[]>([]);
+
+  // Remove any likes or dislikes from being selected again
+  const filteredIngredients = useMemo(() => {
+    return ingredients.filter(ingredient => !likes.find(like => like.id === ingredient.id) && !dislikes.find(dislike => dislike.id === ingredient.id))
+  }, [ingredients, likes, dislikes])
 
   useEffect(() => {
     async function fetchIngredients() {
@@ -33,9 +38,9 @@ function LikesAndDislikes(props: LikesAndDislikesProps) {
     <div className="flex flex-row">
       <div className="pr-14 w-3/5">
         <h1 className="x-title mb-8 text-center">List your preferences!</h1>
-        <InputChips title={InputLabel.LIKES} options={likes} setOptions={setLikes} searchOptions={ingredients} htmlId='likes' />
+        <InputChips title={InputLabel.LIKES} options={likes} setOptions={setLikes} searchOptions={filteredIngredients} htmlId='likes' />
         <br></br>
-        <InputChips title={InputLabel.DISLIKES} options={dislikes} setOptions={setDislikes} searchOptions={ingredients} htmlId="dislikes" />
+        <InputChips title={InputLabel.DISLIKES} options={dislikes} setOptions={setDislikes} searchOptions={filteredIngredients} htmlId="dislikes" />
       </div>
       <div className="pl-14 h-[30rem] w-2/5">
         <div className="rounded-xl overflow-hidden h-full w-full">
