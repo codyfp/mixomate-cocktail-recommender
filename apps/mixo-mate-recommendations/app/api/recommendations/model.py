@@ -3,6 +3,7 @@ import gzip
 import numpy as np
 
 # Adjusted paths for Docker container
+# Note if the dataset is changed at all this file will need to be manually created / copied from the modelGeneration folder
 DF_FILE_PATH = 'app/api/recommendations/compressed_combined_df.pkl.gz'
 
 class RecommendationModel:
