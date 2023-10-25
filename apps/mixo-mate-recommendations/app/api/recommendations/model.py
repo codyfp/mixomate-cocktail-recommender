@@ -15,12 +15,12 @@ class RecommendationModel:
         """Adjust the similarity score based on user preferences using ingredient IDs."""
         for profile in flavour_profile:
             if profile in cocktail['flavour_profile']:
-                score =+ 0.5
+                score += 0.5
         
         
         for allergen in allergen_ids:
             if cocktail[allergen] == 1.0:
-                score -= -10
+                score -= -1000
 
 
         for like in like_ids:
@@ -29,7 +29,7 @@ class RecommendationModel:
 
         for dislike in dislike_ids:
             if cocktail[dislike] == 1.0:
-                score *= 0.80
+                score -= 0.5
 
         return score
 
