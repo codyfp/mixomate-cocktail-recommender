@@ -23,7 +23,7 @@ function Logout() {
         };
 
         processLogout();
-    }, [authApi]);
+    }, []);
 
     return (
         <div className="flex justify-center items-center h-screen">
