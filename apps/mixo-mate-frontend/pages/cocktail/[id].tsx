@@ -1,36 +1,76 @@
 import { Cocktail, CocktailApi } from "@/clientApi/CocktailApi";
 import { useRouter } from "next/router";
 import Head from "next/head";
-import React, { useEffect, useState } from "react";
-import Image from "next/image";
+import React, { useEffect, useRef, useState } from "react";
 import 'primeicons/primeicons.css';
+import { UserApi } from "@/clientApi/UserApi";
+import { useAuth } from "@/clientApi/hooks/useAuth";
+import { Toast } from "primereact/toast";
+import ImageWithFallback from "@/components/ImageWithFallback";
 
 type ReactionType = "like" | "dislike";
 
 export default function Cocktail() {
   const router = useRouter();
+  const toast = useRef(null); 
+  const { currentUser } = useAuth()
 
   const [cocktail, setCocktail] = useState<Cocktail>();
   const [reaction, setReaction] = useState<ReactionType>();
 
-  const onReactionClick = (reactionType: ReactionType) => {
-    setReaction(reactionType);
-  };
+  const onReactionClick = async (reactionType: ReactionType) => {
+    if (!currentUser) {
+      console.error('User not logged in')
+      return;
+    }
 
-  async function fetchCocktail() {
-    const id = new URL(window.location.href).pathname.split("/").slice(-1)[0] as string;
-
+    // Update user's likes/dislikes using cocktail ingredients
     try {
-      const api = new CocktailApi();
-      const data: Cocktail = await api.getById(id);
-      setCocktail(data);
+      let likesIds: string[] = currentUser.likes?.map(ingredient => ingredient.id) || [];
+      let dislikesIds: string[] = currentUser.dislikes?.map(ingredient => ingredient.id) || [];
+      const cocktailIngredientsIds: string[] = cocktail?.ingredients.map(ingredient => ingredient._id) || [];
+
+      switch (reactionType) {
+        case 'like':
+          likesIds = likesIds.concat(cocktailIngredientsIds)
+          break;
+        case 'dislike':
+          dislikesIds = dislikesIds.concat(cocktailIngredientsIds)
+          break;
+        default:
+          console.error('Unhandled')
+          return;
+      }
+
+      const api = new UserApi();
+      await api.setLikesAndDislikes(likesIds, dislikesIds)
+      setReaction(reactionType);
+
+      toast.current.show({ 
+        severity: 'info', 
+        summary: 'Info', 
+        detail: 'Thank you for your feedback. Click the back button to generate more recommendations.', 
+        life: 1e9  
+      });
     } catch (error) {
-      const err = error as Error;
-      alert(`Failed to get cocktail. ${err.message}`);
+      toast.current.show({ severity: 'error', summary: 'Error', detail: error.message, life: 5000 });
     }
   }
 
   useEffect(() => {
+    async function fetchCocktail() {
+      const id = new URL(window.location.href).pathname.split("/").slice(-1)[0] as string;
+  
+      try {
+        const api = new CocktailApi();
+        const data: Cocktail = await api.getById(id);
+        setCocktail(data);
+      } catch (error) {
+        const err = error as Error;
+        alert(`Failed to get cocktail. ${err.message}`);
+      }
+    }
+
     fetchCocktail();
   }, []);
 
@@ -39,7 +79,7 @@ export default function Cocktail() {
   }
 
   const handleBackClick = () => {
-    window.location.href = '/recommendations'
+    router.push('/recommendations')
   }
 
   if (!cocktail) {
@@ -55,6 +95,8 @@ export default function Cocktail() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
+      <Toast ref={toast} />
+
       <main className="p-5">
         <span>
           <i className="pi pi-arrow-left text-xl cursor-pointer" onClick={handleBackClick}></i>
@@ -64,7 +106,7 @@ export default function Cocktail() {
         <div className="flex">
           <div className="flex flex-col items-center w-1/2">
             <div className="overflow-hidden rounded-[20px] w-[300px] h-[400px]">
-              <Image
+              <ImageWithFallback
                 src={generateImageURL(cocktail.id)}
                 alt={cocktail.name}
                 priority={true}

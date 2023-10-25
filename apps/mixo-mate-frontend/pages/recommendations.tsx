@@ -6,6 +6,7 @@ import { Cocktail } from "@/clientApi/CocktailApi";
 import CocktailCard from "@/components/CocktailCard";
 
 import { ProgressSpinner } from 'primereact/progressspinner';
+import Link from "next/link";
 
 export default function Recommendations() {
   const [isLoading, setLoading] = useState<boolean>(true);
@@ -16,7 +17,6 @@ export default function Recommendations() {
       try {
         const api = new RecommendationApi();
         const data: Cocktail[] = await api.getRecommendedCocktails();
-
         setRecommendedCocktails(data);
         setLoading(false);
 
@@ -47,7 +47,19 @@ export default function Recommendations() {
           </div>
         }
 
-        {!isLoading && 
+        {!isLoading && recommendedCocktails.length === 0 && 
+          <div className="text-center">
+            <p>We were not able to find any matching cocktails to suit your taste.</p>
+            <Link
+              href={'/preferences'}
+              className="cursor-pointer mt-4 font-medium text-blue-600 dark:text-blue-500 hover:underline"
+            >
+              Edit your preferences
+            </Link>
+          </div>
+        }
+
+        {!isLoading && recommendedCocktails.length > 0 && 
           <div className="grid grid-cols-[repeat(auto-fill,_minmax(250px,_1fr))] gap-x-24 gap-y-12">
             {recommendedCocktails.map((cocktail) => (
               <div key={cocktail.id} className="justify-self-center cursor-pointer">

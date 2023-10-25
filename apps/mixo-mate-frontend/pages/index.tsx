@@ -1,4 +1,5 @@
 import Head from 'next/head';
+import Image from 'next/image';
 import { useRouter } from "next/router";
 
 export default function Home() {
@@ -19,8 +20,18 @@ export default function Home() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <div className="bg-[url('/images/index-background.jpg')] bg-no-repeat bg-cover bg-[left_-80px] text-white py-20 px-16 flex flex-1 h-full w-full">
-        <div className="flex flex-1 flex-col justify-between h-full w-full">
+      <div className="bg-[left_-80px] text-white py-20 px-16 flex flex-1 h-full w-full">
+
+        <Image
+          className='z-0'
+          src="/images/index-background.jpg"
+          alt='Background image'
+          layout='fill'
+          objectFit='cover'
+          objectPosition='cover'
+        />
+
+        <div className="flex flex-1 flex-col justify-between h-full w-full z-10">
           <h1 className="x-title !text-7xl">MIXOMATE</h1>
 
           <button
@@ -31,7 +42,7 @@ export default function Home() {
           </button>
         </div>
 
-        <div className="flex flex-col gap-3 w-[380px] py-20">
+        <div className="flex flex-col gap-3 w-[380px] py-20 z-10">
           <p className="x-title">Why Mixomate?</p>
 
           <ul className="x-title list-disc pl-10">
