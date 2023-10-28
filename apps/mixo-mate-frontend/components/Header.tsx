@@ -1,7 +1,9 @@
 // Next/React
-import { useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import Image from 'next/image';
 import { useRouter } from 'next/router';
+import { useAuth } from '@/clientApi/hooks/useAuth';
+
 // PrimeReact
 import { Menu } from 'primereact/menu';
 import { Button } from 'primereact/button';
@@ -10,19 +12,42 @@ import 'primereact/resources/primereact.min.css';
 import 'primeicons/primeicons.css';
 
 const Header = () => {
+  const { currentUser, isAuthenticated } = useAuth();
   const router = useRouter();
   const menu = useRef(null);
-  const items = [
+
+  const commonItems = [
     { label: 'Home', icon: 'pi pi-fw pi-home', command: () => { router.push("/") } },
-    { label: 'Preferences', icon: 'pi pi-fw pi-cog', command: () => { router.push("/preferences") } },
-    { label: 'Recommendations', icon: 'pi pi-fw pi-shopping-bag', command: () => { router.push("/recommendations") } },
     { label: 'Cocktails', icon: 'pi pi-fw pi-database', command: () => { router.push("/cocktails") } },
     { label: 'Ingredients', icon: 'pi pi-fw pi-database', command: () => { router.push("/ingredients") } },
-    { label: 'Logout', icon: 'pi pi-fw pi-sign-out', command: () => { router.push("/logout") } }
   ];
+  const [items, setItems] = useState(commonItems);
+
+  useEffect(() => {
+    const addAuthAction = async () => {
+      if (isAuthenticated()) {
+        const loggedInItems = [
+          { label: 'Preferences', icon: 'pi pi-fw pi-cog', command: () => { router.push("/preferences") } },
+          { label: 'Recommendations', icon: 'pi pi-fw pi-shopping-bag', command: () => { router.push("/recommendations") } },
+          { label: 'Logout', icon: 'pi pi-fw pi-sign-out', command: () => { router.push("/logout") } }
+        ]
+
+        setItems([...commonItems, ...loggedInItems])
+      } else {
+        const loggedOutItems = [
+          { label: 'Login', icon: 'pi pi-fw pi-sign-in', command: () => { router.push("/authenticate") } }
+        ];
+
+        setItems([...commonItems, ...loggedOutItems])
+      }
+    };
+
+    addAuthAction();
+}, [currentUser]);
+
 
   return (
-    <header className="bg-custom-orange shadow-md h-[14vh]">
+    <header className="bg-custom-orange shadow-md h-[14vh] z-10">
       <div className="container mx-auto flex items-center justify-between h-full">
         <Image
           src="/images/logo.png"
