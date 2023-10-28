@@ -9,19 +9,14 @@ export type User = {
   flavourProfile?: string[],
   allergens?: Ingredient[]
 }
+
 export class UserApi extends MixoMateApi {
   constructor() {
     super('users');
   }
 
-  public async getCurrent(): Promise<User | null> {
-    try {
-      const response = await this.get('/current');
-      return response;
-    } catch (error: unknown) {
-      console.error(error);
-      return null;
-    }
+  public async getCurrent(): Promise<User> {
+    return await this.get('/current');
   }
 
   public async create(username: string, password: string) {
@@ -39,11 +34,6 @@ export class UserApi extends MixoMateApi {
     return response.data;
   }
 
-  public async getAccountPreferences() {
-    const response = await this.get('/preferences')
-    return response.data;
-  }
-
   public async setLikesAndDislikes(likes: string[], dislikes: string[]) {
     const response = await this.post('/likes', { likes, dislikes })
     return response.data;
@@ -58,15 +48,4 @@ export class UserApi extends MixoMateApi {
     const response = await this.post('/allergens', { allergens })
     return response.data;
   }
-}
-
-export type UserApiType = {
-  login: (username: string, password: string) => Promise<User | null>,
-  logout: () => Promise<User | null>,
-  create: (username: string, password: string) => Promise<User | null>,
-  getCurrent: () => Promise<User | null>,
-  getAccountPreferences: () => Promise<User | null>,
-  setLikesAndDislikes: (likes: string[], dislikes: string[]) => Promise<User | null>,
-  setFlavourProfile: (flavourProfile: string[]) => Promise<User | null>,
-  setAllergens: (allergens: string[]) => Promise<User | null>,
 }

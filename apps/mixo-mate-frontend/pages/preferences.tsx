@@ -1,22 +1,20 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import Head from "next/head";
 import Link from "next/link";
-import dynamic from "next/dynamic";
 import { UserApi } from "@/clientApi/UserApi";
-import { useAuth } from "@/clientApi/hooks/useAuth";
+import { AuthContext } from "@/clientApi/hooks/useAuth";
 import { FlavourProfile as FlavourProfileEnum } from '@/clientApi/CocktailApi';
 import { Ingredient } from "@/clientApi/IngredientApi";
 import { Card } from 'primereact/card';
 import { Accordion, AccordionTab } from 'primereact/accordion';
 import { Timeline } from 'primereact/timeline';
-
-const LikesAndDislikes = dynamic(() => import("../components/LikesAndDislikes"), { ssr: false });
-const FlavourProfile = dynamic(() => import("../components/FlavourProfile"), { ssr: false });
-const Allergens = dynamic(() => import("../components/Allergens"), { ssr: false });
+import LikesAndDislikes from "@/components/LikesAndDislikes";
+import FlavourProfile from "@/components/FlavourProfile";
+import Allergens from "@/components/Allergens";
 
 export default function Preferences() {
   const [step, setStep] = useState(0);
-  const { currentUser } = useAuth();
+  const { user } = useContext(AuthContext);
 
   const userApi = new UserApi();
   const [likes, setLikes] = useState<Ingredient[]>([]);
@@ -27,25 +25,25 @@ export default function Preferences() {
   }));
 
   useEffect(() => {
-    if (currentUser?.likes) {
-      setLikes(currentUser.likes)
+    if (user?.likes) {
+      setLikes(user.likes)
     }
-    if (currentUser?.dislikes) {
-      setDislikes(currentUser.dislikes)
+    if (user?.dislikes) {
+      setDislikes(user.dislikes)
     }
-    if (currentUser?.allergens) {
-      setAllergens(currentUser.allergens)
+    if (user?.allergens) {
+      setAllergens(user.allergens)
     }
-    if (currentUser?.flavourProfile && currentUser?.flavourProfile.length > 0) {
+    if (user?.flavourProfile && user?.flavourProfile.length > 0) {
       const selectedChips = flavourProfileChips.map(chip => {
-        if (currentUser.flavourProfile?.includes(chip.label)) {
+        if (user.flavourProfile?.includes(chip.label)) {
           chip.selected = true;
         }
         return chip;
       })
       setFlavourProfileChips(selectedChips)
     }
-  }, [currentUser])
+  }, [user])
 
   const handleSaveLikes = (likes: Ingredient[], dislikes: Ingredient[]) => {
     const likesIds = likes.map(ingredient => ingredient.id ? ingredient.id : ingredient.name)
@@ -233,6 +231,7 @@ export default function Preferences() {
       </button>
     );
   }
+
   return (
     <div className="flex flex-1 flex-col h-full bg-gray-300">
       <Head>

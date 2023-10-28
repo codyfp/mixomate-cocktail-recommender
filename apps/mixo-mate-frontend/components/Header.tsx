@@ -1,8 +1,8 @@
 // Next/React
-import { useEffect, useRef, useState } from 'react';
+import { useContext, useEffect, useRef, useState } from 'react';
 import Image from 'next/image';
 import { useRouter } from 'next/router';
-import { useAuth } from '@/clientApi/hooks/useAuth';
+import { AuthContext } from '@/clientApi/hooks/useAuth';
 
 // PrimeReact
 import { Menu } from 'primereact/menu';
@@ -12,7 +12,7 @@ import 'primereact/resources/primereact.min.css';
 import 'primeicons/primeicons.css';
 
 const Header = () => {
-  const { currentUser, isAuthenticated } = useAuth();
+  const { isLoggedIn } = useContext(AuthContext);
   const router = useRouter();
   const menu = useRef(null);
 
@@ -25,7 +25,7 @@ const Header = () => {
 
   useEffect(() => {
     const addAuthAction = async () => {
-      if (isAuthenticated()) {
+      if (isLoggedIn) {
         const loggedInItems = [
           { label: 'Preferences', icon: 'pi pi-fw pi-cog', command: () => { router.push("/preferences") } },
           { label: 'Recommendations', icon: 'pi pi-fw pi-shopping-bag', command: () => { router.push("/recommendations") } },
@@ -43,8 +43,7 @@ const Header = () => {
     };
 
     addAuthAction();
-}, [currentUser]);
-
+}, [isLoggedIn]);
 
   return (
     <header className="bg-custom-orange shadow-md h-[14vh] z-10">

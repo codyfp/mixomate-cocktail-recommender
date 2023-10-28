@@ -26,6 +26,7 @@ function CocktailCard(props: { cocktail: Cocktail }) {
           className="w-full h-full object-cover"
           height={400}
           width={400}
+          priority={true}
         />
       </div>
 

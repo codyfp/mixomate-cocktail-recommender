@@ -1,10 +1,21 @@
-import { useEffect, useState } from 'react';
+import { createContext, useEffect, useState } from 'react';
 import { UserApi, User } from '../UserApi';
 
 const userApi = new UserApi();
 
+export const AuthContext = createContext<{
+  user?: User,
+  isLoading: boolean,
+  isLoggedIn: boolean
+}>({
+  isLoading: true,
+  isLoggedIn: false
+});
+
 export const useAuth = () => {
-  const [currentUser, setCurrentUser] = useState<User | null>(null);
+  const [isLoading, setIsLoading] = useState<boolean>(true);
+  const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false);
+  const [user, setUser] = useState<User | undefined>(undefined);
 
   useEffect(() => {
     loadCurrentUser()
@@ -12,22 +23,15 @@ export const useAuth = () => {
 
   const loadCurrentUser = async (): Promise<void> => {
     try {
-      const responseData = await userApi.getCurrent()
-      if (responseData === null || responseData.message || responseData.error) {
-        setCurrentUser(null);
-        return;
-      }
-  
-      const user = responseData;
-      setCurrentUser(user);
-      
+      const latestUser = await userApi.getCurrent()
+      setIsLoggedIn(true);
+      setUser(latestUser);
     } catch (error) {
-      setCurrentUser(null);
+      setUser(undefined);
+      setIsLoggedIn(false); 
+    } finally {
+      setIsLoading(false);
     }
-  }
-
-  const isAuthenticated = (): boolean => {
-    return currentUser !== null;
   }
 
   const authApi = {
@@ -39,6 +43,8 @@ export const useAuth = () => {
 
     logout: async () => {
       const response = await userApi.logout();
+      setIsLoggedIn(false)
+
       await loadCurrentUser();
       return response;
     },
@@ -50,5 +56,5 @@ export const useAuth = () => {
     }
   }
 
-  return { authApi, currentUser, isAuthenticated };
+  return { authApi, user, isLoading, isLoggedIn };
 };

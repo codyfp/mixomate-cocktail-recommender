@@ -1,9 +1,11 @@
 import { useState } from 'react';
 import { useAuth } from '@/clientApi/hooks/useAuth';
-import Link from 'next/link';
+import { useRouter } from 'next/router';
 
 function Authentication() {
-  const { authApi, currentUser } = useAuth();
+  const { authApi } = useAuth();
+  const router = useRouter();
+
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
 
@@ -14,7 +16,7 @@ function Authentication() {
 
     try {
       await authApi.login(username, password);
-      window.location.replace('/preferences');
+      router.push('/preferences')
     } catch (error) {
       window.alert(error?.message);
     }
@@ -30,7 +32,8 @@ function Authentication() {
       await authApi.create(username, password).then(async () => {
         await authApi.login(username, password);
       })
-      window.location.replace('/preferences');
+
+      router.push('/preferences')
     } catch (error) {
       window.alert(error?.message);
     }

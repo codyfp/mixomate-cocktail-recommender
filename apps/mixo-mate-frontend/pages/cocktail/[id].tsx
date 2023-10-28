@@ -1,10 +1,10 @@
 import { Cocktail, CocktailApi } from "@/clientApi/CocktailApi";
 import { useRouter } from "next/router";
 import Head from "next/head";
-import React, { useEffect, useRef, useState } from "react";
+import React, { useContext, useEffect, useRef, useState } from "react";
 import 'primeicons/primeicons.css';
 import { UserApi } from "@/clientApi/UserApi";
-import { useAuth } from "@/clientApi/hooks/useAuth";
+import { AuthContext } from "@/clientApi/hooks/useAuth";
 import { Toast } from "primereact/toast";
 import ImageWithFallback from "@/components/ImageWithFallback";
 
@@ -13,21 +13,21 @@ type ReactionType = "like" | "dislike";
 export default function Cocktail() {
   const router = useRouter();
   const toast = useRef(null); 
-  const { currentUser } = useAuth()
+  const { user } = useContext(AuthContext)
 
   const [cocktail, setCocktail] = useState<Cocktail>();
   const [reaction, setReaction] = useState<ReactionType>();
 
   const onReactionClick = async (reactionType: ReactionType) => {
-    if (!currentUser) {
+    if (!user) {
       console.error('User not logged in')
       return;
     }
 
     // Update user's likes/dislikes using cocktail ingredients
     try {
-      let likesIds: string[] = currentUser.likes?.map(ingredient => ingredient.id) || [];
-      let dislikesIds: string[] = currentUser.dislikes?.map(ingredient => ingredient.id) || [];
+      let likesIds: string[] = user.likes?.map(ingredient => ingredient.id) || [];
+      let dislikesIds: string[] = user.dislikes?.map(ingredient => ingredient.id) || [];
       const cocktailIngredientsIds: string[] = cocktail?.ingredients.map(ingredient => ingredient._id) || [];
 
       switch (reactionType) {
@@ -42,9 +42,13 @@ export default function Cocktail() {
           return;
       }
 
-      const api = new UserApi();
-      await api.setLikesAndDislikes(likesIds, dislikesIds)
-      setReaction(reactionType);
+      try {
+        const api = new UserApi();
+        await api.setLikesAndDislikes(likesIds, dislikesIds)
+        setReaction(reactionType);
+      } catch (error) {
+        throw new Error('Failed to rate Cocktail.')
+      }
 
       toast.current.show({ 
         severity: 'info', 
