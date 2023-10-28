@@ -1,59 +1,54 @@
 import { useEffect, useState } from 'react';
-import { UserApi, User, UserApiType } from '../UserApi';
+import { UserApi, User } from '../UserApi';
+
+const userApi = new UserApi();
 
 export const useAuth = () => {
-  const [userApi, setApi] = useState<UserApiType | null>(null);
-  const [loading, setLoading] = useState(true);
   const [currentUser, setCurrentUser] = useState<User | null>(null);
 
   useEffect(() => {
-    const api = new UserApi();
-    setApi(api);
-    setLoading(false);
+    loadCurrentUser()
   }, []);
 
-  useEffect(() => {
-    if (userApi) {
-      userApi.getCurrent().then((user) => {
-        setCurrentUser(user);
-      });
+  const loadCurrentUser = async (): Promise<void> => {
+    try {
+      const responseData = await userApi.getCurrent()
+      if (responseData === null || responseData.message || responseData.error) {
+        setCurrentUser(null);
+        return;
+      }
+  
+      const user = responseData;
+      setCurrentUser(user);
+      
+    } catch (error) {
+      setCurrentUser(null);
     }
-  }, [userApi]);
+  }
 
-  const getCurrentUser = () => {
-    if (userApi) {
-      userApi.getCurrent().then((user) => {
-        setCurrentUser(user);
-      });
-    }
+  const isAuthenticated = (): boolean => {
+    return currentUser !== null;
   }
 
   const authApi = {
     login: async (username: string, password: string) => {
-      if (userApi) {
-        const responseData = await userApi.login(username, password);
-        getCurrentUser();
-
-        return responseData;
-      }
+      const responseData = await userApi.login(username, password);
+      await loadCurrentUser();
+      return responseData;
     },
+
     logout: async () => {
-      if (userApi) {
-        const response = await userApi.logout();
-        getCurrentUser();
-
-        return response;
-      }
+      const response = await userApi.logout();
+      await loadCurrentUser();
+      return response;
     },
-    create: async (username: string, password: string) => {
-      if (userApi) {
-        const response = await userApi.create(username, password);
-        getCurrentUser();
 
-        return response;
-      }
+    create: async (username: string, password: string) => {
+      const response = await userApi.create(username, password);
+      await loadCurrentUser();
+      return response;
     }
   }
 
-  return { authApi, loading, currentUser, getCurrentUser };
+  return { authApi, currentUser, isAuthenticated };
 };
