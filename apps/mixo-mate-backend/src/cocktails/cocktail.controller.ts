@@ -1,9 +1,10 @@
-import { Controller, Get, Path, Route, Security } from "tsoa";
+import { Controller, Get, Middlewares, Path, Route } from "tsoa";
 import { CocktailService } from "./cocktail.service.js";
 import { Cocktail } from "./cocktail.dto.js";
+import AuthMiddleware from "../middleware.js";
 
 @Route("cocktails")
-@Security("mixio_auth")
+@Middlewares(AuthMiddleware)
 export class CocktailController extends Controller {
   @Get()
   public async getCocktails(): Promise<Cocktail[]> {

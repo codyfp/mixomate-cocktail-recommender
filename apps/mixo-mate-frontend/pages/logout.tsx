@@ -4,9 +4,11 @@ import { Toast } from 'primereact/toast';
 import 'primereact/resources/themes/saga-blue/theme.css';
 import 'primereact/resources/primereact.min.css';
 import 'primeicons/primeicons.css';
+import { useRouter } from 'next/router';
 
 function Logout() {
     const { authApi } = useAuth();
+    const router = useRouter();
     const toast = useRef(null); 
 
     useEffect(() => {
@@ -14,8 +16,9 @@ function Logout() {
             if (authApi) {
                 try {
                     toast.current.show({ severity: 'info', summary: 'Info', detail: 'Logging out...', life: 3000 });
-                    await authApi.logout();
-                    window.location.replace('/');
+                    await authApi.logout().then(() => {
+                        router.push('/')
+                    })
                 } catch (error) {
                     toast.current.show({ severity: 'error', summary: 'Error', detail: 'Failed to log out. Please try again.', life: 5000 });
                 }

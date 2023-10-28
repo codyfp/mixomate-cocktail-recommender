@@ -1,8 +1,9 @@
-import { Body, Controller, Get, Put, Request, Route, Security } from "tsoa";
+import { Body, Controller, Get, Middlewares, Put, Request, Route, Security } from "tsoa";
 import { Cocktail } from "../cocktails/cocktail.dto.js";
 import { AuthenticatedRequest } from "../users/user.types.js";
 import { RecommendationService } from "./recommendation.service.js";
 import { StatusCodes } from "../status-codes.js";
+import AuthMiddleware from "../middleware.js";
 
 type ReviewRecommendationDto = {
   cocktailId: string,
@@ -10,7 +11,7 @@ type ReviewRecommendationDto = {
 }
 
 @Route("recommendations")
-@Security("mixio_auth")
+@Middlewares(AuthMiddleware)
 export class RecommendationController extends Controller {
   @Get()
   public async getRecommendedCocktails(

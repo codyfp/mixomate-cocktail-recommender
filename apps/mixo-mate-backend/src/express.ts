@@ -29,6 +29,7 @@ expressApp.use(session({
   secret: 'my very secure password',
   resave: true,
   saveUninitialized: false,
+  unset: 'destroy',
   store: MongoStore.create({ mongoUrl: 'mongodb://root:pass12345@mongo:27017' }),
   cookie: {
     secure: false // Must be false as we are using HTTP (not HTTPS)

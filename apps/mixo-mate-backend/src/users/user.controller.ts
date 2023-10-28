@@ -1,9 +1,10 @@
-import { Body, Controller, Get, Post, Route, Request, SuccessResponse, Security } from "tsoa";
+import { Body, Controller, Get, Post, Route, Request, SuccessResponse, Security, Middlewares } from "tsoa";
 import { AuthenticatedRequest } from "./user.types.js";
 import { UserService } from "./user.service.js";
 import { IngredientService } from "../ingredients/ingredient.service.js";
 import { StatusCodes } from "../status-codes.js";
 import { User } from "./user.dto.js";
+import AuthMiddleware from "../middleware.js";
 
 @Route("users")
 export class UsersController extends Controller {
@@ -33,13 +34,10 @@ export class UsersController extends Controller {
   }
 
   @Get('/current')
+  @Middlewares(AuthMiddleware)
   public async getCurrentUser(
     @Request() request: AuthenticatedRequest
   ): Promise<User | object> {
-    if (!request.session?.userId) {
-      return { message: 'Not authenticated' }
-    }
-
     try {
       const currentUser = await new UserService().getById(request.session.userId);
       const ingredients = await new IngredientService().getAll();
@@ -66,23 +64,8 @@ export class UsersController extends Controller {
 
     } catch (error) {
       this.setStatus(StatusCodes.UNPROCESSABLE_ENTITY)
-      return { error: 'Failed to retrieve user details' }
+      return { error: `Failed to retrieve user details. ${error.message}` }
     }
-  }
-
-  @Get('/logout')
-  public async logout(
-    @Request() request: AuthenticatedRequest
-  ): Promise<unknown> {
-    if (!request.session?.userId) {
-      return { message: 'Not authenticated' }
-    }
-
-    request.session.destroy(() => {
-      return { message: 'Logged out successfully' }
-    });
-
-    return { error: 'Failed to log out' }
   }
 
   @Get('/sessionTest')
@@ -114,14 +97,33 @@ export class UsersController extends Controller {
     }
 
     // Set user ID in session
-    request.session.userId = existingUser.id
-    request.session.save();
+    request.session.isLoggedIn = true;
+    request.session.userId = existingUser.id;
 
     return { message: 'Login successful' }
   }
 
+  @Post('/logout')
+  public async logout(
+    @Request() request: AuthenticatedRequest
+  ): Promise<unknown> {
+    request.session.isLoggedIn = false;
+
+    await new Promise((resolve) => {
+      request.session.save((err) => {
+        if (err) {
+          return resolve(err)
+        }
+
+        return resolve(null);
+      })
+    })
+
+    return { message: 'Logged out successfully' };
+  }
+
   @Post('/likes')
-  @Security("mixio_auth")
+  @Middlewares(AuthMiddleware)
   public async likes(
     @Body() requestBody: { likes: string[], dislikes: string[] },
     @Request() request: AuthenticatedRequest,
@@ -138,7 +140,7 @@ export class UsersController extends Controller {
   }
 
   @Post('/flavourPreferences')
-  @Security("mixio_auth")
+  @Middlewares(AuthMiddleware)
   public async setFlavours(
     @Body() requestBody: { flavourProfile: string[] },
     @Request() request: AuthenticatedRequest,
@@ -155,7 +157,7 @@ export class UsersController extends Controller {
   }
 
   @Post('/allergens')
-  @Security("mixio_auth")
+  @Middlewares(AuthMiddleware)
   public async setAllergens(
     @Body() requestBody: { allergens: string[] },
     @Request() request: AuthenticatedRequest,

@@ -35,7 +35,7 @@ export class UserApi extends MixoMateApi {
   }
 
   public async logout() {
-    const response = await this.get('/logout')
+    const response = await this.post('/logout', {})
     return response.data;
   }
 
